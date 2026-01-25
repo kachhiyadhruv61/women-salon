@@ -87,7 +87,7 @@ function Orders() {
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
-          <option>Pending</option>
+          <option></option>
           <option>Completed</option>
           <option>Cancelled</option>
         </select>
