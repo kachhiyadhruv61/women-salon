@@ -37,7 +37,7 @@ function Service() {
           <SwiperSlide>
             <div className="service-item h-100 p-4 text-center bg-light">
               <img className="img-fluid mb-3" src="/img/makeup.png" alt="" />
-              <h3>Bridal Package</h3>
+              <h3>Bridal</h3>
               <p>Complete organic bridal therapy & beauty care.</p>
               <a className="btn btn-sm btn-primary text-uppercase" href="#">Read More</a>
             </div>
