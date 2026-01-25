@@ -1,0 +1,154 @@
+import { useState } from "react";
+import "./Register.css";
+import { Link } from "react-router-dom";
+
+const Register = () => {
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+    role: "user",
+    status: "active",
+    gender: "",
+    address: "",
+    pincode: "",
+    otp: ""
+  });
+
+  const [errors, setErrors] = useState({});
+  const [generatedOtp, setGeneratedOtp] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const sendOtp = () => {
+    if (!form.email) return alert("Enter email first");
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    setGeneratedOtp(otp.toString());
+    alert('Mock OTP: ${otp}');
+  };
+
+  const validate = () => {
+    let err = {};
+    if (!form.username) err.username = "Username required";
+    if (!form.email.includes("@")) err.email = "Invalid email";
+    if (!/^\d{10}$/.test(form.phone)) err.phone = "Phone must be 10 digits";
+    if (form.password.length < 6) err.password = "Min 6 characters";
+    if (!form.gender) err.gender = "Select gender";
+    if (!form.address) err.address = "Address required";
+    if (!/^\d{6}$/.test(form.pincode)) err.pincode = "Invalid pincode";
+    if (form.otp !== generatedOtp) err.otp = "Incorrect OTP";
+
+    setErrors(err);
+    return Object.keys(err).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    alert("Registered Successfully ✅");
+    console.log(form);
+  };
+
+  return (
+    <div className="register-container">
+      <form className="register-card" onSubmit={handleSubmit}>
+        <h3 className="text-center mb-3">
+          <i className="bi bi-person-plus"></i> Register
+        </h3>
+
+        {/* Username */}
+        <div className="form-group">
+          <label><i className="bi bi-person"></i> Username</label>
+          <input type="text" name="username" className="form-control" onChange={handleChange} />
+          <small className="error">{errors.username}</small>
+        </div>
+
+        {/* Email */}
+        <div className="form-group">
+          <label><i className="bi bi-envelope"></i> Email</label>
+          <input type="email" name="email" className="form-control" onChange={handleChange} />
+          <button type="button" className="btn btn-sm btn-secondary mt-2" onClick={sendOtp}>
+            Send OTP
+          </button>
+          <small className="error">{errors.email}</small>
+        </div>
+
+        {/* OTP */}
+        <div className="form-group">
+          <label><i className="bi bi-shield-lock"></i> Email OTP</label>
+          <input type="text" name="otp" className="form-control" onChange={handleChange} />
+          <small className="error">{errors.otp}</small>
+        </div>
+
+        {/* Phone */}
+        <div className="form-group">
+          <label><i className="bi bi-telephone"></i> Phone</label>
+          <input type="text" name="phone" className="form-control" onChange={handleChange} />
+          <small className="error">{errors.phone}</small>
+        </div>
+
+        {/* Password */}
+        <div className="form-group">
+          <label><i className="bi bi-lock"></i> Password</label>
+          <input type="password" name="password" className="form-control" onChange={handleChange} />
+          <small className="error">{errors.password}</small>
+        </div>
+
+        {/* Role */}
+        <div className="form-group">
+          <label><i className="bi bi-person-badge"></i> Role</label>
+          <select name="role" className="form-control" onChange={handleChange}>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        {/* Status */}
+        <div className="form-group">
+          <label><i className="bi bi-toggle-on"></i> Status</label>
+          <select name="status" className="form-control" onChange={handleChange}>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        {/* Gender */}
+        <div className="form-group">
+          <label><i className="bi bi-gender-ambiguous"></i> Gender</label><br />
+          <input type="radio" name="gender" value="male" onChange={handleChange} /> Male &nbsp;
+          <input type="radio" name="gender" value="female" onChange={handleChange} /> Female
+          <small className="error d-block">{errors.gender}</small>
+        </div>
+
+        {/* Address */}
+        <div className="form-group">
+          <label><i className="bi bi-geo-alt"></i> Address</label>
+          <textarea name="address" className="form-control" onChange={handleChange}></textarea>
+          <small className="error">{errors.address}</small>
+        </div>
+
+        {/* Pincode */}
+        <div className="form-group">
+          <label><i className="bi bi-mailbox"></i> Pincode</label>
+          <input type="text" name="pincode" className="form-control" onChange={handleChange} />
+          <small className="error">{errors.pincode}</small>
+        </div>
+
+        <button type="submit" className="btn btn-primary w-100">
+          Register
+        </button>
+
+        <p className="note">Already have an account? {" "}
+          <Link to ="/login" className="text-primary fw-bold">
+          Login
+          </Link></p>
+        
+      </form>
+    </div>
+  );
+};
+
+export default Register;
