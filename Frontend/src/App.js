@@ -5,6 +5,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Service from "./Pages/Service";
+import Servicedetails from "./Pages/Servicedetails";
+import Products from "./Pages/Products";
+import Checkout from "./Pages/Checkout";
+import Cart from "./Pages/Cart";
+import Payment from "./Pages/Payment";
 import Team from "./Pages/Team";
 import Testimonial from "./Pages/Testimonial";
 import Contact from "./Pages/Contact";
@@ -37,6 +42,7 @@ import UserOrders from "./User/UserOrders";
 import Userpayment from "./User/Userpayment";
 import UserBooking from "./User/UserBooking";
 
+
 function App() {
   const [role, setRole] = useState("guest");
 
@@ -50,15 +56,22 @@ function App() {
   return (
     <BrowserRouter>
       {/* ===== HEADER (ONLY ONE) ===== */}
-      {role === "admin" && <AdminHeader setRole={setRole} />}
-      {role === "user" && <UserHeader setRole={setRole} />}
-      {role === "guest" && <Header />}
+      <div className="app-header">
+  {role === "admin" && <AdminHeader setRole={setRole} />}
+  {role === "user" && <UserHeader setRole={setRole} />}
+  {role === "guest" && <Header />}
+</div>
 
       <Routes>
         {/* ===== PUBLIC ROUTES ===== */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Service />} />
+        <Route path="/service/:id" element={<Servicedetails />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/team" element={<Team />} />
         <Route path="/testimonial" element={<Testimonial />} />
         <Route path="/contact" element={<Contact />} />
