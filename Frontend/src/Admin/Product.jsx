@@ -1,48 +1,35 @@
 import { useState } from "react";
 
 function Product() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([
+    { id: 1, name: "Herbal Face Pack", price: 499 },
+    { id: 2, name: "Organic Hair Oil", price: 399 },
+  ]);
+
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("");
 
-  // Add Product
-  const addProduct = (e) => {
-    e.preventDefault();
+  const addProduct = () => {
+    if (!name || !price) return alert("Fill all fields");
 
-    if (!name || !category || !price || !stock) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    const newProduct = {
-      id: Date.now(),
-      name,
-      category,
-      price,
-      stock,
-    };
-
-    setProducts([...products, newProduct]);
+    setProducts([
+      ...products,
+      { id: Date.now(), name, price },
+    ]);
 
     setName("");
-    setCategory("");
     setPrice("");
-    setStock("");
   };
 
-  // Delete Product
   const deleteProduct = (id) => {
     setProducts(products.filter((p) => p.id !== id));
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Admin Product Management 🧴</h2>
+    <div className="container py-5">
+      <h1>👩‍💼 Admin Product Panel</h1>
 
-      {/* Product Form */}
-      <form onSubmit={addProduct} className="mb-4">
+      <div className="border p-3 my-4">
         <input
           type="text"
           placeholder="Product Name"
@@ -50,75 +37,43 @@ function Product() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-
-        <select
-          className="form-control mb-2"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="">Select Category</option>
-          <option>Organic Hair Care</option>
-          <option>Organic Skin Care</option>
-          <option>Natural Oils</option>
-          <option>Herbal Products</option>
-        </select>
-
         <input
           type="number"
-          placeholder="Price (₹)"
+          placeholder="Price"
           className="form-control mb-2"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
 
-        <input
-          type="number"
-          placeholder="Stock Quantity"
-          className="form-control mb-2"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
-        />
+        <button className="btn btn-success" onClick={addProduct}>
+          Add Product
+        </button>
+      </div>
 
-        <button className="btn btn-success w-100">Add Product</button>
-      </form>
-
-      {/* Product Table */}
       <table className="table table-bordered">
-        <thead className="table-dark">
+        <thead>
           <tr>
-            <th>Product</th>
-            <th>Category</th>
+            <th>Name</th>
             <th>Price</th>
-            <th>Stock</th>
             <th>Action</th>
           </tr>
         </thead>
 
         <tbody>
-          {products.length === 0 ? (
-            <tr>
-              <td colSpan="5" className="text-center">
-                No products added
+          {products.map((p) => (
+            <tr key={p.id}>
+              <td>{p.name}</td>
+              <td>₹{p.price}</td>
+              <td>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteProduct(p.id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
-          ) : (
-            products.map((p) => (
-              <tr key={p.id}>
-                <td>{p.name}</td>
-                <td>{p.category}</td>
-                <td>₹{p.price}</td>
-                <td>{p.stock}</td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => deleteProduct(p.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
+          ))}
         </tbody>
       </table>
     </div>

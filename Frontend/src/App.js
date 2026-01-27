@@ -9,7 +9,12 @@ import Team from "./Pages/Team";
 import Testimonial from "./Pages/Testimonial";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
+import Servicedetails from "./Pages/Servicedetails";
 import Register from "./Pages/Register";
+import Products from "./Pages/Products";
+import Checkout from "./Pages/Checkout";
+import Cart from "./Pages/Cart";
+import Payment from "./Pages/Payment";
 
 /* Headers & Footer */
 import Header from "./Components/Header";
@@ -59,11 +64,17 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Service />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/cart" element={<Cart />} />
+        
+        <Route path="/payment" element={<Payment />} />
         <Route path="/team" element={<Team />} />
         <Route path="/testimonial" element={<Testimonial />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
+         <Route path="/service/:id" element={<Servicedetails />} />
 
         {/* ===== ADMIN ROUTES (PROTECTED) ===== */}
         <Route

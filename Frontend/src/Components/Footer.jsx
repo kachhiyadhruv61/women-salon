@@ -9,7 +9,7 @@ function Footer() {
           <div className="col-lg-6 pe-lg-5">
             <Link to="/" className="navbar-brand">
               <h1 className="display-5 text-primary mb-0">
-                <i className="bi bi-scissors"></i> Salone
+                <i className="bi bi-scissors"></i> A<sup>2</sup>
               </h1>
             </Link>
 
