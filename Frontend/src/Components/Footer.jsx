@@ -14,10 +14,11 @@ function Footer() {
             </Link>
 
             <p>
-              Aliquyam sed elitr elitr erat sed diam ipsum eirmod eos lorem nonumy.
-              Tempor sea ipsum diam sed clita dolore eos dolores magna erat dolore sed
-              stet justo et dolor.
+              A<sup>2</sup> Women Organic Salon offers premium beauty and wellness
+              services using 100% natural and organic products. We focus on
+              care, comfort, and confidence for every woman.
             </p>
+
 
             <p className="mb-2">
               <i className="fa fa-map-marker-alt me-2"></i>Anand
@@ -79,7 +80,7 @@ function Footer() {
                     <i className="fa fa-paper-plane text-primary fs-4"></i>
                   </button>
                 </div>
-                <p className="mb-0">Diam sed sed dolor stet amet eirmod</p>
+                <p className="mb-0"> Subscribe to get updates on offers and new services</p>
               </div>
             </div>
           </div>

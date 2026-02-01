@@ -1,5 +1,4 @@
 
-
 function UserOrders() {
   const orders = [
     { id: 1, product: "Herbal Hair Oil", qty: 2, total: 998, status: "Delivered" },
@@ -34,3 +33,4 @@ function UserOrders() {
 }
 
 export default UserOrders;
+

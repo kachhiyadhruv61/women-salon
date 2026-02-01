@@ -305,8 +305,11 @@
 }
 
 .service .service-item img {
-    width: 70px;
+     width: 120px;        /* same width for all */
+    height: 120px;       /* same height for all */
+    object-fit: cover;   /* image crop thai ne fit thase */
     margin-bottom: 20px;
+    border-radius: 10px; /* optional – smooth look */
 }
 
 
@@ -330,6 +333,22 @@
 .team-item img {
     transition: .5s;
 }
+/* Team image wrapper */
+.team-img {
+    width: 100%;
+    height: 400px;          /* ← badhi images ni SAME height */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Team image */
+.team-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* stretch thase nahi */
+    transition: .5s;
+}
+
   
 .team-item:hover img {
     transform: scale(1.2);

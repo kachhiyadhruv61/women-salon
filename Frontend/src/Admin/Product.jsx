@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState, useMemo } from "react";
+import CommonTable from "./../Components/CommonTable"; // path check karjo
 
 function Product() {
   const [products, setProducts] = useState([
-    { id: 1, name: "Herbal Face Pack", price: 499 },
+    { id: 1, name: "Herbal Face Pack", price: 499,stock:50, description:"facial",status:"active" },
     { id: 2, name: "Organic Hair Oil", price: 399 },
   ]);
 
@@ -10,11 +11,18 @@ function Product() {
   const [price, setPrice] = useState("");
 
   const addProduct = () => {
-    if (!name || !price) return alert("Fill all fields");
+    if (!name || !price) {
+      alert("Fill all fields");
+      return;
+    }
 
     setProducts([
       ...products,
-      { id: Date.now(), name, price },
+      {
+        id: Date.now(),
+        name,
+        price: Number(price),
+      },
     ]);
 
     setName("");
@@ -25,10 +33,51 @@ function Product() {
     setProducts(products.filter((p) => p.id !== id));
   };
 
+  // 🔹 Columns for CommonTable
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Product Name",
+      },
+      {
+        accessorKey: "price",
+        header: "Price (₹)",
+        Cell: ({ cell }) => `₹${cell.getValue()}`,
+      },
+       {
+        accessorKey: "stock",
+        header: "Stock",
+      },
+       {
+        accessorKey: "description",
+        header: "Description",
+      },
+       {
+        accessorKey: "status",
+        header: "Status",
+      },
+      {
+        accessorKey: "id",
+        header: "Action",
+        Cell: ({ cell }) => (
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => deleteProduct(cell.getValue())}
+          >
+            Delete
+          </button>
+        ),
+      },
+    ],
+    [products]
+  );
+
   return (
     <div className="container py-5">
       <h1>👩‍💼 Admin Product Panel</h1>
 
+      {/* ➕ Add Product Form */}
       <div className="border p-3 my-4">
         <input
           type="text"
@@ -37,6 +86,7 @@ function Product() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
         <input
           type="number"
           placeholder="Price"
@@ -50,32 +100,13 @@ function Product() {
         </button>
       </div>
 
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {products.map((p) => (
-            <tr key={p.id}>
-              <td>{p.name}</td>
-              <td>₹{p.price}</td>
-              <td>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => deleteProduct(p.id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* 📊 Product Table */}
+      <CommonTable
+        columns={columns}
+        data={products}
+        fileName="products"
+        showSelection={true}
+      />
     </div>
   );
 }

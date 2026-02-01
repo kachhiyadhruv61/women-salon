@@ -8,6 +8,7 @@ import Service from "./Pages/Service";
 import Team from "./Pages/Team";
 import Testimonial from "./Pages/Testimonial";
 import Contact from "./Pages/Contact";
+import BookingForm from "./Pages/BookingForm";
 import Login from "./Pages/Login";
 import Servicedetails from "./Pages/Servicedetails";
 import Register from "./Pages/Register";
@@ -15,10 +16,13 @@ import Products from "./Pages/Products";
 import Checkout from "./Pages/Checkout";
 import Cart from "./Pages/Cart";
 import Payment from "./Pages/Payment";
+import Staffs from "./Pages/Staffs";
+
 
 /* Headers & Footer */
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+
 
 /* Admin */
 import AdminHeader from "./Admin/AdminHeader";
@@ -64,6 +68,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Service />} />
+         <Route path="/staffs" element={<Staffs />} />
+          
+        
         <Route path="/products" element={<Products />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
@@ -72,6 +79,7 @@ function App() {
         <Route path="/team" element={<Team />} />
         <Route path="/testimonial" element={<Testimonial />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/bookingform" element={<BookingForm />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
          <Route path="/service/:id" element={<Servicedetails />} />

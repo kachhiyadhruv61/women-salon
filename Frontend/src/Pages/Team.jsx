@@ -27,44 +27,60 @@ function Team() {
         >
           <SwiperSlide>
             <div className="team-item position-relative overflow-hidden">
-              <img className="img-fluid w-100" src="/img/team-1.jpg" alt="" />
+              <div class="team-img">
+              <img className="img-fluid w-100" src="/img/neha1.jpg" alt="" />
               <div className="team-overlay text-center">
                 <p className="text-primary mb-1">Hair Specialist</p>
-                <h4>Lily Taylor</h4>
-                <div className="d-flex justify-content-center">
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-facebook-f"></i></a>
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-instagram"></i></a>
-                  <a className="btn btn-dark btn-sm-square" href="#"><i className="fab fa-linkedin-in"></i></a>
-                </div>
+                <h4>Neha Patel</h4>
+               </div>
               </div>
             </div>
           </SwiperSlide>
-
-          <SwiperSlide>
+           <SwiperSlide>
             <div className="team-item position-relative overflow-hidden">
-              <img className="img-fluid w-100" src="/img/team-2.jpg" alt="" />
+              <div class="team-img">
+              <img className="img-fluid w-100" src="/img/pooja.jpeg" alt="" />
               <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Nail Designer</p>
-                <h4>Olivia Smith</h4>
-                <div className="d-flex justify-content-center">
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-facebook-f"></i></a>
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-instagram"></i></a>
-                  <a className="btn btn-dark btn-sm-square" href="#"><i className="fab fa-linkedin-in"></i></a>
-                </div>
+                <p className="text-primary mb-1">Hair Specialist</p>
+                <h4>Pooja Joshi</h4>
+               </div>
               </div>
             </div>
           </SwiperSlide>
 
           <SwiperSlide>
             <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/aarti.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Face Specialist </p>
+                <h4>Aarti Parmar</h4>
+               </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
               <img className="img-fluid w-100" src="/img/team-3.jpg" alt="" />
               <div className="team-overlay text-center">
                 <p className="text-primary mb-1">Beauty Specialist</p>
-                <h4>Ava Brown</h4>
-                <div className="d-flex justify-content-center">
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-facebook-f"></i></a>
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-instagram"></i></a>
-                  <a className="btn btn-dark btn-sm-square" href="#"><i className="fab fa-linkedin-in"></i></a>
+                <h4>Parul Mehta</h4>
+                <h4>Senior Stylist</h4>
+               </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/prachi.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Beauty Specialist</p>
+                <h4>Prachi Solanki</h4>
+                <h4>Make-up Artist</h4>
                 </div>
               </div>
             </div>
@@ -72,14 +88,95 @@ function Team() {
 
           <SwiperSlide>
             <div className="team-item position-relative overflow-hidden">
-              <img className="img-fluid w-100" src="/img/team-4.jpg" alt="" />
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/reena.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Pedicure Specialist</p>
+                <h4>Reena Arora</h4>
+               </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/kajal.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Pedicure Specialist</p>
+                <h4>Kajal Patel</h4>
+               </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/Ayra.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Mehandi Specialist</p>
+                <h4>Ayra Vhora</h4>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/lily1.jpg" alt="" />
               <div className="team-overlay text-center">
                 <p className="text-primary mb-1">Spa Specialist</p>
-                <h4>Amelia Jones</h4>
-                <div className="d-flex justify-content-center">
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-facebook-f"></i></a>
-                  <a className="btn btn-dark btn-sm-square me-3" href="#"><i className="fab fa-instagram"></i></a>
-                  <a className="btn btn-dark btn-sm-square" href="#"><i className="fab fa-linkedin-in"></i></a>
+                <h4>Lily Smith</h4>
+               </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/riya.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Threading Specialist</p>
+                <h4>Riya Pitroda</h4>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/Diya.jpeg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Waxing Specialist</p>
+                <h4>Diya Patel</h4>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/priya.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">Waxing Specialist</p>
+                <h4>Priya Patel</h4>
+               </div>
+              </div>
+            </div>
+          </SwiperSlide>
+
+           <SwiperSlide>
+            <div className="team-item position-relative overflow-hidden">
+               <div class="team-img">
+              <img className="img-fluid w-100" src="/img/khushi.jpg" alt="" />
+              <div className="team-overlay text-center">
+                <p className="text-primary mb-1">All in one Specialist</p>
+                <h4>Khushi Mehta</h4>
                 </div>
               </div>
             </div>

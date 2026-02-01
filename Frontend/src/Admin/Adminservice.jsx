@@ -1,84 +1,198 @@
-
-
 import { useState } from "react";
 
 function Adminservice() {
   const [services, setServices] = useState([]);
-  const [serviceName, setServiceName] = useState("");
-  const [price, setPrice] = useState("");
+  const [service, setService] = useState({
+    name: "",
+    duration: "",
+    amount: "",
+    staff: "",
+    fishTankTherapy: false,
+    status: "active",
+  });
+  const [editingId, setEditingId] = useState(null);
 
-  // Add Service
-  const addService = (e) => {
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setService({
+      ...service,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!serviceName || !price) {
-      alert("Please fill all fields");
+    if (!service.name || !service.duration || !service.amount) {
+      alert("Please fill required fields: Name, Duration, Amount");
       return;
     }
 
-    const newService = {
-      id: Date.now(),
-      name: serviceName,
-      price: price,
-    };
+    const now = new Date().toISOString();
 
-    setServices([...services, newService]);
-    setServiceName("");
-    setPrice("");
+    if (editingId) {
+      // Update existing service
+      const updatedServices = services.map((s) =>
+        s.id === editingId
+          ? { ...s, ...service, updatedDate: now }
+          : s
+      );
+      setServices(updatedServices);
+      setEditingId(null);
+    } else {
+      // Add new service
+      const newService = {
+        ...service,
+        id: Date.now(),
+        createdDate: now,
+        updatedDate: now,
+      };
+      setServices([...services, newService]);
+    }
+
+    // Reset form
+    setService({
+      name: "",
+      duration: "",
+      amount: "",
+      staff: "",
+      fishTankTherapy: false,
+      status: "active",
+    });
   };
 
-  // Delete Service
-  const deleteService = (id) => {
-    setServices(services.filter((service) => service.id !== id));
+  const handleEdit = (s) => {
+    setService(s);
+    setEditingId(s.id);
+  };
+
+  const handleDelete = (id) => {
+    setServices(services.filter((s) => s.id !== id));
   };
 
   return (
     <div className="container mt-4">
       <h2>Admin Services Management 🛠️</h2>
 
-      {/* Add Service Form */}
-      <form onSubmit={addService} className="mb-4">
+      {/* Add / Edit Form */}
+      <form onSubmit={handleSubmit} className="mb-4 card p-3 shadow">
+        <h4>{editingId ? "Edit Service" : "Add Service"}</h4>
+
         <input
           type="text"
+          name="name"
           placeholder="Service Name"
-          value={serviceName}
-          onChange={(e) => setServiceName(e.target.value)}
+          value={service.name}
+          onChange={handleChange}
+          className="form-control mb-2"
+          required
         />
-        <br /><br />
+
+        <input
+          type="text"
+          name="duration"
+          placeholder="Duration (e.g. 60 mins)"
+          value={service.duration}
+          onChange={handleChange}
+          className="form-control mb-2"
+          required
+        />
 
         <input
           type="number"
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          name="amount"
+          placeholder="Amount (₹)"
+          value={service.amount}
+          onChange={handleChange}
+          className="form-control mb-2"
+          required
         />
-        <br /><br />
 
-        <button type="submit">Add Service</button>
+        <input
+          type="text"
+          name="staff"
+          placeholder="Staff Assigned (comma separated)"
+          value={service.staff}
+          onChange={handleChange}
+          className="form-control mb-2"
+        />
+
+        <div className="form-check mb-2">
+          <input
+            type="checkbox"
+            name="fishTankTherapy"
+            checked={service.fishTankTherapy}
+            onChange={handleChange}
+            className="form-check-input"
+            id="fishTank"
+          />
+          <label className="form-check-label" htmlFor="fishTank">
+            Fish Tank Pedicure Therapy
+          </label>
+        </div>
+
+        <select
+          name="status"
+          value={service.status}
+          onChange={handleChange}
+          className="form-control mb-2"
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+
+        <button type="submit" className="btn btn-primary w-100">
+          {editingId ? "Update Service" : "Add Service"}
+        </button>
       </form>
 
       {/* Services List */}
-      <table border="1" width="100%">
+      <h4>All Services</h4>
+      <table className="table table-bordered">
         <thead>
           <tr>
-            <th>Service Name</th>
-            <th>Price (₹)</th>
-            <th>Action</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Amount (₹)</th>
+            <th>Staff</th>
+            <th>Fish Tank Therapy</th>
+            <th>Status</th>
+            <th>Created Date</th>
+            <th>Updated Date</th>
+            <th>Actions</th>
           </tr>
         </thead>
-
         <tbody>
           {services.length === 0 ? (
             <tr>
-              <td colSpan="3" align="center">No services added</td>
+              <td colSpan="10" className="text-center">
+                No services added
+              </td>
             </tr>
           ) : (
-            services.map((service) => (
-              <tr key={service.id}>
-                <td>{service.name}</td>
-                <td>{service.price}</td>
+            services.map((s) => (
+              <tr key={s.id}>
+                <td>{s.id}</td>
+                <td>{s.name}</td>
+                <td>{s.duration}</td>
+                <td>₹{s.amount}</td>
+                <td>{s.staff}</td>
+                <td>{s.fishTankTherapy ? "✅ Yes" : "❌ No"}</td>
+                <td>{s.status}</td>
+                <td>{s.createdDate}</td>
+                <td>{s.updatedDate}</td>
                 <td>
-                  <button onClick={() => deleteService(service.id)}>
+                  <button
+                    className="btn btn-sm btn-warning me-2"
+                    onClick={() => handleEdit(s)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDelete(s.id)}
+                  >
                     Delete
                   </button>
                 </td>

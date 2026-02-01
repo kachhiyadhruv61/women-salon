@@ -9,67 +9,58 @@ function Service() {
     {
       id: "hair",
       title: "Haircut",
-      img: "/img/haircut.png",
+      img: "/img/layercut.jpg",
       short: "Professional haircut by trained female stylists.",
-      price: "₹500",
-      duration: "45 min",
-      status: "Available",
+      
     },
     {
       id: "bridal",
       title: "Bridal Package",
-      img: "/img/makeup.png",
+      img: "/img/bridal.jpg",
       short: "Complete organic bridal beauty care.",
-      price: "₹5000",
-      duration: "6 hrs",
-      status: "Available",
+     
     },
     {
       id: "manicure",
       title: "Manicure",
-      img: "/img/manicure.png",
+      img: "/img/manicure.jpg",
       short: "Organic spa manicure.",
-      price: "₹400",
-      duration: "30 min",
-      status: "Available",
+      
     },
     {
-      id: "pedicure",
+      id: "pedi",
       title: "Pedicure",
-      img: "/img/pedicure.png",
+      img: "/img/pedicure.jpg",
       short: "Relaxing herbal pedicure.",
-      price: "₹450",
-      duration: "40 min",
-      status: "Available",
+    
     },
     {
       id: "facial",
       title: "Facial / Clean-up",
-      img: "/img/massage.png",
+      img: "/img/facial.jpg",
       short: "100% organic facial & cleanup.",
-      price: "₹800",
-      duration: "1 hr",
-      status: "Available",
+      
     },
     {
       id: "waxing",
       title: "Waxing",
-      img: "/img/skin-care.png",
+      img: "/img/waxing.jpg",
       short: "Natural honey & sugar waxing.",
-      price: "₹350",
-      duration: "30 min",
-      status: "Available",
     },
       // 🔹 THREADING SERVICE ADDED
     {
       id: "threading",
       title: "Threading",
-      img: "/img/threading.png", // image add kari hoy to
+      img: "/img/threading.jpg", // image add kari hoy to
       short: "Precise eyebrow & facial threading.",
-      price: "₹100",
-      duration: "15 min",
-      status: "Available",
     },
+     {
+      id: "mehendi",
+      title: "Mehendi",
+      img: "/img/Mehndi design.jpg",
+      short: "Traditional & modern organic mehendi designs for all occasions using natural henna.",
+    },
+
    
   ];
 
@@ -79,6 +70,7 @@ function Service() {
         <div className="text-center mb-5">
           <h1 className="font-dancing-script text-primary">Our Service</h1>
           <h1>Explore Our Services</h1>
+          
         </div>
 
         <Swiper
@@ -100,10 +92,7 @@ function Service() {
                 <h3>{service.title}</h3>
                 <p>{service.short}</p>
 
-                <p><strong>Price:</strong> {service.price}</p>
-                <p><strong>Duration:</strong> {service.duration}</p>
-                <p><strong>Status:</strong> {service.status}</p>
-
+               
                 {/* ✅ UPDATED READ MORE */}
                 <Link
                   to={`/service/${service.id}`}
@@ -121,3 +110,4 @@ function Service() {
 }
 
 export default Service;
+

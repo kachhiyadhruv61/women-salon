@@ -1,11 +1,66 @@
 import { useState } from "react";
-
+import CommonTable from "./../Components/CommonTable";
 function Adpayment() {
   const [payments, setPayments] = useState([]);
   const [customer, setCustomer] = useState("");
   const [service, setService] = useState("");
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState("");
+  const columns = [
+  {
+    name: "#",
+    selector: (row, index) => index + 1,
+    sortable: true,
+  },
+  {
+    name: "Payment ID",
+    selector: (row) => row.paymentId,
+    sortable: true,
+  },
+  {
+    name: "Transaction ID",
+    selector: (row) => row.transactionId,
+  },
+  {
+    name: "Customer",
+    selector: (row) => row.customer,
+    sortable: true,
+  },
+  {
+    name: "Service",
+    selector: (row) => row.service,
+  },
+  {
+    name: "Amount (₹)",
+    selector: (row) => `₹${row.amount}`,
+    sortable: true,
+  },
+  {
+    name: "Method",
+    selector: (row) => row.method,
+  },
+  {
+    name: "Status",
+    cell: (row) => (
+      <span className="badge bg-success">{row.status}</span>
+    ),
+  },
+  {
+    name: "Date",
+    selector: (row) => row.date,
+  },
+  {
+    name: "Action",
+    cell: (row) => (
+      <button
+        className="btn btn-danger btn-sm"
+        onClick={() => deletePayment(row.id)}
+      >
+        Delete
+      </button>
+    ),
+  },
+];
 
   // Add Payment
   const addPayment = (e) => {
@@ -18,6 +73,8 @@ function Adpayment() {
 
     const newPayment = {
       id: Date.now(),
+      paymentId: "PAY" + Math.floor(Math.random() * 10000),
+      transactionId: "TXN" + Math.floor(Math.random() * 100000),
       customer,
       service,
       amount,
@@ -33,7 +90,6 @@ function Adpayment() {
     setMethod("");
   };
 
-  // Delete Payment
   const deletePayment = (id) => {
     setPayments(payments.filter((p) => p.id !== id));
   };
@@ -92,6 +148,9 @@ function Adpayment() {
       <table className="table table-bordered">
         <thead className="table-dark">
           <tr>
+            <th>#</th>
+            <th>Payment ID</th>
+            <th>Transaction ID</th>
             <th>Customer</th>
             <th>Service</th>
             <th>Amount</th>
@@ -105,13 +164,16 @@ function Adpayment() {
         <tbody>
           {payments.length === 0 ? (
             <tr>
-              <td colSpan="7" className="text-center">
+              <td colSpan="10" className="text-center">
                 No payments found
               </td>
             </tr>
           ) : (
-            payments.map((p) => (
+            payments.map((p, index) => (
               <tr key={p.id}>
+                <td>{index + 1}</td>
+                <td>{p.paymentId}</td>
+                <td>{p.transactionId}</td>
                 <td>{p.customer}</td>
                 <td>{p.service}</td>
                 <td>₹{p.amount}</td>
@@ -121,6 +183,7 @@ function Adpayment() {
                 </td>
                 <td>{p.date}</td>
                 <td>
+                  <button className="btn btn-info btn-sm me-1">View</button>
                   <button
                     className="btn btn-danger btn-sm"
                     onClick={() => deletePayment(p.id)}
@@ -132,7 +195,14 @@ function Adpayment() {
             ))
           )}
         </tbody>
-      </table>
+      </table>{/* 📊 Adpayment Table*/}
+      <CommonTable
+        columns={columns}
+        data={Adpayment}
+        fileName="adpayment"
+        showSelection={true}
+      />
+
     </div>
   );
 }

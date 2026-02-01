@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useMemo } from "react";
+import CommonTable from "./../Components/CommonTable";
 
 function Reports() {
   const reportsData = {
@@ -14,11 +15,39 @@ function Reports() {
     { id: 3, title: "Service Usage Report", date: "2025-12-30" },
   ];
 
+  // 📊 Columns for CommonTable
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "id",
+        header: "#",
+      },
+      {
+        accessorKey: "title",
+        header: "Report Name",
+      },
+      {
+        accessorKey: "date",
+        header: "Date",
+      },
+      {
+        accessorKey: "action",
+        header: "Action",
+        Cell: () => (
+          <button className="btn btn-sm btn-primary">
+            View
+          </button>
+        ),
+      },
+    ],
+    []
+  );
+
   return (
     <div className="container mt-4">
       <h2 className="mb-4">📊 Admin Reports</h2>
 
-      {/* SUMMARY CARDS */}
+      {/* 🔢 SUMMARY CARDS */}
       <div className="row">
         <div className="col-md-3">
           <div className="card text-center shadow">
@@ -57,36 +86,17 @@ function Reports() {
         </div>
       </div>
 
-      {/* REPORT TABLE */}
+      {/* 📄 REPORT TABLE */}
       <div className="card mt-4 shadow">
         <div className="card-body">
           <h5 className="mb-3">📄 Recent Reports</h5>
 
-          <table className="table table-bordered">
-            <thead className="table-dark">
-              <tr>
-                <th>#</th>
-                <th>Report Name</th>
-                <th>Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentReports.map((report, index) => (
-                <tr key={report.id}>
-                  <td>{index + 1}</td>
-                  <td>{report.title}</td>
-                  <td>{report.date}</td>
-                  <td>
-                    <button className="btn btn-sm btn-primary">
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
+          <CommonTable
+            columns={columns}
+            data={recentReports}
+            fileName="reports"
+            showSelection={false}
+          />
         </div>
       </div>
     </div>
