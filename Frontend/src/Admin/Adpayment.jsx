@@ -6,61 +6,71 @@ function Adpayment() {
   const [service, setService] = useState("");
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState("");
-  const columns = [
+ const columns = [
   {
-    name: "#",
-    selector: (row, index) => index + 1,
-    sortable: true,
+    id: "sr",
+    header: "#",
+    accessorFn: (_, index) => index + 1,
   },
   {
-    name: "Payment ID",
-    selector: (row) => row.paymentId,
-    sortable: true,
+    id: "paymentId",
+    header: "Payment ID",
+    accessorKey: "paymentId",
   },
   {
-    name: "Transaction ID",
-    selector: (row) => row.transactionId,
+    id: "transactionId",
+    header: "Transaction ID",
+    accessorKey: "transactionId",
   },
   {
-    name: "Customer",
-    selector: (row) => row.customer,
-    sortable: true,
+    id: "customer",
+    header: "Customer",
+    accessorKey: "customer",
   },
   {
-    name: "Service",
-    selector: (row) => row.service,
+    id: "service",
+    header: "Service",
+    accessorKey: "service",
   },
   {
-    name: "Amount (₹)",
-    selector: (row) => `₹${row.amount}`,
-    sortable: true,
+    id: "amount",
+    header: "Amount (₹)",
+    accessorFn: (row) => `₹${row.amount}`,
   },
   {
-    name: "Method",
-    selector: (row) => row.method,
+    id: "method",
+    header: "Method",
+    accessorKey: "method",
   },
   {
-    name: "Status",
-    cell: (row) => (
-      <span className="badge bg-success">{row.status}</span>
+    id: "status",
+    header: "Status",
+    Cell: ({ cell }) => (
+      <span className="badge bg-success">
+        {cell.getValue()}
+      </span>
     ),
+    accessorKey: "status",
   },
   {
-    name: "Date",
-    selector: (row) => row.date,
+    id: "date",
+    header: "Date",
+    accessorKey: "date",
   },
   {
-    name: "Action",
-    cell: (row) => (
+    id: "action",
+    header: "Action",
+    Cell: ({ row }) => (
       <button
         className="btn btn-danger btn-sm"
-        onClick={() => deletePayment(row.id)}
+        onClick={() => deletePayment(row.original.id)}
       >
         Delete
       </button>
     ),
   },
 ];
+
 
   // Add Payment
   const addPayment = (e) => {
@@ -144,64 +154,13 @@ function Adpayment() {
         <button className="btn btn-success w-100">Add Payment</button>
       </form>
 
-      {/* Payment Table */}
-      <table className="table table-bordered">
-        <thead className="table-dark">
-          <tr>
-            <th>#</th>
-            <th>Payment ID</th>
-            <th>Transaction ID</th>
-            <th>Customer</th>
-            <th>Service</th>
-            <th>Amount</th>
-            <th>Method</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {payments.length === 0 ? (
-            <tr>
-              <td colSpan="10" className="text-center">
-                No payments found
-              </td>
-            </tr>
-          ) : (
-            payments.map((p, index) => (
-              <tr key={p.id}>
-                <td>{index + 1}</td>
-                <td>{p.paymentId}</td>
-                <td>{p.transactionId}</td>
-                <td>{p.customer}</td>
-                <td>{p.service}</td>
-                <td>₹{p.amount}</td>
-                <td>{p.method}</td>
-                <td>
-                  <span className="badge bg-success">{p.status}</span>
-                </td>
-                <td>{p.date}</td>
-                <td>
-                  <button className="btn btn-info btn-sm me-1">View</button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => deletePayment(p.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>{/* 📊 Adpayment Table*/}
+     
       <CommonTable
-        columns={columns}
-        data={Adpayment}
-        fileName="adpayment"
-        showSelection={true}
-      />
+  columns={columns}
+  data={payments}   
+  fileName="adpayment"
+  showSelection={true}
+/>
 
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CommonTable from "../Components/CommonTable";
 
 function AdBooking() {
   const [bookings, setBookings] = useState([
@@ -19,46 +20,86 @@ function AdBooking() {
     );
   };
 
+  // ✅ Columns for CommonTable (MRT compatible)
+  const columns = [
+    {
+      id: "sr",
+      header: "#",
+      accessorFn: (_, index) => index + 1,
+    },
+    {
+      id: "name",
+      header: "Customer Name",
+      accessorKey: "name",
+    },
+    {
+      id: "service",
+      header: "Service",
+      accessorKey: "service",
+    },
+    {
+      id: "date",
+      header: "Date",
+      accessorKey: "date",
+    },
+    {
+      id: "status",
+      header: "Status",
+      accessorKey: "status",
+      Cell: ({ cell }) => {
+        const value = cell.getValue();
+        return (
+          <span
+            className={`badge ${
+              value === "Approved"
+                ? "bg-success"
+                : value === "Rejected"
+                ? "bg-danger"
+                : "bg-warning"
+            }`}
+          >
+            {value}
+          </span>
+        );
+      },
+    },
+    {
+      id: "action",
+      header: "Action",
+      Cell: ({ row }) => (
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-success btn-sm"
+            onClick={() =>
+              updateStatus(row.original.id, "Approved")
+            }
+          >
+            Approve
+          </button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() =>
+              updateStatus(row.original.id, "Rejected")
+            }
+          >
+            Reject
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className="container py-5">
-      <h3>Admin Booking Management 👩‍💼</h3>
+      <h3 className="mb-4">Admin Booking Management 👩‍💼</h3>
 
-      <table className="table table-bordered mt-3">
-        <thead className="table-dark">
-          <tr>
-            <th>Name</th>
-            <th>Service</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {bookings.map((b) => (
-            <tr key={b.id}>
-              <td>{b.name}</td>
-              <td>{b.service}</td>
-              <td>{b.date}</td>
-              <td>{b.status}</td>
-              <td>
-                <button
-                  className="btn btn-success btn-sm me-2"
-                  onClick={() => updateStatus(b.id, "Approved")}
-                >
-                  Approve
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => updateStatus(b.id, "Rejected")}
-                >
-                  Reject
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* ✅ Common Table */}
+      <CommonTable
+        columns={columns}
+        data={bookings}
+        fileName="admin-bookings"
+        showSelection={true}
+      />
     </div>
   );
 }

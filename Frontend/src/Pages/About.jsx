@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 function About() {
   const [showMore, setShowMore] = useState(false);
 
@@ -12,7 +13,7 @@ function About() {
           <div className="col-lg-6">
             <img
               className="img-fluid mb-3 rounded"
-              src="/img/about1.jpg"
+              src="/img/about.jpg"
               alt="NatureGlow Women Salon"
             />
 
@@ -25,7 +26,7 @@ function About() {
               </div>
 
               <div className="px-3">
-                <h4 className="mb-0">9574568855</h4>
+                
                 <h4 className="mb-0">9998662408</h4>
                 <span className="text-muted">
                   Call us 24/7 for free beauty consultation

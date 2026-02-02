@@ -22,10 +22,11 @@ function Navbar() {
         <div className="collapse navbar-collapse p-3" id="navbarCollapse">
           <div className="navbar-nav mx-auto">
             <Link to="/" className="nav-item nav-link active">Home</Link>
-            <Link to="/about" className="nav-item nav-link">About</Link>
+            
             <Link to="/service" className="nav-item nav-link">Service</Link>
+            <Link to="/about" className="nav-item nav-link">About</Link>
             <Link to="/products" className="nav-item nav-link">Products</Link>
-            <Link to="/login" className="nav-item nav-link">Login</Link>
+            
             
 
             <div className="nav-item dropdown">
@@ -39,7 +40,6 @@ function Navbar() {
               <div className="dropdown-menu bg-light mt-2">
                 <Link to="/team" className="dropdown-item">Our Team</Link>
                 <Link to="/testimonial" className="dropdown-item">Testimonial</Link>
-                <Link to="*" className="dropdown-item">404 Page</Link>
               </div>
             </div>
               <Link to="/contact" className="nav-item nav-link">Contact</Link>
@@ -50,8 +50,8 @@ function Navbar() {
 
         
           {/* ✅ REGISTER BUTTON */}
-          <Link to="/register" className="btn btn-sm btn-primary">
-            Register
+          <Link to="/login" className="btn btn-sm btn-primary">
+            LOGIN
           </Link>
         </div>
       </nav>

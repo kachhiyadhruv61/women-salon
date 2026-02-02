@@ -3,14 +3,15 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import About from "./About";
 import Services from "./Service";
+import About from "./About";
 import Testimonial from "./Testimonial";
 import Team from "./Team";
 
 
 function Home() {
   return (
+    
     <div className="container-fluid p-0 hero-header mb-5"   >
       <div className="container p-0">
         <div className="row g-0 align-items-center">
@@ -72,8 +73,8 @@ function Home() {
            
           </div>
         </div>
-         <About/>
-            <Services/>
+         <Services/>
+            <About/>
             <Team/>
             <Testimonial/>
             

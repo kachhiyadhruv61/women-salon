@@ -1,187 +1,191 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-
-import "swiper/css";
-import "swiper/css/pagination";
+import { useRef } from "react";
 
 function Team() {
+  const scrollRef = useRef(null);
+
+  const scrollLeft = () => {
+    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+  };
+
   return (
-    <div className="container-fluid overflow-hidden py-5">
+    <div className="container-fluid py-5">
       <div className="container">
         <div className="text-center mb-5">
           <h1 className="font-dancing-script text-primary">Team Members</h1>
           <h1>Our Experienced Specialists</h1>
         </div>
 
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          loop
-          autoplay={{ delay: 2500 }}
-          pagination={{ clickable: true }}
-          spaceBetween={30}
-          breakpoints={{
-            0: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            992: { slidesPerView: 4 },
-          }}
-        >
-          <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-              <div class="team-img">
-              <img className="img-fluid w-100" src="/img/neha1.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Hair Specialist</p>
-                <h4>Neha Patel</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-              <div class="team-img">
-              <img className="img-fluid w-100" src="/img/pooja.jpeg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Hair Specialist</p>
-                <h4>Pooja Joshi</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
+        {/* arrows + row */}
+        <div className="d-flex align-items-center">
 
-          <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/aarti.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Face Specialist </p>
-                <h4>Aarti Parmar</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
+          {/* LEFT ARROW */}
+          <button className="btn btn-primary me-2" onClick={scrollLeft}>
+            &#8592;
+          </button>
 
-          <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/team-3.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Beauty Specialist</p>
-                <h4>Parul Mehta</h4>
-                <h4>Senior Stylist</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
+          {/* TEAM ROW */}
+          <div
+            ref={scrollRef}
+            className="d-flex gap-4 overflow-hidden"
+            style={{ scrollBehavior: "smooth" }}
+          >
 
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/prachi.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Beauty Specialist</p>
-                <h4>Prachi Solanki</h4>
-                <h4>Make-up Artist</h4>
+            {/* CARD 1 */}
+            <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+              <div className="team-img">
+                <img src="/img/neha1.jpg" className="img-fluid w-100" />
+                <div className="team-overlay text-center">
+                  <p className="text-primary mb-1">Hair Specialist</p>
+                  <h4>Neha Patel</h4>
                 </div>
               </div>
             </div>
-          </SwiperSlide>
 
-          <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/reena.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Pedicure Specialist</p>
-                <h4>Reena Arora</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/kajal.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Pedicure Specialist</p>
-                <h4>Kajal Patel</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/Ayra.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Mehandi Specialist</p>
-                <h4>Ayra Vhora</h4>
+            {/* CARD 2 */}
+            <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+              <div className="team-img">
+                <img src="/img/pooja.jpeg" className="img-fluid w-100" />
+                <div className="team-overlay text-center">
+                  <p className="text-primary mb-1">Hair Specialist</p>
+                  <h4>Pooja Joshi</h4>
                 </div>
               </div>
             </div>
-          </SwiperSlide>
 
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/lily1.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Spa Specialist</p>
-                <h4>Lily Smith</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/riya.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Threading Specialist</p>
-                <h4>Riya Pitroda</h4>
+            {/* CARD 3 */}
+            <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+              <div className="team-img">
+                <img src="/img/aarti.jpg" className="img-fluid w-100" />
+                <div className="team-overlay text-center">
+                  <p className="text-primary mb-1">Face Specialist</p>
+                  <h4>Aarti Parmar</h4>
                 </div>
               </div>
             </div>
-          </SwiperSlide>
 
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/Diya.jpeg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Waxing Specialist</p>
-                <h4>Diya Patel</h4>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
+            {/* CARD 4 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/team-3.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Beauty Specialist</p>
+      <h4>Parul Mehta</h4>
+    </div>
+  </div>
+</div>
 
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/priya.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">Waxing Specialist</p>
-                <h4>Priya Patel</h4>
-               </div>
-              </div>
-            </div>
-          </SwiperSlide>
+{/* CARD 5 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/prachi.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Makeup Artist</p>
+      <h4>Prachi Solanki</h4>
+    </div>
+  </div>
+</div>
 
-           <SwiperSlide>
-            <div className="team-item position-relative overflow-hidden">
-               <div class="team-img">
-              <img className="img-fluid w-100" src="/img/khushi.jpg" alt="" />
-              <div className="team-overlay text-center">
-                <p className="text-primary mb-1">All in one Specialist</p>
-                <h4>Khushi Mehta</h4>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        </Swiper>
+{/* CARD 6 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/reena.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Pedicure Specialist</p>
+      <h4>Reena Arora</h4>
+    </div>
+  </div>
+</div>
+
+{/* CARD 7 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/kajal.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Pedicure Specialist</p>
+      <h4>Kajal Patel</h4>
+    </div>
+  </div>
+</div>
+
+{/* CARD 8 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/Ayra.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Mehndi Specialist</p>
+      <h4>Ayra Vhora</h4>
+    </div>
+  </div>
+</div>
+
+{/* CARD 9 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/lily1.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Spa Specialist</p>
+      <h4>Lily Smith</h4>
+    </div>
+  </div>
+</div>
+
+{/* CARD 10 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/riya.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Threading Specialist</p>
+      <h4>Riya Pitroda</h4>
+    </div>
+  </div>
+</div>
+
+{/* CARD 11 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/Diya.jpeg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Waxing Specialist</p>
+      <h4>Diya Patel</h4>
+    </div>
+  </div>
+</div>
+
+{/* CARD 12 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/priya.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">Waxing Specialist</p>
+      <h4>Priya Patel</h4>
+    </div>
+  </div>
+</div>
+
+{/* CARD 13 */}
+<div className="team-item flex-shrink-0" style={{ width: "250px" }}>
+  <div className="team-img">
+    <img src="/img/khushi.jpg" className="img-fluid w-100" />
+    <div className="team-overlay text-center">
+      <p className="text-primary mb-1">All-Rounder Specialist</p>
+      <h4>Khushi Mehta</h4>
+    </div>
+  </div>
+</div>
+
+
+          </div>
+
+          {/* RIGHT ARROW */}
+          <button className="btn btn-primary ms-2" onClick={scrollRight}>
+            &#8594;
+          </button>
+
+        </div>
       </div>
     </div>
   );

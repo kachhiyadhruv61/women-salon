@@ -209,11 +209,34 @@
     background: var(--bs-primary);
 }
 
+/* Admin Header Styling */
+.admin-navbar {
+  background-color: #fff;          /* main header jevo */
+  border-bottom: 1px solid #eee;
+}
+
+.admin-brand {
+  font-family: "Dancing Script", cursive;
+  font-size: 26px;
+  color: #d63384 !important;       /* pink / primary */
+}
+
+.admin-link {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #333 !important;
+  padding: 6px 10px;
+}
+
+.admin-link:hover {
+  color: #d63384 !important;
+}
+
 
 /*** Hero Header ***/
 .hero-header {
     background: url(../img/hero-bg.jpg) top left no-repeat;
-    background-size: cover;
+    background-size: contain;
 }
 
 @media (min-width: 992px) {
@@ -271,6 +294,34 @@
     background: url(../img/page-header.jpg) center center no-repeat;
     background-size: contain;
 }
+/*** About ***/
+/* ABOUT BANNER */
+.about-banner {
+  background-image: url("/img/about-bg.png"); /* optional */
+  background-size: cover;
+  background-position: center;
+}
+
+.about-banner h1 {
+  font-weight: 600;
+}
+
+/* Breadcrumb look */
+.breadcrumb {
+  display: flex;
+  font-size: 16px;
+}
+
+/* ABOUT CONTENT RESPONSIVE */
+@media (max-width: 768px) {
+  .about-banner h1 {
+    font-size: 32px;
+  }
+
+  .about-banner {
+    padding: 40px 0;
+  }
+}
 
 
 /*** Service ***/
@@ -311,6 +362,26 @@
     margin-bottom: 20px;
     border-radius: 10px; /* optional – smooth look */
 }
+.service-grid {
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+.service-col {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.service-item {
+  background: #fff;
+  transition: 0.3s;
+}
+
+.service-item:hover {
+  background: #f8f9fa;
+  transform: translateY(-5px);
+}
+
 
 
 /*** Team ***/

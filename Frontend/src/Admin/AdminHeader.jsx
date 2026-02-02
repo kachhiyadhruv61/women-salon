@@ -10,12 +10,12 @@ const AdminHeader = ({ setRole }) => {
   };
 
   return (
-    <nav className="navbar navbar-dark bg-dark px-4">
+    <nav className="navbar navbar-dark bg-dark px-3">
       <Link to="/dashboard" className="navbar-brand">
         Admin Panel
       </Link>
 
-      <ul className="navbar-nav flex-row gap-3">
+      <ul className="navbar-nav flex-row gap-2">
         <li className="nav-item">
           <Link to="/dashboard" className="nav-link text-white">
             Dashboard
