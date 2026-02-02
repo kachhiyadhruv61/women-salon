@@ -23,8 +23,8 @@ function Navbar() {
           <div className="navbar-nav mx-auto">
             <Link to="/" className="nav-item nav-link active">Home</Link>
             
-            <Link to="/service" className="nav-item nav-link">Service</Link>
             <Link to="/about" className="nav-item nav-link">About</Link>
+            <Link to="/service" className="nav-item nav-link">Service</Link>
             <Link to="/products" className="nav-item nav-link">Products</Link>
             
             

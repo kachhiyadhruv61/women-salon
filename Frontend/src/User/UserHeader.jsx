@@ -10,57 +10,43 @@ function UserHeader({ setRole }) {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-      <div className="container">
-        {/* Logo */}
-        <Link className="navbar-brand fw-bold" to="/">
-          🌿 Organic Salon
+    <div className="container-fluid bg-light sticky-top p-0">
+      <nav className="navbar navbar-expand-lg navbar-light p-0">
+        <Link to="/" className="navbar-brand bg-primary py-4 px-5 me-0">
+          <h1 className="mb-0">
+            <i className="bi bi-scissors"></i> A <sup>2</sup>
+          </h1>
         </Link>
 
-        {/* Mobile toggle */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler me-4"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#userNavbar"
+          data-bs-target="#navbarCollapse"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Navbar content */}
-        <div className="collapse navbar-collapse" id="userNavbar">
-          {/* Left menu */}
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/userdashboard">
-                Dashboard
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/userbooking">
-                My Bookings
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/userorders">
-                My Orders
-              </Link>
-            </li>
-          </ul>
-
-          {/* Right menu */}
-          <div className="d-flex align-items-center gap-2">
-            <Link to="/cart" className="btn btn-outline-success">
-              🛒 Cart
-            </Link>
-
-            <button onClick={logout} className="btn btn-danger">
-              Logout
-            </button>
+        <div className="collapse navbar-collapse p-3" id="navbarCollapse">
+          <div className="navbar-nav mx-auto">
+            <Link to="/userdashboard" className="nav-item nav-link active">Dashboard</Link>
+            
+            <Link to="/userorders" className="nav-item nav-link">My Orders</Link>
+            <Link to="/cart" className="nav-item nav-link">🛒 Cart</Link>
+            
           </div>
+
+        
+          {/* ✅ REGISTER BUTTON */}
+          <button onClick={logout} className="btn btn-outline-secondary">
+            Logout
+          </button>
+          {/* <Link to="/login" className="btn btn-sm btn-primary">
+            LOGIN
+          </Link> */}
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
 
