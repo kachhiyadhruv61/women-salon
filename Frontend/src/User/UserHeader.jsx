@@ -28,22 +28,45 @@ function UserHeader({ setRole }) {
         </button>
 
         <div className="collapse navbar-collapse p-3" id="navbarCollapse">
+          {/* NAV MENUS */}
           <div className="navbar-nav mx-auto">
-            <Link to="/userdashboard" className="nav-item nav-link active">Dashboard</Link>
-            
+            <Link to="/userdashboard" className="nav-item nav-link">Dashboard</Link>
+            <Link to="/book-appointment" className="nav-item nav-link">Book Appointment</Link>
+            <Link to="/services" className="nav-item nav-link">Services</Link>
+            <Link to="/shop" className="nav-item nav-link">Shop</Link>
+
+            <Link to="/my-appointments" className="nav-item nav-link">My Appointments</Link>
             <Link to="/userorders" className="nav-item nav-link">My Orders</Link>
             <Link to="/cart" className="nav-item nav-link">🛒 Cart</Link>
-            
           </div>
 
-        
-          {/* ✅ REGISTER BUTTON */}
-          <button onClick={logout} className="btn btn-outline-secondary">
-            Logout
-          </button>
-          {/* <Link to="/login" className="btn btn-sm btn-primary">
-            LOGIN
-          </Link> */}
+          {/* USER DROPDOWN */}
+          <div className="dropdown">
+            <button
+              className="btn btn-outline-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+            >
+              <i className="bi bi-person-circle me-1"></i> Account
+            </button>
+
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li>
+                <Link to="/profile" className="dropdown-item">My Profile</Link>
+              </li>
+              <li>
+                <Link to="/addresses" className="dropdown-item">My Addresses</Link>
+              </li>
+              <li><hr className="dropdown-divider" /></li>
+              <li>
+                <button onClick={logout} className="dropdown-item text-danger">
+                  Logout
+                </button>
+              </li>
+            </ul>
+
+          </div>
+
         </div>
       </nav>
     </div>
