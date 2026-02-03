@@ -31,11 +31,11 @@ function UserHeader({ setRole }) {
           {/* NAV MENUS */}
           <div className="navbar-nav mx-auto">
             <Link to="/userdashboard" className="nav-item nav-link">Dashboard</Link>
-            <Link to="/book-appointment" className="nav-item nav-link">Book Appointment</Link>
-            <Link to="/services" className="nav-item nav-link">Services</Link>
-            <Link to="/shop" className="nav-item nav-link">Shop</Link>
+            <Link to="/userbooking" className="nav-item nav-link">Book Appointment</Link>
+            <Link to="/service" className="nav-item nav-link">Services</Link>
+            <Link to="/products" className="nav-item nav-link">Shop</Link>
 
-            <Link to="/my-appointments" className="nav-item nav-link">My Appointments</Link>
+            <Link to="/userappoint" className="nav-item nav-link">My Appointments</Link>
             <Link to="/userorders" className="nav-item nav-link">My Orders</Link>
             <Link to="/cart" className="nav-item nav-link">🛒 Cart</Link>
           </div>
