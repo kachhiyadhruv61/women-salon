@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "./CartContext";
+
 
 function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -144,23 +146,16 @@ function Products() {
   },
 ];
 
+  const { addToCart } = useCart();
+const handleAddToCart = () => {
+  addToCart(selectedProduct, qty);
+  navigate("/cart");
+};
 
-  const addToCart = () => {
-    // Add your product to cart logic here
-    console.log("Product added to cart:", products);
-
-    // Navigate to cart page
-    navigate("/cart");
-  };
-
-  const buyNow = () => {
-    navigate("/checkout", {
-      state: {
-        product: selectedProduct,
-        quantity: qty,
-      },
-    });
-  };
+const buyNow = () => {
+  addToCart(selectedProduct, qty);
+  navigate("/checkout");
+};
 
   return (
     <div className="container py-5">
@@ -230,15 +225,13 @@ function Products() {
                 </button>
               </div>
 
-             <button className="btn btn-warning me-2" onClick={addToCart}>
-                 Add to Cart
-            </button>
+            <button className="btn btn-warning me-2" onClick={handleAddToCart}>
+  Add to Cart
+</button>
 
-              
-
-              <button className="btn btn-success me-2" onClick={buyNow}>
-                Buy Now
-              </button>
+<button className="btn btn-success me-2" onClick={buyNow}>
+  Buy Now
+</button>
 
               <button
                 className="btn btn-outline-danger"

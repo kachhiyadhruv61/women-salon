@@ -45,6 +45,8 @@ import UserProfile from "./User/UserProfile";
 import UserOrders from "./User/UserOrders";
 import Userpayment from "./User/Userpayment";
 import UserBooking from "./User/UserBooking";
+import UserAppoint from "./User/UserAppoint";
+
 
 function App() {
   const [role, setRole] = useState("guest");
@@ -150,6 +152,10 @@ function App() {
         <Route
           path="/userpayment"
           element={role === "user" ? <Userpayment /> : <Navigate to="/login" />}
+        />
+           <Route
+          path="/userappoint"
+          element={role === "user" ? <UserAppoint /> : <Navigate to="/login" />}
         />
 
         {/* ===== INVALID URL ===== */}

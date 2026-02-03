@@ -1,64 +1,98 @@
 import React, { useState, useMemo } from "react";
-import CommonTable from "./../Components/CommonTable"; // path check karjo
+import CommonTable from "./../Components/CommonTable";
 
 function Product() {
   const [products, setProducts] = useState([
-    { id: 1, name: "Herbal Face Pack", price: 499,stock:50, description:"facial",status:"active" },
-    { id: 2, name: "Organic Hair Oil", price: 399 },
+    {
+      productId: 1,
+      name: "Herbal Face Pack",
+      amount: 499,
+      stock: 50,
+      description: "Facial product",
+      status: "Active",
+    },
   ]);
 
+  // 🔹 Form States
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
+  const [amount, setAmount] = useState("");
+  const [stock, setStock] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("Active");
 
+  // ➕ ADD PRODUCT
   const addProduct = () => {
-    if (!name || !price) {
-      alert("Fill all fields");
+    if (!name || !amount || !stock || !description) {
+      alert("Please fill all fields");
       return;
     }
 
     setProducts([
       ...products,
       {
-        id: Date.now(),
+        productId: Date.now(),
         name,
-        price: Number(price),
+        amount: Number(amount),
+        stock: Number(stock),
+        description,
+        status,
       },
     ]);
 
+    // reset form
     setName("");
-    setPrice("");
+    setAmount("");
+    setStock("");
+    setDescription("");
+    setStatus("Active");
   };
 
+  // ❌ DELETE PRODUCT
   const deleteProduct = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
+    setProducts(products.filter((p) => p.productId !== id));
   };
 
-  // 🔹 Columns for CommonTable
+  // 📊 TABLE COLUMNS
   const columns = useMemo(
     () => [
+      {
+        accessorKey: "productId",
+        header: "Product ID",
+      },
       {
         accessorKey: "name",
         header: "Product Name",
       },
       {
-        accessorKey: "price",
-        header: "Price (₹)",
+        accessorKey: "amount",
+        header: "Amount (₹)",
         Cell: ({ cell }) => `₹${cell.getValue()}`,
       },
-       {
+      {
         accessorKey: "stock",
         header: "Stock",
       },
-       {
+      {
         accessorKey: "description",
         header: "Description",
       },
-       {
+      {
         accessorKey: "status",
         header: "Status",
+        Cell: ({ cell }) => (
+          <span
+            className={`badge ${
+              cell.getValue() === "Active"
+                ? "bg-success"
+                : "bg-secondary"
+            }`}
+          >
+            {cell.getValue()}
+          </span>
+        ),
       },
       {
-        accessorKey: "id",
+        accessorKey: "productId",
         header: "Action",
         Cell: ({ cell }) => (
           <button
@@ -77,8 +111,10 @@ function Product() {
     <div className="container py-5">
       <h1>👩‍💼 Admin Product Panel</h1>
 
-      {/* ➕ Add Product Form */}
-      <div className="border p-3 my-4">
+      {/* ➕ ADD PRODUCT FORM */}
+      <div className="border p-3 my-4 rounded">
+        <h5>Add Product</h5>
+
         <input
           type="text"
           placeholder="Product Name"
@@ -89,18 +125,42 @@ function Product() {
 
         <input
           type="number"
-          placeholder="Price"
+          placeholder="Amount"
           className="form-control mb-2"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
         />
+
+        <input
+          type="number"
+          placeholder="Stock"
+          className="form-control mb-2"
+          value={stock}
+          onChange={(e) => setStock(e.target.value)}
+        />
+
+        <textarea
+          placeholder="Description"
+          className="form-control mb-2"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <select
+          className="form-control mb-3"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
 
         <button className="btn btn-success" onClick={addProduct}>
           Add Product
         </button>
       </div>
 
-      {/* 📊 Product Table */}
+      {/* 📊 COMMON TABLE */}
       <CommonTable
         columns={columns}
         data={products}
