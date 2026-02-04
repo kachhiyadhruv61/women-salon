@@ -96,68 +96,111 @@ function Servicedetails() {
     },
 
     /* ================= MANICURE ================= */
+{
+  id: "manicure",
+  category: "Manicure Services",
+  description: "Organic manicure for clean & healthy hands.",
+  services: [
     {
-      id: "manicure",
-      category: "Manicure Services",
-      description: "Organic manicure for clean & healthy hands.",
-      services: [
-        {
-          name: "Classic Manicure",
-          details: "Nail shaping, cuticle care & massage.",
-          locationDetails: {
-            salon: { price: 400, time: "30 mins", staff: ["Pooja"] },
-            natural: { price: 650, time: "45 mins", staff: ["Pooja"] },
-            home: { price: 750, time: "45 mins", staff: [] },
-             products: [{ name: "Hand Cream", price: 199 }],
+      name: "Classic Manicure",
+      details: "Nail shaping, cuticle care & massage.",
+      locationDetails: {
+        salon: { price: 400, time: "30 mins", staff: ["Pooja"] },
+        natural: { price: 650, time: "45 mins", staff: ["Pooja"] },
+        home: { price: 750, time: "45 mins", staff: [] },
+        products: [{ name: "Hand Cream", price: 199 }],
+      },
+    },
+  ],
+},
 
-          },
-        },
-         {
-      id: "mehendi",
-      category: "Mehendi Services",
-      description:
-         "Traditional & modern organic mehendi designs for all occasions using natural henna.",
-      services: [
-     {
+ /* ================= MEHENDI ================= */
+{
+  id: "mehendi",
+  category: "Mehendi Services",
+  description:
+    "Traditional & modern organic mehendi designs for all occasions using natural henna.",
+  services: [
+    {
       name: "Basic Hand Mehendi",
       details:
         "Simple and elegant mehendi design for hands using 100% organic henna.",
-      time: "30 mins",
-      price: 500,
-      staff: ["Priya"],
-      products: [
-        { name: "Organic Henna Cone", price: 199 },
-        { name: "Lemon Sugar Sealant", price: 99 },
-      ],
+      locationDetails: {
+        salon: {
+          price: 500,
+          time: "30 mins",
+          staff: ["Priya"],
+        },
+        natural: {
+          price: 700,
+          time: "45 mins",
+          staff: ["Priya"],
+        },
+        home: {
+          price: 900,
+          time: "45 mins",
+          staff: [],
+        },
+        products: [
+          { name: "Organic Henna Cone", price: 199 },
+          { name: "Lemon Sugar Sealant", price: 99 },
+        ],
+      },
     },
     {
       name: "Bridal Mehendi",
       details:
         "Detailed bridal mehendi for hands & legs with dark color guarantee.",
-      time: "4–5 hrs",
-      price: 3500,
-      staff: ["Senior Mehendi Artist:Ayra"],
-      products: [
-        { name: "Premium Bridal Henna Kit", price: 999 },
-        { name: "Herbal Mehendi Oil", price: 299 },
-      ],
+      locationDetails: {
+        salon: {
+          price: 3500,
+          time: "4–5 hrs",
+          staff: ["Ayra"],
+        },
+        natural: {
+          price: 4200,
+          time: "4–5 hrs",
+          staff: ["Ayra"],
+        },
+        home: {
+          price: 5000,
+          time: "4–5 hrs",
+          staff: ["Ayra"],
+        },
+        products: [
+          { name: "Premium Bridal Henna Kit", price: 999 },
+          { name: "Herbal Mehendi Oil", price: 299 },
+        ],
+      },
     },
     {
       name: "Arabic Mehendi",
       details:
         "Bold Arabic mehendi designs suitable for festivals & functions.",
-      time: "45 mins",
-      price: 800,
-      staff: ["Riya", "Neha"],
-      products: [
-        { name: "Arabic Henna Cone", price: 249 },
-      ],
+      locationDetails: {
+        salon: {
+          price: 800,
+          time: "45 mins",
+          staff: ["Riya", "Neha"],
+        },
+        natural: {
+          price: 1100,
+          time: "1 hr",
+          staff: ["Riya"],
+        },
+        home: {
+          price: 1300,
+          time: "1 hr",
+          staff: [],
+        },
+        products: [
+          { name: "Arabic Henna Cone", price: 249 },
+        ],
+      },
     },
   ],
 },
 
-      ],
-    },
 
     /* ================= PEDICURE ================= */
     {
@@ -433,49 +476,6 @@ function Servicedetails() {
         },
       ],
     },
-     {
-      id: "mehendi",
-      category: "Mehendi Services",
-      description:
-         "Traditional & modern organic mehendi designs for all occasions using natural henna.",
-      services: [
-     {
-      name: "Basic Hand Mehendi",
-      details:
-        "Simple and elegant mehendi design for hands using 100% organic henna.",
-      time: "30 mins",
-      price: 500,
-      staff: ["Priya"],
-      products: [
-        { name: "Organic Henna Cone", price: 199 },
-        { name: "Lemon Sugar Sealant", price: 99 },
-      ],
-    },
-    {
-      name: "Bridal Mehendi",
-      details:
-        "Detailed bridal mehendi for hands & legs with dark color guarantee.",
-      time: "4–5 hrs",
-      price: 3500,
-      staff: ["Senior Mehendi Artist:Ayra"],
-      products: [
-        { name: "Premium Bridal Henna Kit", price: 999 },
-        { name: "Herbal Mehendi Oil", price: 299 },
-      ],
-    },
-    {
-      name: "Arabic Mehendi",
-      details:
-        "Bold Arabic mehendi designs suitable for festivals & functions.",
-      time: "45 mins",
-      price: 800,
-      staff: ["Riya", "Neha"],
-      products: [
-        { name: "Arabic Henna Cone", price: 249 },
-      ],
-    },
-  ],
-},
 
 
   ];
@@ -509,13 +509,14 @@ function Servicedetails() {
       </div>
 
       {category.services.map((service, i) => {
-        const data = service.locationDetails[location];
-        const staffAvailable = data.staff.length > 0;
+  const data = service.locationDetails[location];
+  const staffAvailable = data.staff && data.staff.length > 0;
 
-        return (
-          <div key={i} className="card p-4 mb-4 shadow-sm">
-            <h3>{service.name}</h3>
-            <p>{service.details}</p>
+  return (
+    <div key={i} className="card p-4 mb-4 shadow-sm">
+<h3>{service.name}</h3>
+<p>{service.details}</p>
+
             {service.shapes && (
   <>
     <h6 className="mt-3">✂️ Available Hair Cut Shapes</h6>
@@ -553,21 +554,19 @@ function Servicedetails() {
     ))}
   </>
 )}
-              {service.suggestedProducts && (
-  <div className="card mt-4 border-success">
-    <div className="card-body">
-      <h6 className="card-title text-success">🧴 Suggested Organic Products</h6>
-      {service.suggestedProducts.map((product, i) => (
-        <div key={i} className="mb-2">
-          ✅ <strong>{product.name}</strong>
-          <div className="text-muted small">{product.usage}</div>
-        </div>
+ {service.locationDetails.products &&
+ service.locationDetails.products.length > 0 && (
+  <div className="mt-3">
+    <h6 className="text-success">🧴 Products Used</h6>
+    <ul>
+      {service.locationDetails.products.map((p, i) => (
+        <li key={i}>
+          {p.name} – ₹{p.price}
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
-)}
-
-
+)},
 
             <p><strong>⏱ Time:</strong> {data.time}</p>
             <p><strong>💰 Price:</strong> ₹{data.price}</p>

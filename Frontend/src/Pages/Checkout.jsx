@@ -14,6 +14,7 @@ function Checkout() {
   });
 
   const [showBill, setShowBill] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const total = cart.reduce(
     (sum, item) => sum + item.price * item.qty,
@@ -24,12 +25,52 @@ function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 👉 BILL PDF DOWNLOAD
+  /* ================= PLACE ORDER API ================= */
+  const placeOrder = async () => {
+    setLoading(true);
+
+    const orderData = {
+      orderId: "ORD-" + Date.now(),
+      userId: "USR-01", // later auth mathi aavse
+      userName: form.name,
+      contact: form.phone,
+      address: form.address,
+      items: cart.map((item) => ({
+        name: item.name,
+        qty: item.qty,
+        price: item.price,
+      })),
+      totalAmount: total,
+      paymentMethod: form.payment,
+      paymentStatus: form.payment === "Cash" ? "Pending" : "Paid",
+      orderStatus: "Pending",
+      createdAt: new Date(),
+    };
+
+   try {
+  const res = await fetch("http://localhost:5000/api/orders", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderData),
+  });
+
+  if (!res.ok) {
+    throw new Error("API failed");
+  }
+
+  alert("Order Placed Successfully!");
+} catch (err) {
+  console.error("ERROR 👉", err);
+  alert("Backend not reachable");
+};
+  };
+  /* ================= BILL PDF ================= */
   const downloadBill = () => {
     const doc = new jsPDF();
 
     doc.text("Organic Salon - Order Bill", 14, 15);
-
     doc.text(`Name: ${form.name}`, 14, 25);
     doc.text(`Phone: ${form.phone}`, 14, 32);
     doc.text(`Address: ${form.address}`, 14, 39);
@@ -61,7 +102,7 @@ function Checkout() {
     <div className="container py-5">
       <h2>Checkout & Payment</h2>
 
-      {/* 🔹 FORM SECTION */}
+      {/* 🔹 FORM */}
       {!showBill && (
         <div className="card p-4 mb-4">
           <h5>Customer Details</h5>
@@ -97,10 +138,10 @@ function Checkout() {
             onChange={handleChange}
           >
             <option value="Cash">Cash</option>
-            <option value="QR">QR</option>
+            <option value="UPI">UPI</option>
           </select>
 
-          {form.payment === "QR" && (
+          {form.payment === "UPI" && (
             <div className="mb-3">
               <p>Scan & Pay ₹{total}</p>
               <img src="/img/qr.png" width="150" alt="QR" />
@@ -116,7 +157,7 @@ function Checkout() {
         </div>
       )}
 
-      {/* 🔹 BILL PREVIEW SECTION */}
+      {/* 🔹 BILL PREVIEW */}
       {showBill && (
         <div className="card p-4">
           <h4>Order Bill Preview</h4>
@@ -129,7 +170,10 @@ function Checkout() {
           <hr />
 
           {cart.map((item) => (
-            <div key={item.id} className="d-flex justify-content-between">
+            <div
+              key={item.id}
+              className="d-flex justify-content-between"
+            >
               <span>{item.name} × {item.qty}</span>
               <span>₹{item.price * item.qty}</span>
             </div>
@@ -138,7 +182,18 @@ function Checkout() {
           <hr />
           <h5>Total: ₹{total}</h5>
 
-          <button className="btn btn-success me-2" onClick={downloadBill}>
+          <button
+            className="btn btn-success me-2"
+            onClick={placeOrder}
+            disabled={loading}
+          >
+            {loading ? "Placing Order..." : "Place Order"}
+          </button>
+
+          <button
+            className="btn btn-outline-primary me-2"
+            onClick={downloadBill}
+          >
             Download Bill
           </button>
 
@@ -153,5 +208,6 @@ function Checkout() {
     </div>
   );
 }
+
 
 export default Checkout;

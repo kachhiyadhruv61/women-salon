@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-/* Public Pages */
+/* ===== Public Pages ===== */
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Service from "./Pages/Service";
@@ -16,15 +16,12 @@ import Products from "./Pages/Products";
 import Checkout from "./Pages/Checkout";
 import Cart from "./Pages/Cart";
 import Payment from "./Pages/Payment";
-import Staffs from "./Pages/Staffs";
 
-
-/* Headers & Footer */
+/* ===== Headers & Footer ===== */
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 
-
-/* Admin */
+/* ===== Admin ===== */
 import AdminHeader from "./Admin/AdminHeader";
 import Dashboard from "./Admin/Dashboard";
 import Adminservice from "./Admin/Adminservice";
@@ -37,8 +34,9 @@ import Settings from "./Admin/Settings";
 import User from "./Admin/User";
 import Profile from "./Admin/Profile";
 import Orders from "./Admin/Orders";
+import ReportView from "./Admin/ReportView";
 
-/* User */
+/* ===== User ===== */
 import UserHeader from "./User/UserHeader";
 import UserDashboard from "./User/UserDashboard";
 import UserProfile from "./User/UserProfile";
@@ -46,11 +44,12 @@ import UserOrders from "./User/UserOrders";
 import Userpayment from "./User/Userpayment";
 import UserBooking from "./User/UserBooking";
 import UserAppoint from "./User/UserAppoint";
-
+import Addresses from "./User/Addresses";
 
 function App() {
   const [role, setRole] = useState("guest");
 
+  /* Load role from localStorage */
   useEffect(() => {
     const savedRole = localStorage.getItem("role");
     if (savedRole) {
@@ -60,33 +59,34 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* ===== HEADER (ONLY ONE) ===== */}
-      {role === "admin" && <AdminHeader setRole={setRole} />}
-      {role === "user" && <UserHeader setRole={setRole} />}
-      {role === "guest" && <Header />}
+      {/* ===== HEADER (ALWAYS ONE) ===== */}
+      {role === "admin" ? (
+        <AdminHeader setRole={setRole} />
+      ) : role === "user" ? (
+        <UserHeader setRole={setRole} />
+      ) : (
+        <Header />
+      )}
 
       <Routes>
         {/* ===== PUBLIC ROUTES ===== */}
         <Route path="/" element={<Home />} />
         <Route path="/service" element={<Service />} />
+        <Route path="/service/:id" element={<Servicedetails />} />
         <Route path="/about" element={<About />} />
-         <Route path="/staffs" element={<Staffs />} />
-          
-        
-        <Route path="/products" element={<Products />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/cart" element={<Cart />} />
-        
-        <Route path="/payment" element={<Payment />} />
         <Route path="/team" element={<Team />} />
         <Route path="/testimonial" element={<Testimonial />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/bookingform" element={<BookingForm />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
-         <Route path="/service/:id" element={<Servicedetails />} />
 
-        {/* ===== ADMIN ROUTES (PROTECTED) ===== */}
+        <Route path="/products" element={<Products />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment" element={<Payment />} />
+
+        {/* ===== ADMIN ROUTES ===== */}
         <Route
           path="/dashboard"
           element={role === "admin" ? <Dashboard /> : <Navigate to="/login" />}
@@ -124,6 +124,10 @@ function App() {
           element={role === "admin" ? <Reports /> : <Navigate to="/login" />}
         />
         <Route
+          path="/reports/:id"
+          element={role === "admin" ? <ReportView /> : <Navigate to="/login" />}
+        />
+        <Route
           path="/settings"
           element={role === "admin" ? <Settings /> : <Navigate to="/login" />}
         />
@@ -132,7 +136,7 @@ function App() {
           element={role === "admin" ? <Profile /> : <Navigate to="/login" />}
         />
 
-        {/* ===== USER ROUTES (PROTECTED) ===== */}
+        {/* ===== USER ROUTES ===== */}
         <Route
           path="/userdashboard"
           element={role === "user" ? <UserDashboard /> : <Navigate to="/login" />}
@@ -153,12 +157,16 @@ function App() {
           path="/userpayment"
           element={role === "user" ? <Userpayment /> : <Navigate to="/login" />}
         />
-           <Route
+        <Route
           path="/userappoint"
           element={role === "user" ? <UserAppoint /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/addresses"
+          element={role === "user" ? <Addresses /> : <Navigate to="/login" />}
+        />
 
-        {/* ===== INVALID URL ===== */}
+        {/* ===== INVALID ROUTE ===== */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
 

@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import CommonTable from "../Components/CommonTable";
+
+
 
 function Adminservice() {
   const [services, setServices] = useState([]);
+  useEffect(() => {
+  console.log("SERVICES STATE 👉", services);
+}, [services]);
   const [service, setService] = useState({
     name: "",
     duration: "",
@@ -28,29 +34,27 @@ function Adminservice() {
       return;
     }
 
-    const now = new Date().toISOString();
+    const now = new Date().toLocaleString();
 
     if (editingId) {
-      // Update existing service
-      const updatedServices = services.map((s) =>
-        s.id === editingId
-          ? { ...s, ...service, updatedDate: now }
-          : s
+      setServices((prev) =>
+        prev.map((s) =>
+          s.id === editingId ? { ...s, ...service, updatedDate: now } : s
+        )
       );
-      setServices(updatedServices);
       setEditingId(null);
     } else {
-      // Add new service
-      const newService = {
-        ...service,
-        id: Date.now(),
-        createdDate: now,
-        updatedDate: now,
-      };
-      setServices([...services, newService]);
+      setServices((prev) => [
+        ...prev,
+        {
+          ...service,
+          id: Date.now(),
+          createdDate: now,
+          updatedDate: now,
+        },
+      ]);
     }
 
-    // Reset form
     setService({
       name: "",
       duration: "",
@@ -67,14 +71,85 @@ function Adminservice() {
   };
 
   const handleDelete = (id) => {
-    setServices(services.filter((s) => s.id !== id));
+    setServices((prev) => prev.filter((s) => s.id !== id));
   };
+
+  /* ✅ CommonTable Columns */
+  const columns = [
+  {
+    header: "#",
+    Cell: ({ row }) => row.index + 1,
+  },
+  {
+    header: "Name",
+    accessorKey: "name",
+  },
+  {
+    header: "Duration",
+    accessorKey: "duration",
+  },
+  {
+    header: "Amount (₹)",
+    accessorKey: "amount",
+    Cell: ({ cell }) => `₹${cell.getValue()}`,
+  },
+  {
+    header: "Staff",
+    accessorKey: "staff",
+  },
+  {
+    header: "Fish Tank Therapy",
+    accessorKey: "fishTankTherapy",
+    Cell: ({ cell }) => (cell.getValue() ? "✅ Yes" : "❌ No"),
+  },
+  {
+    header: "Status",
+    accessorKey: "status",
+    Cell: ({ cell }) => (
+      <span
+        className={`badge ${
+          cell.getValue() === "active" ? "bg-success" : "bg-danger"
+        }`}
+      >
+        {cell.getValue()}
+      </span>
+    ),
+  },
+  {
+    header: "Created Date",
+    accessorKey: "createdDate",
+  },
+  {
+    header: "Updated Date",
+    accessorKey: "updatedDate",
+  },
+  {
+    header: "Actions",
+    Cell: ({ row }) => (
+      <>
+        <button
+          className="btn btn-sm btn-warning me-2"
+          onClick={() => handleEdit(row.original)}
+        >
+          Edit
+        </button>
+        <button
+          className="btn btn-sm btn-danger"
+          onClick={() => handleDelete(row.original.id)}
+        >
+          Delete
+        </button>
+      </>
+    ),
+  },
+];
+
 
   return (
     <div className="container mt-4">
       <h2>Admin Services Management 🛠️</h2>
 
-      {/* Add / Edit Form */}
+      {/* Form */}
       <form onSubmit={handleSubmit} className="mb-4 card p-3 shadow">
         <h4>{editingId ? "Edit Service" : "Add Service"}</h4>
 
@@ -146,61 +221,13 @@ function Adminservice() {
         </button>
       </form>
 
-      {/* Services List */}
-      <h4>All Services</h4>
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Duration</th>
-            <th>Amount (₹)</th>
-            <th>Staff</th>
-            <th>Fish Tank Therapy</th>
-            <th>Status</th>
-            <th>Created Date</th>
-            <th>Updated Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {services.length === 0 ? (
-            <tr>
-              <td colSpan="10" className="text-center">
-                No services added
-              </td>
-            </tr>
-          ) : (
-            services.map((s) => (
-              <tr key={s.id}>
-                <td>{s.id}</td>
-                <td>{s.name}</td>
-                <td>{s.duration}</td>
-                <td>₹{s.amount}</td>
-                <td>{s.staff}</td>
-                <td>{s.fishTankTherapy ? "✅ Yes" : "❌ No"}</td>
-                <td>{s.status}</td>
-                <td>{s.createdDate}</td>
-                <td>{s.updatedDate}</td>
-                <td>
-                  <button
-                    className="btn btn-sm btn-warning me-2"
-                    onClick={() => handleEdit(s)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => handleDelete(s.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+      {/* ✅ Common Table */}
+      <CommonTable
+        columns={columns}
+        data={services}
+        fileName="services"
+        showSelection={true}
+      />
     </div>
   );
 }

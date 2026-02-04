@@ -1,7 +1,13 @@
 import React, { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+
 import CommonTable from "./../Components/CommonTable";
 
+
+
 function Reports() {
+  const navigate = useNavigate();
+
   const reportsData = {
     users: 120,
     bookings: 85,
@@ -13,35 +19,41 @@ function Reports() {
     { id: 1, title: "Daily Booking Report", date: "2026-01-20" },
     { id: 2, title: "Monthly Revenue Report", date: "2026-01-01" },
     { id: 3, title: "Service Usage Report", date: "2025-12-30" },
+
+
+
   ];
 
   // 📊 Columns for CommonTable
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "id",
-        header: "#",
-      },
-      {
-        accessorKey: "title",
-        header: "Report Name",
-      },
-      {
-        accessorKey: "date",
-        header: "Date",
-      },
-      {
-        accessorKey: "action",
-        header: "Action",
-        Cell: () => (
-          <button className="btn btn-sm btn-primary">
-            View
-          </button>
-        ),
-      },
-    ],
-    []
-  );
+ const columns = useMemo(
+  () => [
+    {
+      accessorKey: "id",
+      header: "#",
+    },
+    {
+      accessorKey: "title",
+      header: "Report Name",
+    },
+    {
+      accessorKey: "date",
+      header: "Date",
+    },
+    {
+      header: "Action",
+      Cell: ({ row }) => (
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => navigate(`/reports/${row.original.id}`)}
+        >
+          View
+        </button>
+      ),
+    },
+  ],
+  [navigate]
+);
+
 
   return (
     <div className="container mt-4">

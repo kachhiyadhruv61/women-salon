@@ -34,7 +34,7 @@ function UserHeader({ setRole }) {
             <Link to="/userbooking" className="nav-item nav-link">Book Appointment</Link>
             <Link to="/service" className="nav-item nav-link">Services</Link>
             <Link to="/products" className="nav-item nav-link">Shop</Link>
-
+            
             <Link to="/userappoint" className="nav-item nav-link">My Appointments</Link>
             <Link to="/userorders" className="nav-item nav-link">My Orders</Link>
             <Link to="/cart" className="nav-item nav-link">🛒 Cart</Link>
@@ -52,7 +52,7 @@ function UserHeader({ setRole }) {
 
             <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <Link to="/profile" className="dropdown-item">My Profile</Link>
+                <Link to="/userprofile" className="dropdown-item">My Profile</Link>
               </li>
               <li>
                 <Link to="/addresses" className="dropdown-item">My Addresses</Link>

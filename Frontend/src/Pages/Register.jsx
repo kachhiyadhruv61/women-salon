@@ -13,37 +13,60 @@ const Register = () => {
     gender: "",
     address: "",
     pincode: "",
-    otp: ""
+     otp: "",          // email OTP
+  manualOtp: ""     // 🔥 new manual OTP
   });
 
   const [errors, setErrors] = useState({});
-  const [generatedOtp, setGeneratedOtp] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const sendOtp = () => {
-    if (!form.email) return alert("Enter email first");
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    setGeneratedOtp(otp.toString());
-    alert('Mock OTP: ${otp}');
-  };
+  const sendOtp = async () => {
+  if (!form.email) {
+    alert("Enter email first");
+    return;
+  }
 
-  const validate = () => {
-    let err = {};
-    if (!form.username) err.username = "Username required";
-    if (!form.email.includes("@")) err.email = "Invalid email";
-    if (!/^\d{10}$/.test(form.phone)) err.phone = "Phone must be 10 digits";
-    if (form.password.length < 6) err.password = "Min 6 characters";
-    if (!form.gender) err.gender = "Select gender";
-    if (!form.address) err.address = "Address required";
-    if (!/^\d{6}$/.test(form.pincode)) err.pincode = "Invalid pincode";
-    if (form.otp !== generatedOtp) err.otp = "Incorrect OTP";
+  const res = await fetch("http://localhost:5000/api/send-otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email: form.email })
+  });
 
-    setErrors(err);
-    return Object.keys(err).length === 0;
-  };
+  const data = await res.json();
+  if (data.success) {
+    alert("OTP sent to your email 📧");
+  }
+};
+const validate = async () => {
+  let err = {};
+
+  if (!form.username) err.username = "Username required";
+
+  /* EMAIL OTP VERIFY (backend) */
+  const res = await fetch("http://localhost:5000/api/verify-otp", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ otp: form.otp })
+  });
+
+  const data = await res.json();
+  if (!data.success) err.otp = "Incorrect email OTP";
+
+  /* 🔥 MANUAL OTP LOGIC */
+  if (form.role === "staff") {
+    if (form.manualOtp !== "STAFF2024") {
+      err.manualOtp = "Invalid staff OTP";
+    }
+  }
+
+  setErrors(err);
+  return Object.keys(err).length === 0;
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -103,6 +126,7 @@ const Register = () => {
           <select name="role" className="form-control" onChange={handleChange}>
             <option value="user">User</option>
             <option value="admin">Admin</option>
+            <option value="staff">Staff</option>
           </select>
         </div>
 
@@ -136,6 +160,22 @@ const Register = () => {
           <input type="text" name="pincode" className="form-control" onChange={handleChange} />
           <small className="error">{errors.pincode}</small>
         </div>
+
+        {/* Manual OTP */}
+<div className="form-group">
+  <label>
+    <i className="bi bi-key"></i> Manual OTP / Staff Code
+  </label>
+  <input
+    type="text"
+    name="manualOtp"
+    className="form-control"
+    placeholder="Enter manual OTP"
+    onChange={handleChange}
+  />
+  <small className="error">{errors.manualOtp}</small>
+</div>
+
 
         <button type="submit" className="btn btn-primary w-100">
           Register
