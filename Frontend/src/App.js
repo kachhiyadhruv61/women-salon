@@ -46,6 +46,9 @@ import UserBooking from "./User/UserBooking";
 import UserAppoint from "./User/UserAppoint";
 import Addresses from "./User/Addresses";
 
+import StaffDashboard from "./Components/Staff/StaffDashboard";
+
+
 function App() {
   const [role, setRole] = useState("guest");
 
@@ -165,7 +168,7 @@ function App() {
           path="/addresses"
           element={role === "user" ? <Addresses /> : <Navigate to="/login" />}
         />
-
+        <Route path="/staff/dashboard"element={<StaffDashboard />}/>
         {/* ===== INVALID ROUTE ===== */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

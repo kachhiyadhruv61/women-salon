@@ -237,6 +237,10 @@
 .hero-header {
     background: url(../img/hero-bg.jpg) top left no-repeat;
     background-size: contain;
+      display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 @media (min-width: 992px) {
@@ -260,6 +264,7 @@
         padding-left: calc(((100% - 1320px) / 2) + .75rem);
     }
 }
+
 
 .header-carousel .owl-nav {
     position: absolute;
@@ -293,6 +298,9 @@
 .page-header {
     background: url(../img/page-header.jpg) center center no-repeat;
     background-size: contain;
+      background-position: center;
+  background-repeat: no-repeat;
+
 }
 /*** About ***/
 /* ABOUT BANNER */
@@ -554,7 +562,7 @@
     margin-bottom: 6px;
     padding: 0;
     text-align: left;
-    color: #c8e6c9;              /* light organic green */
+    color: #ffffff;              /* light organic green */
     font-weight: 500;
     text-transform: capitalize;
     transition: all .3s ease;
