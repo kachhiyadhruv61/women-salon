@@ -5,8 +5,10 @@ import "./Login.css";
 const Login = ({ setRole }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  console.log("USERNAME 👉", username);
+   console.log("PASSWORD 👉", password);
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -28,11 +30,18 @@ const Login = ({ setRole }) => {
       setRole("user");
       navigate("/userdashboard");
     } 
+else if (username === "staff" && password === "staff123456") {
+      localStorage.setItem("role", "staff");
+      setRole("staff");
+      navigate("/staff/dashboard");
+    } 
 
-    else {
-      setError("Invalid username or password");
-    }
+    
+   else{
+    setError("Invalid username or password");
+   }
   };
+  
 
   return (
     <div className="login-container">
@@ -74,6 +83,8 @@ const Login = ({ setRole }) => {
         <p className="note">
           Admin → admin / admin123 <br />
           User → user / user123
+           Staff → staff / staff123456
+          
         </p>
       </form>
     </div>

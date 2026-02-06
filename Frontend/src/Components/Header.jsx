@@ -6,7 +6,7 @@ function Navbar() {
       <nav className="navbar navbar-expand-lg navbar-light p-0">
         <Link to="/" className="navbar-brand bg-primary py-4 px-5 me-0">
           <h1 className="mb-0">
-            <i className="bi bi-scissors"></i> A <sup>2</sup>
+            <i className="bi bi-flower1"></i> A <sup>2</sup>
           </h1>
         </Link>
 
