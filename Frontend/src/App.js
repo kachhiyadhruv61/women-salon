@@ -10,6 +10,7 @@ import Testimonial from "./Pages/Testimonial";
 import Contact from "./Pages/Contact";
 import BookingForm from "./Pages/BookingForm";
 import Login from "./Pages/Login";
+import Gallery from "./Pages/Gallery";
 import Servicedetails from "./Pages/Servicedetails";
 import Register from "./Pages/Register";
 import Products from "./Pages/Products";
@@ -83,7 +84,7 @@ function App() {
         <Route path="/bookingform" element={<BookingForm />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
-
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />

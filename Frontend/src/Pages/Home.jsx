@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Services from "./Service";
 import About from "./About";
+import Gallery from "./Gallery";
 import Testimonial from "./Testimonial";
 import Team from "./Team";
 
@@ -74,6 +75,7 @@ function Home() {
         </div>
          <Services/>
             <About/>
+            <Gallery/>
             <Team/>
             <Testimonial/>
             

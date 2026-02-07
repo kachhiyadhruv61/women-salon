@@ -38,6 +38,7 @@ function Navbar() {
                 Pages
               </span>
               <div className="dropdown-menu bg-light mt-2">
+                <Link to="/gallery" className="dropdown-item">Gallery</Link>
                 <Link to="/team" className="dropdown-item">Our Team</Link>
                 <Link to="/testimonial" className="dropdown-item">Testimonial</Link>
               </div>
