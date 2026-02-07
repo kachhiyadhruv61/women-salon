@@ -8,12 +8,12 @@ function Gallery() {
     "/img/salon4.jpg",
     "/img/salon5.jpg",
     "/img/salon6.jpg",
-     "/img/salon7.jpg",
-      "/img/salon8.jpg",
-       "/img/salon9.jpg",
-        "/img/salon10.jpg",
-         "/img/salon11.jpg",
-          "/img/salon12.jpg",
+    "/img/salon7.jpg",
+    "/img/salon8.jpg",
+    "/img/salon9.jpg",
+    "/img/salon10.jpg",
+    "/img/salon11.jpg",
+    "/img/salon12.jpg",
   ];
 
   const farmhouseImages = [
@@ -31,6 +31,8 @@ function Gallery() {
     "/img/farm12.avif",
     "/img/farm13.jpg",
     "/img/farm14.webp",
+    "/img/salon15.jpg",
+    "/img/salon16.jpg",
   ];
 
   const [activeTab, setActiveTab] = useState("salon");
