@@ -234,13 +234,12 @@
 
 
 /*** Hero Header ***/
-.hero-header {
+
+.hero-section {
     background: url(../img/hero-bg.jpg) top left no-repeat;
     background-size: contain;
-      display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+    position:relative;
+ 
 }
 
 @media (min-width: 992px) {
@@ -401,6 +400,8 @@
 
 
 /*** Service ***/
+
+
 @media (max-width: 768px) {
     .service .service-item {
         border: none !important;

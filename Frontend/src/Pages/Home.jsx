@@ -12,8 +12,10 @@ import Team from "./Team";
 
 function Home() {
   return (
-    <div className="container-fluid p-0 hero-header mb-5"   >
-      <div className="container p-0">
+  <div className="herome position-relative">
+    <div className="container-fluid p-0 mb-5" >
+      <div className="">
+        <div className="hero-section">
         <div className="row g-0 align-items-center">
           <div className="col-lg-6 hero-header-text py-5">
             <div className="py-5 px-3 ps-lg-0">
@@ -73,6 +75,7 @@ function Home() {
            
           </div>
         </div>
+        </div>
          <Services/>
             <About/>
             <Gallery/>
@@ -81,7 +84,7 @@ function Home() {
             
       </div>
     </div>
-    
+  </div> 
   );
 }
 
