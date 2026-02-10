@@ -348,7 +348,20 @@
 .gallery-tabs .nav-link.active {
   background: #7cb342; /* Organic green */
   color: #fff;
+}.back-link {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: #d63384;
+  text-decoration: none;
 }
+
+.gallery-desc {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  color: #555;
+}
+
+
 
 /* Gallery Card */
 .gallery-card {
@@ -392,6 +405,7 @@
   padding: 8px 20px;
   border-radius: 30px;
 }
+
 
 /* Modal Fix */
 .modal {
@@ -642,6 +656,7 @@
     letter-spacing: 1px;
     box-shadow: none;
 }
+
 
 /* Arrow icon */
 .footer .btn.btn-link::before {

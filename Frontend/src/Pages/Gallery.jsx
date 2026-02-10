@@ -16,7 +16,7 @@ function Gallery() {
     "/img/salon12.jpg",
   ];
 
-  const farmhouseImages = [
+  const naturalPlaceImages = [
     "/img/farm1.jpg",
     "/img/farm2.jpg",
     "/img/farm3.jpg",
@@ -31,14 +31,15 @@ function Gallery() {
     "/img/farm12.avif",
     "/img/farm13.jpg",
     "/img/farm14.webp",
-    "/img/salon15.jpg",
-    "/img/salon16.jpg",
+    "/img/farm15.jpg",
+    "/img/farm16.jpg",
   ];
 
   const [activeTab, setActiveTab] = useState("salon");
   const [selectedImg, setSelectedImg] = useState(null);
 
-  const images = activeTab === "salon" ? salonImages : farmhouseImages;
+  const images =
+    activeTab === "salon" ? salonImages : naturalPlaceImages;
 
   return (
     <div className="container py-5">
@@ -46,7 +47,7 @@ function Gallery() {
       <div className="text-center mb-4">
         <h2 className="section-title">Our Space & Experience</h2>
         <p className="text-muted">
-          A glimpse of our salon elegance and peaceful farmhouse retreat
+          A glimpse of our salon elegance and peaceful natural surroundings
         </p>
       </div>
 
@@ -62,10 +63,12 @@ function Gallery() {
         </li>
         <li className="nav-item">
           <button
-            className={`nav-link ${activeTab === "farmhouse" ? "active" : ""}`}
-            onClick={() => setActiveTab("farmhouse")}
+            className={`nav-link ${
+              activeTab === "natural" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("natural")}
           >
-            Farmhouse
+            Natural Place
           </button>
         </li>
       </ul>
@@ -104,7 +107,11 @@ function Gallery() {
                 className="btn-close ms-auto p-3"
                 onClick={() => setSelectedImg(null)}
               ></button>
-              <img src={selectedImg} alt="preview" className="img-fluid rounded" />
+              <img
+                src={selectedImg}
+                alt="preview"
+                className="img-fluid rounded"
+              />
             </div>
           </div>
         </div>

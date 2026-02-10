@@ -18,6 +18,8 @@ import Checkout from "./Pages/Checkout";
 import Cart from "./Pages/Cart";
 import Payment from "./Pages/Payment";
 
+
+
 /* ===== Headers & Footer ===== */
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
@@ -85,6 +87,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
         <Route path="/gallery" element={<Gallery />} />
+        
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
