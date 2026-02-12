@@ -1,6 +1,16 @@
 import { useState } from "react";
 
 function BookingForm({ onBookingSubmit }) {
+
+  // 💰 Service Price Mapping
+  const servicePrices = {
+    Facial: 1000,
+    Haircut: 500,
+    "Bridal Package": 10000,
+    Waxing: 800,
+    Mehendi: 3000,
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -8,38 +18,73 @@ function BookingForm({ onBookingSubmit }) {
     location: "",
     date: "",
     message: "",
+    advance: "",
   });
 
+  const [remainingAmount, setRemainingAmount] = useState(0);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+
+    // 💰 Remaining calculation when advance entered
+    if (name === "advance" && formData.service) {
+      const total = servicePrices[formData.service] || 0;
+      setRemainingAmount(total - Number(value));
+    }
+
+    // 💰 When service changes
+    if (name === "service") {
+      const total = servicePrices[value] || 0;
+      const advance = Number(formData.advance) || 0;
+      setRemainingAmount(total - advance);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onBookingSubmit(formData);
+    const totalAmount = servicePrices[formData.service] || 0;
 
-  // 📲 User WhatsApp Number (India +91 auto add)
-  const userPhone = formData.phone.startsWith("91")
-    ? formData.phone
-    : "91" + formData.phone;
+    if (Number(formData.advance) <= 0) {
+      alert("Please pay advance amount to confirm booking");
+      return;
+    }
 
-  // 📲 WhatsApp Message
-  const whatsappMsg = `Hello ${formData.name} 👋
+    onBookingSubmit({
+      ...formData,
+      totalAmount,
+      remainingAmount,
+      status: "Confirmed",
+    });
 
-Your booking request is received ✅
+    // 📲 WhatsApp Number
+    const userPhone = formData.phone.startsWith("91")
+      ? formData.phone
+      : "91" + formData.phone;
+
+    // 📲 WhatsApp Confirmation Message
+    const whatsappMsg = `Hello ${formData.name} 👋
+
+Your booking is CONFIRMED ✅
 
 Service: ${formData.service}
 Location: ${formData.location}
 Date: ${formData.date}
 
-Our team will contact you soon 🌸`;
+Total Amount: ₹${totalAmount}
+Advance Paid: ₹${formData.advance}
+Remaining Amount: ₹${remainingAmount}
 
-  window.open(
-    `https://wa.me/${userPhone}?text=${encodeURIComponent(whatsappMsg)}`,
-    "_blank"
-  );
+Please pay remaining amount at the time of service 🌸`;
 
+    window.open(
+      `https://wa.me/${userPhone}?text=${encodeURIComponent(whatsappMsg)}`,
+      "_blank"
+    );
+
+    // Reset Form
     setFormData({
       name: "",
       phone: "",
@@ -47,7 +92,10 @@ Our team will contact you soon 🌸`;
       location: "",
       date: "",
       message: "",
+      advance: "",
     });
+
+    setRemainingAmount(0);
   };
 
   return (
@@ -55,10 +103,31 @@ Our team will contact you soon 🌸`;
       <h4 className="mb-3">Book Your Service 💆‍♀️</h4>
 
       <form onSubmit={handleSubmit}>
-        <input className="form-control mb-2" name="name" placeholder="Your Name" onChange={handleChange} required />
-        <input className="form-control mb-2" name="phone" placeholder="Mobile Number" onChange={handleChange} required />
+        <input
+          className="form-control mb-2"
+          name="name"
+          placeholder="Your Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
 
-        <select className="form-control mb-2" name="service" onChange={handleChange} required>
+        <input
+          className="form-control mb-2"
+          name="phone"
+          placeholder="Mobile Number"
+          value={formData.phone}
+          onChange={handleChange}
+          required
+        />
+
+        <select
+          className="form-control mb-2"
+          name="service"
+          value={formData.service}
+          onChange={handleChange}
+          required
+        >
           <option value="">Select Service</option>
           <option>Facial</option>
           <option>Haircut</option>
@@ -67,18 +136,58 @@ Our team will contact you soon 🌸`;
           <option>Mehendi</option>
         </select>
 
-        <select className="form-control mb-2" name="location" onChange={handleChange} required>
+        <select
+          className="form-control mb-2"
+          name="location"
+          value={formData.location}
+          onChange={handleChange}
+          required
+        >
           <option value="">Service Location</option>
           <option>At Salon</option>
           <option>Natural Place</option>
           <option>At Home</option>
         </select>
 
-        <input type="date" className="form-control mb-2" name="date" onChange={handleChange} required />
+        <input
+          type="date"
+          className="form-control mb-2"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+          required
+        />
 
-        <textarea className="form-control mb-3" name="message" placeholder="Any message (optional)" onChange={handleChange}></textarea>
+        {/* 💰 Advance Payment Input */}
+        <input
+          type="number"
+          className="form-control mb-2"
+          name="advance"
+          placeholder="Enter Advance Amount"
+          value={formData.advance}
+          onChange={handleChange}
+          required
+        />
 
-        <button className="btn btn-success w-100">Confirm Booking</button>
+        {/* 💰 Remaining Display */}
+        {formData.service && (
+          <div className="alert alert-info">
+            Total: ₹{servicePrices[formData.service]} <br />
+            Remaining: ₹{remainingAmount}
+          </div>
+        )}
+
+        <textarea
+          className="form-control mb-3"
+          name="message"
+          placeholder="Any message (optional)"
+          value={formData.message}
+          onChange={handleChange}
+        ></textarea>
+
+        <button className="btn btn-success w-100">
+          Confirm Booking
+        </button>
       </form>
     </div>
   );
