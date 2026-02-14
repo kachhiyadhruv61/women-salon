@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../Pages/CartContext";
+
 
 function UserHeader({ setRole }) {
   const navigate = useNavigate();
+  const { cart } = useCart();
+
 
   const logout = () => {
     localStorage.removeItem("role");
@@ -32,12 +36,22 @@ function UserHeader({ setRole }) {
           <div className="navbar-nav mx-auto">
             <Link to="/userdashboard" className="nav-item nav-link">Dashboard</Link>
             <Link to="/userbooking" className="nav-item nav-link">Book Appointment</Link>
-            <Link to="/service" className="nav-item nav-link">Services</Link>
-            <Link to="/products" className="nav-item nav-link">Shop</Link>
+            <Link to="/userservice" className="nav-item nav-link">Services</Link>
+            <Link to="/usershop" className="nav-item nav-link">Shop</Link>
             
             <Link to="/userappoint" className="nav-item nav-link">My Appointments</Link>
             <Link to="/userorders" className="nav-item nav-link">My Orders</Link>
-            <Link to="/cart" className="nav-item nav-link">🛒 Cart</Link>
+            <Link to="/cart" className="nav-item nav-link position-relative">
+  🛒 Cart
+  <span
+    className="badge bg-danger position-absolute top-0 start-100 translate-middle"
+    style={{ fontSize: "0.7rem" }}
+  >
+    {cart.reduce((sum, item) => sum + item.qty, 0)}
+  </span>
+</Link>
+
+
           </div>
 
           {/* USER DROPDOWN */}

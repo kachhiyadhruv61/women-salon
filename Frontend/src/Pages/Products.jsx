@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 
-
 function Products() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [openProductId, setOpenProductId] = useState(null);
   const [qty, setQty] = useState(1);
-  const navigate = useNavigate();
+  const { addToCart } = useCart();
+   const navigate = useNavigate();
+
 
   const products = [
   {
@@ -146,25 +147,25 @@ function Products() {
   },
 ];
 
-  const { addToCart } = useCart();
-const handleAddToCart = () => {
-  addToCart(selectedProduct, qty);
-  navigate("/cart");
-};
+  const handleAddToCart = (product) => {
+    addToCart(product, qty);
+    alert("Product added to cart ✅");
+  };
 
-const buyNow = () => {
-  addToCart(selectedProduct, qty);
+ const buyNow = (product) => {
+  addToCart(product, qty);
   navigate("/checkout");
 };
+
 
   return (
     <div className="container py-5">
       <h1 className="text-center mb-4">Our Organic Products 🌿</h1>
 
-      <div className="row g-4">
+       <div className="row">
         {products.map((product) => (
-          <div className="col-md-4" key={product.id}>
-            <div className="card h-100 text-center p-3">
+          <div className="col-md-4 mb-4" key={product.id}>
+            <div className="card p-3 text-center">
               <img
                 src={product.img}
                 alt={product.name}
@@ -176,73 +177,62 @@ const buyNow = () => {
               <h6 className="text-success">₹{product.price}</h6>
 
               <button
-                className="btn btn-primary mt-2"
-                onClick={() => {
-                  setSelectedProduct(product);
-                  setQty(1);
-                }}
+                className="btn btn-primary"
+                onClick={() =>
+                  setOpenProductId(
+                    openProductId === product.id ? null : product.id
+                  )
+                }
               >
-                View Details
+                {openProductId === product.id
+                  ? "Hide Details"
+                  : "View Details"}
               </button>
             </div>
+
+            {/* DETAILS SECTION */}
+            {openProductId === product.id && (
+              <div className="border p-3 mt-2 bg-light">
+                <p>{product.description}</p>
+
+                <div className="d-flex align-items-center mb-3">
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setQty(Math.max(1, qty - 1))}
+                  >
+                    -
+                  </button>
+                  <span className="mx-3">{qty}</span>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setQty(Math.min(10, qty + 1))}
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* ✅ NO REDIRECT */}
+                <div className="d-flex gap-3 flex-wrap">
+  <button
+    className="btn btn-warning"
+    onClick={() => handleAddToCart(product)}
+  >
+    Add to Cart
+  </button>
+
+  <button
+    className="btn btn-success"
+    onClick={() => buyNow(product)}
+  >
+    Buy Now
+  </button>
+</div>
+
+              </div>
+            )}
           </div>
         ))}
       </div>
-
-      {/* 🔽 DETAILS */}
-      {selectedProduct && (
-        <div className="mt-5 p-4 border rounded bg-light">
-          <div className="row">
-            <div className="col-md-4 text-center">
-              <img
-                src={selectedProduct.img}
-                alt={selectedProduct.name}
-                className="img-fluid"
-              />
-            </div>
-
-            <div className="col-md-8">
-              <h2>{selectedProduct.name}</h2>
-              <h4 className="text-success">₹{selectedProduct.price}</h4>
-              <p>{selectedProduct.description}</p>
-
-              {/* Quantity */}
-              <div className="d-flex align-items-center mb-3">
-                <button
-                  className="btn btn-secondary"
-                  disabled={qty === 1}
-                  onClick={() => setQty(qty - 1)}
-                >
-                  -
-                </button>
-                <span className="mx-3">{qty}</span>
-                <button
-                  className="btn btn-secondary"
-                  disabled={qty === 10}
-                  onClick={() => setQty(qty + 1)}
-                >
-                  +
-                </button>
-              </div>
-
-            <button className="btn btn-warning me-2" onClick={handleAddToCart}>
-  Add to Cart
-</button>
-
-<button className="btn btn-success me-2" onClick={buyNow}>
-  Buy Now
-</button>
-
-              <button
-                className="btn btn-outline-danger"
-                onClick={() => setSelectedProduct(null)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -130,10 +130,27 @@ Please pay remaining amount at the time of service 🌸`;
         >
           <option value="">Select Service</option>
           <option>Facial</option>
+          <option>Gold Facial</option>
+          <option>Organic Cleanup</option>
           <option>Haircut</option>
+          <option>Hair Spa</option>
           <option>Bridal Package</option>
-          <option>Waxing</option>
-          <option>Mehendi</option>
+          <option>Basic Bridal Package</option>
+          <option>Premium Bridal Package</option>
+          <option>Luxury Organic Bridal Package</option>
+          <option>Full Arms Waxing</option>
+          <option>Full Legs Waxing</option>
+          <option>Basic Mehendi</option>
+          <option>Bridal Mehendi</option>
+          <option>Arabic Mehendi</option>
+          <option>Threading</option>
+          <option>Eyebrow Threading</option>
+          <option>Upper Lip Threading</option>
+          <option>Classic Manicure</option>
+          <option>Spa Pedicure</option>
+          <option>Classic Pedicure</option>
+          <option>Fish Tank Therapy</option>
+
         </select>
 
         <select

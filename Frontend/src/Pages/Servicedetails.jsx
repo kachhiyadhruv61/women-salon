@@ -1,9 +1,13 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 
+
+
 function Servicedetails() {
   const { id } = useParams();
   const [location, setLocation] = useState("salon");
+
+
 
   const servicesData = [
     /* ================= FACIAL ================= */
@@ -33,9 +37,9 @@ function Servicedetails() {
           name: "Gold Facial",
           details: "Premium glow facial with organic products.",
           locationDetails: {
-            salon: { price: 1500, time: "60 mins", staff: ["Neha"] },
+            salon: { price: 1000, time: "60 mins", staff: ["Neha"] },
             natural: { price: 2000, time: "75 mins", staff: ["Neha"] },
-            home: { price: 2300, time: "90 mins", staff: [] },
+            home: { price: 1300, time: "90 mins", staff: [] },
               products: [{ name: "Gold Facial Kit", price: 899 }],
 
           },
@@ -278,6 +282,17 @@ function Servicedetails() {
 
           },
         },
+        {
+          name: "Half Arms Waxing",
+          details: "Smooth waxing for sensitive skin.",
+          locationDetails: {
+            salon: { price: 200, time: "30 mins", staff: ["Diya"] },
+            natural: { price: 350, time: "40 mins", staff: ["Diya"] },
+            home: { price: 390, time: "45 mins", staff: [] },
+              products: [{ name: "Post Wax Lotion", price: 199 }],
+
+          },
+        },
          {
           name: " Full Legs Waxing",
           details: "Gentle waxing suitable for sensitive skin.",
@@ -286,6 +301,28 @@ function Servicedetails() {
             natural: { price: 550, time: "40 mins", staff: ["Diya"] },
             home: { price: 700, time: "45 mins", staff: [] },
              products: [{ name: "Aloe Cooling Gel", price: 249 }],
+
+          },
+        },
+         {
+          name: "Half Legs Waxing",
+          details: "Smooth waxing for sensitive skin.",
+          locationDetails: {
+            salon: { price: 200, time: "30 mins", staff: ["Diya"] },
+            natural: { price: 350, time: "40 mins", staff: ["Diya"] },
+            home: { price: 390, time: "45 mins", staff: [] },
+              products: [{ name: "Post Wax Lotion", price: 199 }],
+
+          },
+        },
+         {
+          name: "UnderArms Waxing",
+          details: "Smooth waxing for sensitive skin.",
+          locationDetails: {
+            salon: { price: 100, time: "20 mins", staff: ["Diya"] },
+            natural: { price: 150, time: "30 mins", staff: ["Diya"] },
+            home: { price: 200, time: "20 mins", staff: [] },
+              products: [{ name: "Post Wax Lotion", price: 199 }],
 
           },
         },
@@ -508,86 +545,78 @@ function Servicedetails() {
         ))}
       </div>
 
-      {category.services.map((service, i) => {
+     {category.services.map((service, i) => {
   const data = service.locationDetails[location];
   const staffAvailable = data.staff && data.staff.length > 0;
 
-  return (
-    <div key={i} className="card p-4 mb-4 shadow-sm">
-<h3>{service.name}</h3>
-<p>{service.details}</p>
+  return ( 
+  <div 
+  key={i} 
+  className="card p-4 mb-4 shadow-sm">
+     <h3>{service.name}</h3> 
+     <p>{service.details}</p> 
+     {service.shapes && ( 
+      <> 
+      <h6 className="mt-3">✂️ Available Hair Cut Shapes</h6>
+       <ul> {service.shapes.map((shape, i) => ( <li key={i}>{shape}</li> ))} 
+       </ul>
+        </>
+         )}
+       {service.includes && ( 
+        <> 
+        <h6 className="mt-3 text-primary">🎁 Bridal Package Includes</h6> 
+        <ul className="list-unstyled">
+        {service.includes.map((item, i) => 
+        ( <li 
+          key={i} className="mb-1">✅ {item}
+          </li>
+          ))} 
+          </ul> 
+          </> 
+          )} 
+          {service.packageTypes && ( 
+          <> 
+          <h5 className="mt-4">💍 Bridal Package Options</h5> 
+          {service.packageTypes.map((pkg, i) => 
+          (
+           <div 
+           key={i} className="border rounded p-3 mb-3"> 
+           <h6>
+            {pkg.type}</h6> 
+            <p><strong>{pkg.priceRange}</strong></p> 
+            <ul> {pkg.includes.map((item, j) => ( 
+              <li key={j}>{item}
+              </li> 
+              ))} 
+              </ul> 
+              </div> 
+              ))} 
+              </> 
+              )} 
+              {service.locationDetails.products && service.locationDetails.products.length > 0 && ( 
+                <div className="mt-3"> 
+                <h6 className="text-success">🧴 Products Used</h6> 
+                <ul> 
+                  {service.locationDetails.products.map((p, i) => ( 
+                    <li key={i}> {p.name} – ₹{p.price} </li> 
+                  ))} 
+                  </ul> 
+                  </div> 
+                  )}, 
+                  <p><strong>⏱ Time:</strong> {data.time}</p> 
+                  <p><strong>💰 Price:</strong> ₹{data.price}</p> 
+                  <p><strong>👩‍💼 Staff:</strong> {staffAvailable ? data.staff.join(", ") : "Not Available"}</p> 
+                  {data.note && <p className="text-success">🌿 {data.note}</p>} 
+                  {staffAvailable ? ( 
+                    <Link to="/register" className="btn btn-success btn-sm mt-2"> Register & Book Now </Link> ) 
+                    : ( <p className="text-danger mt-2">❌ Not available at this location</p> 
 
-            {service.shapes && (
-  <>
-    <h6 className="mt-3">✂️ Available Hair Cut Shapes</h6>
-    <ul>
-      {service.shapes.map((shape, i) => (
-        <li key={i}>{shape}</li>
-      ))}
-    </ul>
-  </>
-)}
+                    )} 
+                    </div> ); 
+                    })} 
+                    </div> 
+                    );
+                   } 
+ export default Servicedetails;
 
-          {service.includes && (
-  <>
-    <h6 className="mt-3 text-primary">🎁 Bridal Package Includes</h6>
-    <ul className="list-unstyled">
-      {service.includes.map((item, i) => (
-        <li key={i} className="mb-1">✅ {item}</li>
-      ))}
-    </ul>
-  </>
-)}
-{service.packageTypes && (
-  <>
-    <h5 className="mt-4">💍 Bridal Package Options</h5>
-    {service.packageTypes.map((pkg, i) => (
-      <div key={i} className="border rounded p-3 mb-3">
-        <h6>{pkg.type}</h6>
-        <p><strong>{pkg.priceRange}</strong></p>
-        <ul>
-          {pkg.includes.map((item, j) => (
-            <li key={j}>{item}</li>
-          ))}
-        </ul>
-      </div>
-    ))}
-  </>
-)}
- {service.locationDetails.products &&
- service.locationDetails.products.length > 0 && (
-  <div className="mt-3">
-    <h6 className="text-success">🧴 Products Used</h6>
-    <ul>
-      {service.locationDetails.products.map((p, i) => (
-        <li key={i}>
-          {p.name} – ₹{p.price}
-        </li>
-      ))}
-    </ul>
-  </div>
-)},
-
-            <p><strong>⏱ Time:</strong> {data.time}</p>
-            <p><strong>💰 Price:</strong> ₹{data.price}</p>
-            <p><strong>👩‍💼 Staff:</strong> {staffAvailable ? data.staff.join(", ") : "Not Available"}</p>
-          
-            {data.note && <p className="text-success">🌿 {data.note}</p>}
-
-
-            {staffAvailable ? (
-              <Link to="/register" className="btn btn-success btn-sm mt-2">
-                Register & Book Now
-              </Link>
-            ) : (
-              <p className="text-danger mt-2">❌ Not available at this location</p>
-            )}
-            
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-export default Servicedetails;
+  

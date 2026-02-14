@@ -46,6 +46,8 @@ import UserProfile from "./User/UserProfile";
 import UserOrders from "./User/UserOrders";
 import Userpayment from "./User/Userpayment";
 import UserBooking from "./User/UserBooking";
+import UserShop from "./User/UserShop";
+import UserService from "./User/UserService";
 import UserAppoint from "./User/UserAppoint";
 import Addresses from "./User/Addresses";
 
@@ -159,6 +161,14 @@ function App() {
         <Route
           path="/userbooking"
           element={role === "user" ? <UserBooking /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/usershop"
+          element={role === "user" ? <UserShop /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/userservice"
+          element={role === "user" ? <UserService /> : <Navigate to="/login" />}
         />
         <Route
           path="/userpayment"
