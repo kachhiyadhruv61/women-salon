@@ -16,21 +16,34 @@ function Products() {
     name: "Herbal Face Pack",
     price: 499,
     img: "/img/facepack.png",
-    short: "100% organic herbal face pack",
+    short: "100% organic herbal face pack, Removes tan, improves glow and made from pure organic ingredients.",
+    suggestedFor: ["Facial", "Cleanup"],
+
   },
+  {
+    id: 14,
+    name: "Herbal Face Wash",
+    price: 249,
+    img: "/img/facewash.png",
+    short: "100% organic herbal face wash, Removes tan, improves glow and made from pure organic ingredients.",
+    suggestedFor: ["Facial", "Cleanup"],
+  },
+
   {
     id: 2,
     name: "Organic Hair Oil",
     price: 399,
     img: "/img/hairoil.png",
-    short: "Strengthens hair naturally",
+    short: "Strengthens hair naturally, Reduces hair fall and nourishes scalp using herbal oils.",
+    suggestedFor: ["Hair Spa"],
   },
   {
     id: 3,
     name: "Natural Skin Cream",
     price: 599,
     img: "/img/skincream.png",
-    short: "Chemical free skin cream",
+    short: "Chemical free skin cream, Deep hydration and long lasting glow without side effects.",
+    suggestedFor: ["Facial", "Threading"],
   },
 
   // 🌸 MANICURE
@@ -39,7 +52,8 @@ function Products() {
     name: "Organic Cuticle Oil",
     price: 299,
     img: "/img/cuticle-oil.png",
-    short: "Nourishes nails & cuticles",
+    short: "Nourishes nails & cuticles, Strengthens nails, softens cuticles and improves nail health.",
+    suggestedFor: ["Manicure"],
   },
 
   // 🌸 PEDICURE
@@ -48,42 +62,45 @@ function Products() {
     name: "Herbal Foot Cream",
     price: 349,
     img: "/img/footcream.png",
-    short: "Deep moisture for heels",
+    short: "Deep moisture for heels, Repairs cracked heels and keeps feet soft & fresh.",
+    suggestedFor: ["Pedicure"],
+
   },
   {
     id: 6,
     name: "Natural Foot Scrub",
     price: 399,
     img: "/img/footscrub.png",
-    short: "Removes dead skin",
+    short: "Removes dead skin, Gently exfoliates feet using walnut & herbal extracts.",
+    suggestedFor: ["Pedicure"],
   },
   {
     id: 13,
     name: "Herbal Foot Soak Salt",
     price: 299,
     img: "/img/footsoak.png",
-    short: "Relaxing foot soak for pedicure",
+    short: "Relaxing foot soak for pedicure, Relieves tired feet, removes odor and softens skin before pedicure.",
   },
   {
     id: 12,
     name: "Crack Heel Repair Balm",
     price: 349,
     img: "/img/heelbalm.png",
-    short: "Deep repair cracked heels",
+    short: "Deep repair cracked heels, Heals cracked heels naturally with shea butter & neem oil.",
   },
   {
     id: 11,
     name: "Foot Relaxation Essential Oil",
     price: 399,
     img: "/img/foot-oil.png",
-    short: "Foot massage oil",
+    short: "Foot massage oil, Improves blood circulation and relaxes muscles after pedicure.",
   },
   {
     id: 10,
     name: "Anti-Fungal Foot Spray",
     price: 279,
     img: "/img/foot-spray.png",
-    short: "Keeps feet fresh & hygienic",
+    short: "Keeps feet fresh & hygienic, Prevents fungal infection and keeps feet odor-free.",
   },
 
   // 🌸 THREADING
@@ -92,7 +109,8 @@ function Products() {
     name: "Aloe Vera Soothing Gel",
     price: 199,
     img: "/img/aloevera.png",
-    short: "Soothes skin after threading",
+    short: "Soothes skin after threading, Reduces redness and calms sensitive skin naturally.",
+    suggestedFor: ["Threading"],
   },
 
   // 🌸 WAXING
@@ -101,7 +119,8 @@ function Products() {
     name: "Herbal Wax Powder",
     price: 449,
     img: "/img/herbalwax.png",
-    short: "Gentle herbal waxing",
+    short: "Gentle herbal waxing, Reduces pain, suitable for sensitive skin, slows hair growth.",
+    suggestedFor: ["Waxing"],
   },
 
   // 🐟 FISH SPA
@@ -110,7 +129,8 @@ function Products() {
     name: "Fish Spa Detox Foot Gel",
     price: 449,
     img: "/img/fish-spa-gel.png",
-    short: "Pre & post fish spa foot care",
+    short: "Pre & post fish spa foot care, Special detox gel used before and after fish spa therapy to soften skin, remove toxins and maintain hygiene.",
+    suggestedFor: ["Pedicure", "Fish Spa"],
   },
 ];
 
@@ -152,6 +172,7 @@ function Products() {
 
               <h5>{product.name}</h5>
               <p>{product.short}</p>
+              <p>{product.suggestedFor}</p>
               <h6 className="text-success">₹{product.price}</h6>
 
               {/* 🔢 Quantity */}
