@@ -1,8 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 
-
-
 function Servicedetails() {
   const { id } = useParams();
   const [location, setLocation] = useState("salon");
@@ -520,6 +518,7 @@ function Servicedetails() {
 
   const category = servicesData.find((c) => c.id === id);
   if (!category) return <h2 className="text-center mt-5">Service Not Found</h2>;
+
 
   return (
     <div className="container py-5">

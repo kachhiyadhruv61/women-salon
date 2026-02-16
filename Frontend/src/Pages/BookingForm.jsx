@@ -132,6 +132,7 @@ Please pay remaining amount at the time of service 🌸`;
           <option>Facial</option>
           <option>Gold Facial</option>
           <option>Organic Cleanup</option>
+          <option>Live Fruit Facial</option>
           <option>Haircut</option>
           <option>Hair Spa</option>
           <option>Bridal Package</option>
