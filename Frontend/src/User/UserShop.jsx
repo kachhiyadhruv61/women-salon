@@ -35,7 +35,7 @@ function UserShop() {
       id: 4,
       name: "Organic Cuticle Oil",
       price: 299,
-      img: "/img/cuticle-oil.png",
+      img: "/img/cuticleoil.png",
       short: "Nourishes nails & cuticles",
     },
     {
@@ -56,7 +56,7 @@ function UserShop() {
       id: 13,
       name: "Herbal Foot Soak Salt",
       price: 299,
-      img: "/img/footsoak.png",
+      img: "/img/foot soak salt.png",
       short: "Relaxing foot soak",
     },
     {
@@ -84,21 +84,21 @@ function UserShop() {
       id: 7,
       name: "Aloe Vera Soothing Gel",
       price: 199,
-      img: "/img/aloevera.png",
+      img: "/img/aloe vera gel.png",
       short: "Soothes skin after threading",
     },
     {
       id: 8,
       name: "Herbal Wax Powder",
       price: 449,
-      img: "/img/herbalwax.png",
+      img: "/img/herbal wax powder.png",
       short: "Gentle herbal waxing",
     },
     {
       id: 9,
       name: "Fish Spa Detox Foot Gel",
       price: 449,
-      img: "/img/fish-spa-gel.png",
+      img: "/img/fishspagel.png",
       short: "Pre & post fish spa foot care",
     },
   ];
