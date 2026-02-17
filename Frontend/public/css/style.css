@@ -361,7 +361,44 @@
   color: #555;
 }
 
+.product-title {
+  color: #6b8e23;   /* Olive Green */
+  font-weight: 600;
+}
 
+/*Products*/
+.product-card {
+  height: 100%;
+  min-height: 480px;   /* tame requirement pramane change kari sako */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-card img {
+  height: 180px;
+  object-fit: contain;
+}
+
+.product-title {
+  min-height: 50px;   /* name equal height mate */
+}
+
+.product-card p {
+  min-height: 40px;   /* description equal height mate */
+}
+.suggested-box {
+  background-color: #f4f7f2;
+  border-left: 4px solid #6b8e23;
+  padding: 6px 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.suggested-box span {
+  font-weight: 600;
+  color: #2f3e2e;
+}
 
 /* Gallery Card */
 .gallery-card {

@@ -17,7 +17,7 @@ function Products() {
     price: 499,
     img: "/img/facepack.png",
     short: "100% organic herbal face pack, Removes tan, improves glow and made from pure organic ingredients.",
-    suggestedFor: ["Facial", "Cleanup"],
+    suggestedFor: ["Facial" , "Cleanup"],
 
   },
   {
@@ -26,7 +26,7 @@ function Products() {
     price: 249,
     img: "/img/facewash.png",
     short: "100% organic herbal face wash, Removes tan, improves glow and made from pure organic ingredients.",
-    suggestedFor: ["Facial", "Cleanup"],
+    suggestedFor: ["Facial" , "Cleanup"],
   },
 
   {
@@ -43,7 +43,7 @@ function Products() {
     price: 599,
     img: "/img/skincream.png",
     short: "Chemical free skin cream, Deep hydration and long lasting glow without side effects.",
-    suggestedFor: ["Facial", "Threading"],
+    suggestedFor: ["Facial" , "Threading"],
   },
 
   // 🌸 MANICURE
@@ -130,7 +130,7 @@ function Products() {
     price: 449,
     img: "/img/fishspagel.png",
     short: "Pre & post fish spa foot care, Special detox gel used before and after fish spa therapy to soften skin, remove toxins and maintain hygiene.",
-    suggestedFor: ["Pedicure", "Fish Spa"],
+    suggestedFor: ["Pedicure" , "Fish Spa"],
   },
 ];
 
@@ -161,8 +161,8 @@ function Products() {
 
       <div className="row">
         {products.map((product) => (
-          <div className="col-md-4 mb-4" key={product.id}>
-            <div className="card p-3 text-center">
+          <div className="col-md-4 mb-4 d-flex" key={product.id}>
+            <div className="card p-3 text-center h-100 product-card">
               <img
                 src={product.img}
                 alt={product.name}
@@ -170,9 +170,15 @@ function Products() {
                 style={{ height: "180px", objectFit: "contain" }}
               />
 
-              <h5>{product.name}</h5>
+              <h5 className="product-title">
+                {product.name}
+              </h5>
+
               <p>{product.short}</p>
-              <p>{product.suggestedFor}</p>
+              <div className="suggested-box">
+                <span>Suggested For:</span> {product.suggestedFor}
+              </div>
+
               <h6 className="text-success">₹{product.price}</h6>
 
               {/* 🔢 Quantity */}
