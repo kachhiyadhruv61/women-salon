@@ -141,10 +141,10 @@
     padding: 0;
     outline: none;
     font-family: "Playfair Display", serif;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.3px;
     color: #2f4f2f;              /* dark olive green */
     transition: color .3s ease;
 }
@@ -177,7 +177,7 @@
 @media (max-width: 991.98px) {
     .navbar .navbar-nav .nav-link  {
         margin-left: 0;
-        padding: 10px 0;
+        padding: 5px 0;
     }
 }
 
@@ -510,6 +510,11 @@
   transform: translateY(-5px);
 }
 
+.small-book-btn {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
 
 
 /*** Team ***/

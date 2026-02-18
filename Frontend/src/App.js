@@ -37,6 +37,7 @@ import Settings from "./Admin/Settings";
 import User from "./Admin/User";
 import Profile from "./Admin/Profile";
 import Orders from "./Admin/Orders";
+import Contactdata from "./Admin/Contactdata";
 import ReportView from "./Admin/ReportView";
 
 /* ===== User ===== */
@@ -128,6 +129,11 @@ function App() {
           path="/product"
           element={role === "admin" ? <Product /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/contactdata"
+          element={role === "admin" ? <Contactdata /> : <Navigate to="/login" />}
+        />
+
         <Route
           path="/reports"
           element={role === "admin" ? <Reports /> : <Navigate to="/login" />}

@@ -5,9 +5,7 @@ function Contact() {
     name: "",
     phone: "",
     email: "",
-    service: "",
-    location: "",
-    date: "",
+    subject: "",
     message: "",
   });
 
@@ -19,20 +17,19 @@ function Contact() {
     e.preventDefault();
 
     alert(
-      `Thank you ${formData.name}! 🎉\nYour booking request has been submitted successfully.`
+      `Thank you ${formData.name}! 🌿\nWe have received your message. Our team will contact you soon.`
     );
 
-    // Clear form
+//clear form
     setFormData({
       name: "",
       phone: "",
       email: "",
-      service: "",
-      location: "",
-      date: "",
+      subject: "",
       message: "",
     });
   };
+
 
   return (
     <div className="container py-5">
@@ -73,10 +70,10 @@ function Contact() {
           </a>
         </div>
 
-        {/* RIGHT SIDE - CONTACT FORM */}
+  {/* RIGHT SIDE - CONTACT FORM */}
         <div className="col-lg-7">
           <div className="bg-light p-4 rounded shadow">
-            <h3 className="mb-4 text-center">Book Your Appointment</h3>
+            <h3 className="mb-4 text-center">Send Us a Message</h3>
 
             <form onSubmit={handleSubmit}>
               <div className="row g-3">
@@ -105,81 +102,45 @@ function Contact() {
                   />
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-12">
                   <input
                     type="email"
                     className="form-control"
-                    placeholder="Email (optional)"
+                    placeholder="Email Address"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    required
                   />
                 </div>
 
-                {/* SERVICE SELECT */}
-                <div className="col-md-6">
-                  <select
-                    className="form-select"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Service</option>
-                    <option>Bridal Package</option>
-                    <option>Pre-Bridal Services</option>
-                    <option>Organic Fruit Facial</option>
-                    <option>Pedicure / Manicure</option>
-                    <option>Mehendi</option>
-                    <option>Hair Treatment</option>
-                  </select>
-                </div>
-
-                {/* LOCATION SELECT */}
-                <div className="col-md-6">
-                  <select
-                    className="form-select"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Location</option>
-                    <option>Salon Location</option>
-                    <option>Home Service</option>
-                    <option>Wedding Venue</option>
-                    <option>Natural Outdoor Location</option>
-                  </select>
-                </div>
-
-                {/* DATE */}
-                <div className="col-md-6">
+                <div className="col-12">
                   <input
-                    type="date"
+                    type="text"
                     className="form-control"
-                    name="date"
-                    value={formData.date}
+                    placeholder="Subject"
+                    name="subject"
+                    value={formData.subject}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
-                {/* MESSAGE */}
                 <div className="col-12">
                   <textarea
                     className="form-control"
                     rows="4"
-                    placeholder="Message / Special Requirements"
+                    placeholder="Your Message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
+                    required
                   ></textarea>
                 </div>
 
-                {/* SUBMIT BUTTON */}
                 <div className="col-12 text-center">
                   <button className="btn btn-primary px-5 py-2">
-                    Submit Booking
+                    Send Message
                   </button>
                 </div>
 
