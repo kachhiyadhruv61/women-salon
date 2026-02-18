@@ -6,102 +6,135 @@ function UserShop() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  // 🔥 Per product quantity store karva mate object
+  // 🔥 Quantity per product maintain karva mate object
   const [quantities, setQuantities] = useState({});
 
-  const products = [
-    {
-      id: 1,
-      name: "Herbal Face Pack",
-      price: 499,
-      img: "/img/facepack.png",
-      short: "100% organic herbal face pack",
-    },
-    {
-      id: 2,
-      name: "Organic Hair Oil",
-      price: 399,
-      img: "/img/hairoil.png",
-      short: "Strengthens hair naturally",
-    },
-    {
-      id: 3,
-      name: "Natural Skin Cream",
-      price: 599,
-      img: "/img/skincream.png",
-      short: "Chemical free skin cream",
-    },
-    {
-      id: 4,
-      name: "Organic Cuticle Oil",
-      price: 299,
-      img: "/img/cuticleoil.png",
-      short: "Nourishes nails & cuticles",
-    },
-    {
-      id: 5,
-      name: "Herbal Foot Cream",
-      price: 349,
-      img: "/img/footcream.png",
-      short: "Deep moisture for heels",
-    },
-    {
-      id: 6,
-      name: "Natural Foot Scrub",
-      price: 399,
-      img: "/img/footscrub.png",
-      short: "Removes dead skin",
-    },
-    {
-      id: 13,
-      name: "Herbal Foot Soak Salt",
-      price: 299,
-      img: "/img/foot soak salt.png",
-      short: "Relaxing foot soak",
-    },
-    {
-      id: 12,
-      name: "Crack Heel Repair Balm",
-      price: 349,
-      img: "/img/heelbalm.png",
-      short: "Deep repair cracked heels",
-    },
-    {
-      id: 11,
-      name: "Foot Relaxation Essential Oil",
-      price: 399,
-      img: "/img/foot-oil.png",
-      short: "Foot massage oil",
-    },
-    {
-      id: 10,
-      name: "Anti-Fungal Foot Spray",
-      price: 279,
-      img: "/img/foot-spray.png",
-      short: "Keeps feet fresh & hygienic",
-    },
-    {
-      id: 7,
-      name: "Aloe Vera Soothing Gel",
-      price: 199,
-      img: "/img/aloe vera gel.png",
-      short: "Soothes skin after threading",
-    },
-    {
-      id: 8,
-      name: "Herbal Wax Powder",
-      price: 449,
-      img: "/img/herbal wax powder.png",
-      short: "Gentle herbal waxing",
-    },
-    {
-      id: 9,
-      name: "Fish Spa Detox Foot Gel",
-      price: 449,
-      img: "/img/fishspagel.png",
-      short: "Pre & post fish spa foot care",
-    },
-  ];
+ const products = [
+  // 🌿 FACIAL
+  {
+    id: 1,
+    name: "Herbal Face Pack",
+    price: 499,
+    img: "/img/facepack.png",
+    short: "100% organic herbal face pack, Removes tan, improves glow and made from pure organic ingredients.",
+    suggestedFor: ["Facial" , "Cleanup"],
+
+  },
+  {
+    id: 14,
+    name: "Herbal Face Wash",
+    price: 249,
+    img: "/img/facewash.png",
+    short: "100% organic herbal face wash, Removes tan, improves glow and made from pure organic ingredients.",
+    suggestedFor: ["Facial" , "Cleanup"],
+  },
+
+  {
+    id: 2,
+    name: "Organic Hair Oil",
+    price: 399,
+    img: "/img/hairoil.png",
+    short: "Strengthens hair naturally, Reduces hair fall and nourishes scalp using herbal oils.",
+    suggestedFor: ["Hair Spa"],
+  },
+  {
+    id: 3,
+    name: "Natural Skin Cream",
+    price: 599,
+    img: "/img/skincream.png",
+    short: "Chemical free skin cream, Deep hydration and long lasting glow without side effects.",
+    suggestedFor: ["Facial" , "Threading"],
+  },
+
+  // 🌸 MANICURE
+  {
+    id: 4,
+    name: "Organic Cuticle Oil",
+    price: 299,
+    img: "/img/cuticleoil.png",
+    short: "Nourishes nails & cuticles, Strengthens nails, softens cuticles and improves nail health.",
+    suggestedFor: ["Manicure"],
+  },
+
+  // 🌸 PEDICURE
+  {
+    id: 5,
+    name: "Herbal Foot Cream",
+    price: 349,
+    img: "/img/footcream.png",
+    short: "Deep moisture for heels, Repairs cracked heels and keeps feet soft & fresh.",
+    suggestedFor: ["Pedicure"],
+
+  },
+  {
+    id: 6,
+    name: "Natural Foot Scrub",
+    price: 399,
+    img: "/img/footscrub.png",
+    short: "Removes dead skin, Gently exfoliates feet using walnut & herbal extracts.",
+    suggestedFor: ["Pedicure"],
+  },
+  {
+    id: 13,
+    name: "Herbal Foot Soak Salt",
+    price: 299,
+    img: "/img/foot soak salt.png",
+    short: "Relaxing foot soak for pedicure, Relieves tired feet, removes odor and softens skin before pedicure.",
+  },
+  {
+    id: 12,
+    name: "Crack Heel Repair Balm",
+    price: 349,
+    img: "/img/heelbalm.png",
+    short: "Deep repair cracked heels, Heals cracked heels naturally with shea butter & neem oil.",
+  },
+  {
+    id: 11,
+    name: "Foot Relaxation Essential Oil",
+    price: 399,
+    img: "/img/foot-oil.png",
+    short: "Foot massage oil, Improves blood circulation and relaxes muscles after pedicure.",
+  },
+  {
+    id: 10,
+    name: "Anti-Fungal Foot Spray",
+    price: 279,
+    img: "/img/foot-spray.png",
+    short: "Keeps feet fresh & hygienic, Prevents fungal infection and keeps feet odor-free.",
+  },
+
+  // 🌸 THREADING
+  {
+    id: 7,
+    name: "Aloe Vera Soothing Gel",
+    price: 199,
+    img: "/img/aloe vera gel.png",
+    short: "Soothes skin after threading, Reduces redness and calms sensitive skin naturally.",
+    suggestedFor: ["Threading"],
+  },
+
+  // 🌸 WAXING
+  {
+    id: 8,
+    name: "Herbal Wax Powder",
+    price: 449,
+    img: "/img/herbal wax powder.png",
+    short: "Gentle herbal waxing, Reduces pain, suitable for sensitive skin, slows hair growth.",
+    suggestedFor: ["Waxing"],
+  },
+
+  // 🐟 FISH SPA
+  {
+    id: 9,
+    name: "Fish Spa Detox Foot Gel",
+    price: 449,
+    img: "/img/fishspagel.png",
+    short: "Pre & post fish spa foot care, Special detox gel used before and after fish spa therapy to soften skin, remove toxins and maintain hygiene.",
+    suggestedFor: ["Pedicure" , "Fish Spa"],
+  },
+];
+
+  
 
   const handleQtyChange = (id, value) => {
     setQuantities({
@@ -128,8 +161,8 @@ function UserShop() {
 
       <div className="row">
         {products.map((product) => (
-          <div className="col-md-4 mb-4" key={product.id}>
-            <div className="card p-3 text-center shadow-sm">
+          <div className="col-md-4 mb-4 d-flex" key={product.id}>
+            <div className="card p-3 text-center h-100 product-card">
               <img
                 src={product.img}
                 alt={product.name}
@@ -137,8 +170,15 @@ function UserShop() {
                 style={{ height: "180px", objectFit: "contain" }}
               />
 
-              <h5>{product.name}</h5>
+              <h5 className="product-title">
+                {product.name}
+              </h5>
+
               <p>{product.short}</p>
+              <div className="suggested-box">
+                <span>Suggested For:</span> {product.suggestedFor}
+              </div>
+
               <h6 className="text-success">₹{product.price}</h6>
 
               {/* 🔢 Quantity */}

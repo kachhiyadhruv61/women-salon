@@ -13,7 +13,7 @@ function About() {
           <div className="col-lg-6">
             <img
               className="img-fluid mb-3 rounded"
-              src="/img/about.jpg"
+              src="/img/about1.png"
               alt="NatureGlow Women Salon"
             />
 

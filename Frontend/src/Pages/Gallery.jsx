@@ -3,6 +3,7 @@ import { useState } from "react";
 function Gallery() {
   const salonImages = [
     "/img/salon1.jpg",
+     "/img/salon17.png",
     "/img/salon2.jpg",
     "/img/salon3.jpg",
     "/img/salon4.jpg",
@@ -13,7 +14,7 @@ function Gallery() {
     "/img/salon9.jpg",
     "/img/salon10.jpg",
     "/img/salon11.jpg",
-    "/img/salon12.jpg",
+    "/img/salon12.jpg"
   ];
 
   const naturalPlaceImages = [

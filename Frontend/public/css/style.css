@@ -141,18 +141,30 @@
     padding: 0;
     outline: none;
     font-family: "Playfair Display", serif;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 18px;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-    color: #2f4f2f;              /* dark olive green */
+    letter-spacing: 1px;
+    color: #2c2c2c;              /* dark olive green */
     transition: color .3s ease;
+}
+/* image */
+
+.logo-img {
+  height: 115px;
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .logo-img {
+    height: 70px;
+  }
 }
 
 /* Hover & Active */
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active {
-    color: #2e7d32;              /* organic green */
+    color: #bf9456;              /* organic green */
 }
 
 /* Dropdown arrow */
@@ -163,21 +175,21 @@
     font-weight: 900;
     vertical-align: middle;
     margin-left: 8px;
-    color: #558b2f;              /* leaf green */
+    color: #bf9456;              /* leaf green */
 }
 
 /* Dropdown menu hover */
 .navbar .dropdown-menu .dropdown-item:hover,
 .navbar .dropdown-menu .dropdown-item.active {
     color: #ffffff;
-    background: #2e7d32;         /* herbal green */
+    background: #bf9456;         /* herbal green */
 }
 
 
 @media (max-width: 991.98px) {
     .navbar .navbar-nav .nav-link  {
         margin-left: 0;
-        padding: 5px 0;
+        padding: 10px 0;
     }
 }
 
@@ -400,6 +412,49 @@
   color: #2f3e2e;
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.bill-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: nowrap; /* Ek j row ma rakhe */
+}
+
+.action-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  white-space: nowrap;
+}
+
+.download-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #ff9800;
+  color: white;
+}
+
+.place-btn {
+  background-color: #e91e63;
+  color: white;
+}
+
+.action-btn:hover {
+  opacity: 0.85;
+}
+
+
 /* Gallery Card */
 .gallery-card {
   position: relative;
@@ -537,6 +592,19 @@
 .team-item img {
     transition: .5s;
 }
+
+.premium-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
 /* Team image wrapper */
 .team-img {
     width: 100%;

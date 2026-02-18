@@ -4,11 +4,14 @@ function Navbar() {
   return (
     <div className="container-fluid bg-light sticky-top p-0">
       <nav className="navbar navbar-expand-lg navbar-light p-0">
-        <Link to="/" className="navbar-brand bg-primary py-4 px-5 me-0">
-          <h1 className="mb-0">
-            <i className="bi bi-flower1"></i> A <sup>2</sup>
-          </h1>
-        </Link>
+    
+          <Link to="/" className="navbar-brand py-2 px-3">
+  <img
+    src="/img/logo.png"
+    alt="A2 Women Salon"
+    className="logo-img"
+  />
+</Link>
 
         <button
           className="navbar-toggler me-4"

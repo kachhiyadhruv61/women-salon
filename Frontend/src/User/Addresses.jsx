@@ -1,9 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Addresses() {
-  const [addresses, setAddresses] = useState([]);
-  const [editingAddress, setEditingAddress] = useState(null);
-  const [showForm, setShowForm] = useState(false);
 
   const initialForm = {
     name: "",
@@ -12,7 +9,23 @@ function Addresses() {
     type: "Home",
   };
 
+  const [addresses, setAddresses] = useState([]);
+  const [editingAddress, setEditingAddress] = useState(null);
+  const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(initialForm);
+
+  /* ================= LOAD FROM LOCALSTORAGE ================= */
+  useEffect(() => {
+    const saved = localStorage.getItem("myAddresses");
+    if (saved) {
+      setAddresses(JSON.parse(saved));
+    }
+  }, []);
+
+  /* ================= SAVE TO LOCALSTORAGE ================= */
+  useEffect(() => {
+    localStorage.setItem("myAddresses", JSON.stringify(addresses));
+  }, [addresses]);
 
   /* ================= ADD / UPDATE ================= */
   const addOrUpdateAddress = (e) => {
@@ -42,7 +55,8 @@ function Addresses() {
 
   /* ================= DELETE ================= */
   const deleteAddress = (id) => {
-    setAddresses(addresses.filter((addr) => addr.id !== id));
+    const updated = addresses.filter((addr) => addr.id !== id);
+    setAddresses(updated);
   };
 
   /* ================= SET DEFAULT ================= */
@@ -71,6 +85,7 @@ function Addresses() {
 
   return (
     <div className="container py-4">
+
       {/* HEADER */}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>My Addresses</h3>
@@ -82,10 +97,11 @@ function Addresses() {
         </button>
       </div>
 
-      {/* ADDRESS FORM */}
+      {/* FORM */}
       {showForm && (
         <form className="card p-3 mb-4" onSubmit={addOrUpdateAddress}>
           <div className="row g-2">
+
             <div className="col-md-6">
               <input
                 className="form-control"
@@ -116,7 +132,10 @@ function Addresses() {
                 placeholder="Full Address"
                 value={form.fullAddress}
                 onChange={(e) =>
-                  setForm({ ...form, fullAddress: e.target.value })
+                  setForm({
+                    ...form,
+                    fullAddress: e.target.value,
+                  })
                 }
                 required
               />
@@ -154,8 +173,11 @@ function Addresses() {
 
       {/* ADDRESS LIST */}
       <div className="row">
+
         {addresses.length === 0 && (
-          <p className="text-muted">No addresses added yet.</p>
+          <p className="text-muted">
+            No addresses added yet.
+          </p>
         )}
 
         {addresses.map((address) => (
@@ -168,13 +190,19 @@ function Addresses() {
               <h6>
                 {address.name}
                 {address.isDefault && (
-                  <span className="badge bg-success ms-2">Default</span>
+                  <span className="badge bg-success ms-2">
+                    Default
+                  </span>
                 )}
               </h6>
 
               <p className="mb-1">{address.phone}</p>
-              <p className="mb-1">{address.fullAddress}</p>
-              <p className="text-muted">{address.type}</p>
+              <p className="mb-1">
+                {address.fullAddress}
+              </p>
+              <p className="text-muted">
+                {address.type}
+              </p>
 
               <div className="d-flex gap-2">
                 <button
@@ -186,7 +214,9 @@ function Addresses() {
 
                 <button
                   className="btn btn-sm btn-outline-danger"
-                  onClick={() => deleteAddress(address.id)}
+                  onClick={() =>
+                    deleteAddress(address.id)
+                  }
                 >
                   Delete
                 </button>
@@ -194,7 +224,9 @@ function Addresses() {
                 {!address.isDefault && (
                   <button
                     className="btn btn-sm btn-outline-success"
-                    onClick={() => setDefaultAddress(address.id)}
+                    onClick={() =>
+                      setDefaultAddress(address.id)
+                    }
                   >
                     Set Default
                   </button>
@@ -204,6 +236,7 @@ function Addresses() {
           </div>
         ))}
       </div>
+
     </div>
   );
 }

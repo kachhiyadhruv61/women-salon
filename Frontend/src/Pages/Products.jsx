@@ -6,6 +6,9 @@ function Products() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
+  const user = localStorage.getItem("user");
+
+
   // 🔥 Quantity per product maintain karva mate object
   const [quantities, setQuantities] = useState({});
 
@@ -175,9 +178,13 @@ function Products() {
               </h5>
 
               <p>{product.short}</p>
-              <div className="suggested-box">
-                <span>Suggested For:</span> {product.suggestedFor}
-              </div>
+             <div className="suggested-box">
+  <span>Suggested For:</span>{" "}
+  {product.suggestedFor?.length
+    ? product.suggestedFor.join(", ")
+    : "General Use"}
+</div>
+
 
               <h6 className="text-success">₹{product.price}</h6>
 
@@ -214,20 +221,32 @@ function Products() {
 
               {/* 🛒 Buttons */}
               <div className="d-flex gap-2 justify-content-center">
-                <button
-                  className="btn btn-warning"
-                  onClick={() => handleAddToCart(product)}
-                >
-                  Add to Cart
-                </button>
 
-                <button
-                  className="btn btn-success"
-                  onClick={() => buyNow(product)}
-                >
-                  Buy Now
-                </button>
-              </div>
+  {/* 🛒 Add To Cart */}
+  <button
+    className="btn btn-warning"
+    onClick={() => handleAddToCart(product)}
+    disabled={!user}
+  >
+    Add to Cart
+  </button>
+
+  {/* 💳 Buy Now */}
+  <button
+    className="btn btn-success"
+    onClick={() => buyNow(product)}
+    disabled={!user}
+  >
+    Buy Now
+  </button>
+
+</div>
+
+{!user && (
+  <small className="text-muted d-block mt-2">
+    🔒 Login required to purchase
+  </small>
+)}
 
             </div>
           </div>
