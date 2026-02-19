@@ -160,8 +160,9 @@ function Products() {
 
   return (
     <div className="container py-5">
-      <h1 className="text-center mb-4">Our Organic Products 🌿</h1>
-
+      <div className="text-center mb-5">
+        <h1 className="font-dancing-script text-primary">Our Organic Products</h1>
+      </div>
       <div className="row">
         {products.map((product) => (
           <div className="col-md-4 mb-4 d-flex" key={product.id}>

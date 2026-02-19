@@ -33,11 +33,13 @@ function Contact() {
 
   return (
     <div className="container py-5">
-      <div className="row g-5">
+      <div className="text-center mb-5">
+            <h1 className="font-dancing-script text-primary">Contact Us</h1>
+       </div>
+      <div className="row align-items-center">
 
         {/* LEFT SIDE - CONTACT INFO */}
         <div className="col-lg-5">
-          <h1 className="text-primary mb-4">Contact Us</h1>
 
           <p>
             We’re always happy to help you look & feel beautiful 🌿  

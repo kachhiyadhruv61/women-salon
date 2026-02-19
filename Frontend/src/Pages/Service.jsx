@@ -57,7 +57,7 @@ function Service() {
     <div className="container-fluid py-5">
       <div className="container">
         <div className="text-center mb-5">
-          <h1 className="text-primary">Our Service</h1>
+          <h1 className="font-dancing-script text-primary">Our Service</h1>
           <h2>Explore Our Services</h2>
         </div>
 

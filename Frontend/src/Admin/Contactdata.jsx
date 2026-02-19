@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import CommonTable from "./../Components/CommonTable";
 
 function Contactdata() {
+
   const [contacts, setContacts] = useState([
     {
       id: 1,
@@ -13,44 +14,12 @@ function Contactdata() {
     },
   ]);
 
-  // 🔹 Form States
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-
-  // ➕ ADD CONTACT DATA
-  const addContact = () => {
-    if (!name || !phone || !email || !subject || !message) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    setContacts([
-      ...contacts,
-      {
-        id: Date.now(), // 🔥 automatic unique ID
-        name,
-        phone,
-        email,
-        subject,
-        message,
-      },
-    ]);
-
-    // Reset form
-    setName("");
-    setPhone("");
-    setEmail("");
-    setSubject("");
-    setMessage("");
-  };
-
   // ❌ DELETE CONTACT
-  const deleteContact = (id) => {
-    setContacts(contacts.filter((c) => c.id !== id));
-  };
+  const deleteContact = useCallback((id) => {
+    setContacts((prev) =>
+      prev.filter((c) => c.id !== id)
+    );
+  }, []);
 
   // 📊 TABLE COLUMNS
   const columns = useMemo(
@@ -92,62 +61,15 @@ function Contactdata() {
         ),
       },
     ],
-    [contacts]
+    [deleteContact]
   );
 
   return (
     <div className="container py-5">
-      <h1>📩 Contact Messages</h1>
-
-      {/* ➕ ADD CONTACT FORM */}
-      <div className="border p-3 my-4 rounded">
-        <h5>Add Contact Data</h5>
-
-        <input
-          type="text"
-          placeholder="Full Name"
-          className="form-control mb-2"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          className="form-control mb-2"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          className="form-control mb-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Subject"
-          className="form-control mb-2"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-        />
-
-        <textarea
-          placeholder="Message"
-          className="form-control mb-3"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-
-        <button className="btn btn-primary" onClick={addContact}>
-          Add Contact
-        </button>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2> Contact Messages 📩 </h2>
       </div>
 
-      {/* 📊 TABLE */}
       <CommonTable
         columns={columns}
         data={contacts}

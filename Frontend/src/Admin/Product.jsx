@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import CommonTable from "./../Components/CommonTable";
 
 function Product() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([
     {
       productId: 1,
@@ -12,40 +14,6 @@ function Product() {
       status: "Active",
     },
   ]);
-
-  // 🔹 Form States
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState("");
-  const [stock, setStock] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("Active");
-
-  // ➕ ADD PRODUCT
-  const addProduct = () => {
-    if (!name || !amount || !stock || !description) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    setProducts([
-      ...products,
-      {
-        productId: Date.now(),
-        name,
-        amount: Number(amount),
-        stock: Number(stock),
-        description,
-        status,
-      },
-    ]);
-
-    // reset form
-    setName("");
-    setAmount("");
-    setStock("");
-    setDescription("");
-    setStatus("Active");
-  };
 
   // ❌ DELETE PRODUCT
   const deleteProduct = (id) => {
@@ -104,59 +72,19 @@ function Product() {
         ),
       },
     ],
-    [products]
+    [deleteProduct]
   );
 
   return (
     <div className="container py-5">
-      <h1>👩‍💼 Admin Product Panel</h1>
+     <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Product Management 👩‍💼</h2>
 
-      {/* ➕ ADD PRODUCT FORM */}
-      <div className="border p-3 my-4 rounded">
-        <h5>Add Product</h5>
-
-        <input
-          type="text"
-          placeholder="Product Name"
-          className="form-control mb-2"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <input
-          type="number"
-          placeholder="Amount"
-          className="form-control mb-2"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-
-        <input
-          type="number"
-          placeholder="Stock"
-          className="form-control mb-2"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
-        />
-
-        <textarea
-          placeholder="Description"
-          className="form-control mb-2"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-
-        <select
-          className="form-control mb-3"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
+         <button
+          className="btn btn-primary"
+          onClick={() => navigate("/addproduct")}
         >
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
-
-        <button className="btn btn-success" onClick={addProduct}>
-          Add Product
+          + Add Product
         </button>
       </div>
 
@@ -169,6 +97,6 @@ function Product() {
       />
     </div>
   );
-}
+};
 
 export default Product;

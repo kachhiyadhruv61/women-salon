@@ -62,12 +62,17 @@ function Orders() {
   ];
 
   return (
+    <div className="container py-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Orders Management 👩‍💼</h2>
+        </div>
     <CommonTable
       columns={columns}
       data={orders}
       fileName="admin-orders"
       showSelection={true}
     />
+    </div>
   );
 }
 

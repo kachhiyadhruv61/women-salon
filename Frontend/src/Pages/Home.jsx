@@ -19,8 +19,8 @@ function Home() {
         <div className="row g-0 align-items-center">
           <div className="col-lg-6 hero-header-text py-5">
             <div className="py-5 px-3 ps-lg-0">
-              <h1 className="font-dancing-script text-primary animated slideInLeft">Welcome</h1>
-              <h1 className="display-1 mb-4 animated slideInLeft">A<sup>2</sup> Women Salon</h1>
+              <h1 className="font-dancing-script text-primary text-center mb-4">Welcome</h1>
+              <h2 className="display-1 mb-4 animated slideInLeft">A<sup>2</sup> Women Salon</h2>
                 <p>A women’s salon offering organic beauty services, relaxing therapies, and personalized care in a hygienic and peaceful environment.</p>
               <div className="row g-4 animated slideInLeft">
                 <div className="col-md-6">
