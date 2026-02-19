@@ -45,8 +45,8 @@ function Gallery() {
   return (
     <div className="container py-5">
       {/* Heading */}
-      <div className="text-center mb-4">
-        <h2 className="section-title">Our Space & Experience</h2>
+      <div className="text-center mb-5">
+        <h1 className="font-dancing-script text-primary">Our Space & Experience</h1>
         <p className="text-muted">
           A glimpse of our salon elegance and peaceful natural surroundings
         </p>

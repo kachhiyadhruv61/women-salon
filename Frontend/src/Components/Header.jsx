@@ -24,7 +24,7 @@ function Navbar() {
 
         <div className="collapse navbar-collapse p-3" id="navbarCollapse">
           <div className="navbar-nav mx-auto">
-            <Link to="/" className="nav-item nav-link active">Home</Link>
+            <Link to="/" className="nav-item nav-link">Home</Link>
             
             <Link to="/about" className="nav-item nav-link">About</Link>
             <Link to="/service" className="nav-item nav-link">Service</Link>

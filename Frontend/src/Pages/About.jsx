@@ -5,9 +5,13 @@ function About() {
   const [showMore, setShowMore] = useState(false);
 
   return (
-    <div className="container-fluid py-5">
-      <div className="container">
-        <div className="row g-5 align-items-center">
+    <div className="container py-5">
+      {/* TITLE */}
+      <div className="text-center mb-5">
+        <h1 className="font-dancing-script text-primary">About Us</h1>
+      </div>
+
+      <div className="row align-items-center">
 
           {/* LEFT IMAGE SECTION */}
           <div className="col-lg-6">
@@ -37,7 +41,6 @@ function About() {
 
           {/* RIGHT CONTENT SECTION */}
           <div className="col-lg-6">
-            <h1 className="font-dancing-script text-primary">About Us</h1>
             <h1 className="mb-4">NatureGlow Women Salon 🌿</h1>
 
             <p className="mb-3">
@@ -140,7 +143,7 @@ function About() {
 
         </div>
       </div>
-    </div>
+    
   );
 }
 

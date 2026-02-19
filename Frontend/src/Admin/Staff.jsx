@@ -102,7 +102,9 @@ function Staffs() {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Staff Management 👩‍💼</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Staff Management 👩‍💼</h2>
+      </div>
 
       <CommonTable
         columns={columns}

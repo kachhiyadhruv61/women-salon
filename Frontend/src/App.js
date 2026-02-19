@@ -28,10 +28,12 @@ import Footer from "./Components/Footer";
 import AdminHeader from "./Admin/AdminHeader";
 import Dashboard from "./Admin/Dashboard";
 import Adminservice from "./Admin/Adminservice";
+import AddService from "./Admin/AddService";
 import AdBooking from "./Admin/AdBooking";
 import Adpayment from "./Admin/Adpayment";
 import Staff from "./Admin/Staff";
 import Product from "./Admin/Product";
+import AddProduct from "./Admin/AddProduct";
 import Reports from "./Admin/Reports";
 import Settings from "./Admin/Settings";
 import User from "./Admin/User";
@@ -109,6 +111,10 @@ function App() {
           path="/adminservice"
           element={role === "admin" ? <Adminservice /> : <Navigate to="/login" />}
         />
+         <Route
+          path="/addservice"
+          element={role === "admin" ? <AddService /> : <Navigate to="/login" />}
+        />
         <Route
           path="/adbooking"
           element={role === "admin" ? <AdBooking /> : <Navigate to="/login" />}
@@ -128,6 +134,10 @@ function App() {
         <Route
           path="/product"
           element={role === "admin" ? <Product /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/addproduct"
+          element={role === "admin" ? <AddProduct /> : <Navigate to="/login" />}
         />
         <Route
           path="/contactdata"

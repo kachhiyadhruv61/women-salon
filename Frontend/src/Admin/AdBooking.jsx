@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
 
 function AdBooking() {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([
     {
       id: 1,
@@ -91,7 +93,16 @@ function AdBooking() {
 
   return (
     <div className="container py-5">
-      <h3 className="mb-4">Admin Booking Management 👩‍💼</h3>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Booking Management 👩‍💼</h2>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/bookingform")}
+        >
+          + Add Booking
+        </button>
+      </div>
 
       {/* ✅ Common Table */}
       <CommonTable
