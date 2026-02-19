@@ -73,7 +73,6 @@ function User() {
 
   return (
     <div className="container py-5">
-      <h1>👥 Admin User Management</h1>
 
       <CommonTable
         columns={columns}
