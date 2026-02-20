@@ -8,10 +8,12 @@ function Footer() {
 
           {/* Left Side */}
           <div className="col-lg-6 pe-lg-5">
-            <Link to="/" className="navbar-brand">
-              <h1 className="display-5 text-primary mb-0">
-                <i className="bi bi-scissors"></i> A<sup>2</sup>
-              </h1>
+            <Link to="/" className="navbar-brand py-2 px-3">
+              <img
+            src="/img/logo2.png"
+            alt="A2 Women Salon"
+            className="logo-img"
+          />
             </Link>
 
             <p>

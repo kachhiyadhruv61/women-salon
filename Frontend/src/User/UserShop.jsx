@@ -175,10 +175,12 @@ function UserShop() {
               </h5>
 
               <p>{product.short}</p>
-              <div className="suggested-box">
-                <span>Suggested For:</span> {product.suggestedFor}
-              </div>
-
+             <div className="suggested-box">
+  <span>Suggested For:</span>{" "}
+  {product.suggestedFor?.length
+    ? product.suggestedFor.join(", ")
+    : "General Use"}
+</div>
               <h6 className="text-success">₹{product.price}</h6>
 
               {/* 🔢 Quantity */}

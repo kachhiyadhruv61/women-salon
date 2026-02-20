@@ -573,68 +573,6 @@ button:disabled {
   border-radius: 4px;
 }
 
-/* Section Background */
-.service {
-  background: linear-gradient(to bottom, #ffffff, #fff5f7);
-}
-
-/* Service Card */
-.service-item {
-  position: relative;
-  background: #ffffff;
-  border-radius: 18px;
-  overflow: hidden;
-  transition: 0.4s ease;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
-
-.service-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-}
-
-/* Decorative Background Circle */
-.service-item::before {
-  content: "";
-  position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 140px;
-  height: 140px;
-  background: linear-gradient(135deg, #f8d7da, #f3c6cc);
-  border-radius: 50%;
-  z-index: 0;
-}
-
-/* Optional Bottom Shape */
-.service-item::after {
-  content: "";
-  position: absolute;
-  bottom: -40px;
-  left: -40px;
-  width: 120px;
-  height: 120px;
-  background: #fde2e4;
-  border-radius: 50%;
-  opacity: 0.6;
-  z-index: 0;
-}
-
-/* Image Styling */
-.service-img-wrapper {
-  position: relative;
-  z-index: 1;
-}
-
-.service-img {
-  border-radius: 12px;
-  transition: 0.4s ease;
-}
-
-.service-item:hover .service-img {
-  transform: scale(1.05);
-}
-
 
 /*** Team ***/
 .team {
