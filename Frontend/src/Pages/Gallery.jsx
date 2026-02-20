@@ -8,7 +8,6 @@ function Gallery() {
     "/img/salon3.jpg",
     "/img/salon4.jpg",
     "/img/salon5.jpg",
-    "/img/salon6.jpg",
     "/img/salon7.jpg",
     "/img/salon8.jpg",
     "/img/salon9.jpg",
