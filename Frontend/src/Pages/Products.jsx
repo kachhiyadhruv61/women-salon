@@ -6,8 +6,6 @@ function Products() {
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  const user = localStorage.getItem("user");
-
 
   // 🔥 Quantity per product maintain karva mate object
   const [quantities, setQuantities] = useState({});
@@ -155,7 +153,7 @@ function Products() {
   const buyNow = (product) => {
     const qty = quantities[product.id] || 1;
     addToCart(product, qty);
-    navigate("/checkout");
+    navigate("/login");
   };
 
   return (
@@ -227,7 +225,6 @@ function Products() {
   <button
     className="btn btn-warning"
     onClick={() => handleAddToCart(product)}
-    disabled={!user}
   >
     Add to Cart
   </button>
@@ -236,18 +233,11 @@ function Products() {
   <button
     className="btn btn-success"
     onClick={() => buyNow(product)}
-    disabled={!user}
   >
     Buy Now
   </button>
 
 </div>
-
-{!user && (
-  <small className="text-muted d-block mt-2">
-    🔒 Login required to purchase
-  </small>
-)}
 
             </div>
           </div>
