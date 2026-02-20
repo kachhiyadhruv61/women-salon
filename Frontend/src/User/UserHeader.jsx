@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function UserHeader({ setRole }) {
   const navigate = useNavigate();
@@ -11,16 +11,16 @@ function UserHeader({ setRole }) {
 
   return (
     <div className="container-fluid bg-light sticky-top p-0">
-       <nav className="navbar navbar-expand-lg navbar-light p-0">
-    
-          <Link to="/" className="navbar-brand py-2 px-3">
-            <img
-              src="/img/logo.png"
-              alt="A2 Women Salon"
-              className="logo-img"
-            />
-          </Link>
+      <nav className="navbar navbar-expand-lg navbar-light p-0">
 
+        {/* Logo */}
+        <NavLink to="/" className="navbar-brand py-2 px-3">
+          <img
+            src="/img/logo.png"
+            alt="A2 Women Salon"
+            className="logo-img"
+          />
+        </NavLink>
 
         <button
           className="navbar-toggler me-4"
@@ -32,17 +32,65 @@ function UserHeader({ setRole }) {
         </button>
 
         <div className="collapse navbar-collapse p-3" id="navbarCollapse">
+
           {/* NAV MENUS */}
           <div className="navbar-nav mx-auto">
-            <Link to="/userdashboard" className="nav-item nav-link">Dashboard</Link>
-            <Link to="/userservice" className="nav-item nav-link">Services</Link>
-            <Link to="/usershop" className="nav-item nav-link">Shop</Link>
-            
-            <Link to="/userappoint" className="nav-item nav-link">My Appointments</Link>
-            <Link to="/userorders" className="nav-item nav-link">My Orders</Link>
-            <Link to="/cart" className="nav-item nav-link position-relative">
-  🛒 Cart</Link>
 
+            <NavLink
+              to="/userdashboard"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Dashboard
+            </NavLink>
+
+            <NavLink
+              to="/userservice"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Services
+            </NavLink>
+
+            <NavLink
+              to="/usershop"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Shop
+            </NavLink>
+
+            <NavLink
+              to="/userappoint"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              My Appointments
+            </NavLink>
+
+            <NavLink
+              to="/userorders"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              My Orders
+            </NavLink>
+
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                isActive
+                  ? "nav-item nav-link active position-relative"
+                  : "nav-item nav-link position-relative"
+              }
+            >
+              🛒 Cart
+            </NavLink>
 
           </div>
 
@@ -58,10 +106,14 @@ function UserHeader({ setRole }) {
 
             <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <Link to="/userprofile" className="dropdown-item">My Profile</Link>
+                <NavLink to="/userprofile" className="dropdown-item">
+                  My Profile
+                </NavLink>
               </li>
               <li>
-                <Link to="/addresses" className="dropdown-item">My Addresses</Link>
+                <NavLink to="/addresses" className="dropdown-item">
+                  My Addresses
+                </NavLink>
               </li>
               <li><hr className="dropdown-divider" /></li>
               <li>
@@ -70,7 +122,6 @@ function UserHeader({ setRole }) {
                 </button>
               </li>
             </ul>
-
           </div>
 
         </div>

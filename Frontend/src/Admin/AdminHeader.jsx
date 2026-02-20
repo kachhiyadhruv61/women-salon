@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const AdminHeader = ({ setRole }) => {
@@ -29,21 +29,21 @@ const AdminHeader = ({ setRole }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-3">
-      <div className="container-fluid">
+    <div className="container-fluid bg-light sticky-top p-0">
+      <nav className="navbar navbar-expand-lg navbar-light p-0">
 
         {/* Logo */}
-        <Link to="/" className="navbar-brand">
+        <NavLink to="/" className="navbar-brand py-2 px-3">
           <img
             src="/img/logo.png"
             alt="A2 Women Salon"
-            height="45"
+            className="logo-img"
           />
-        </Link>
+        </NavLink>
 
-        {/* Toggle Button */}
+        {/* Toggle */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler me-4"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#adminNavbar"
@@ -51,44 +51,84 @@ const AdminHeader = ({ setRole }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Navbar Links */}
-        <div className="collapse navbar-collapse" id="adminNavbar">
-         <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+        <div className="collapse navbar-collapse p-3" id="adminNavbar">
 
-            <li className="nav-item">
-              <Link to="/dashboard" className="nav-link">Dashboard</Link>
-            </li>
+          <div className="navbar-nav mx-auto">
 
-            <li className="nav-item">
-              <Link to="/user" className="nav-link">User</Link>
-            </li>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Dashboard
+            </NavLink>
 
-            <li className="nav-item">
-              <Link to="/staff" className="nav-link">Staff</Link>
-            </li>
+            <NavLink
+              to="/user"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              User
+            </NavLink>
 
-            <li className="nav-item">
-              <Link to="/adminservice" className="nav-link">Service</Link>
-            </li>
+            <NavLink
+              to="/staff"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Staff
+            </NavLink>
 
-            <li className="nav-item">
-              <Link to="/adbooking" className="nav-link">Booking</Link>
-            </li>
+            <NavLink
+              to="/adminservice"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Service
+            </NavLink>
 
-            <li className="nav-item">
-              <Link to="/orders" className="nav-link">Orders</Link>
-            </li>
+            <NavLink
+              to="/product"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Product
+            </NavLink>
 
-            <li className="nav-item">
-              <Link to="/product" className="nav-link">Product</Link>
-            </li>
+            <NavLink
+              to="/orders"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Orders
+            </NavLink>
 
-            <li className="nav-item">
-              <Link to="/adpayment" className="nav-link">Payment</Link>
-            </li>
+            <NavLink
+              to="/adbooking"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Booking
+            </NavLink>
 
-            {/* Pages Dropdown */}
-            <li className="nav-item dropdown">
+            <NavLink
+              to="/adpayment"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Payment
+            </NavLink>
+
+            {/* Dropdown */}
+            <div className="nav-item dropdown">
               <span
                 className="nav-link dropdown-toggle"
                 role="button"
@@ -96,13 +136,20 @@ const AdminHeader = ({ setRole }) => {
               >
                 Pages
               </span>
-              <ul className="dropdown-menu">
-                <li><Link to="/contactdata" className="dropdown-item">Inqueries</Link></li>
-                <li><Link to="/reports" className="dropdown-item">Reports</Link></li>
-                <li><Link to="/settings" className="dropdown-item">Settings</Link></li>
-              </ul>
-            </li>
-          </ul>
+              <div className="dropdown-menu bg-light mt-2">
+                <NavLink to="/contactdata" className="dropdown-item">
+                  Inqueries
+                </NavLink>
+                <NavLink to="/reports" className="dropdown-item">
+                  Reports
+                </NavLink>
+                <NavLink to="/settings" className="dropdown-item">
+                  Settings
+                </NavLink>
+              </div>
+            </div>
+
+          </div>
 
           {/* Right Side */}
           <div className="d-flex align-items-center gap-3">
@@ -121,40 +168,17 @@ const AdminHeader = ({ setRole }) => {
                   {unreadCount}
                 </span>
               )}
-
-             {showNotify && (
-                <div
-                  className="position-absolute end-0 mt-2 bg-white shadow rounded p-3"
-                  style={{ width: "300px", zIndex: 1000 }}
-                >
-                  <h6 className="fw-bold mb-2">Notifications</h6>
-
-                  {notifications.length === 0 ? (
-                    <p className="text-muted small">No notifications</p>
-                  ) : (
-                    notifications.map((n) => (
-                      <div
-                        key={n.id}
-                        className={`border-bottom py-2 ${!n.isRead ? "fw-semibold" : ""}`}
-                      >
-                        <div>{n.title}</div>
-                        <small className="text-muted">{n.message}</small>
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
             </div>
 
             {/* Logout */}
-            <button className="btn btn-danger btn-sm" onClick={logout}>
-              Logout
+            <button className="btn btn-sm btn-primary" onClick={logout}>
+              LOGOUT
             </button>
 
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 

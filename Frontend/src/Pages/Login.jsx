@@ -1,25 +1,21 @@
-       import { useState } from "react";
-import {  Link,useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = ({ setRole }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  console.log("USERNAME 👉", username);
-   console.log("PASSWORD 👉", password);
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (!username || !password) {
       setError("All fields are required");
       return;
     }
 
-    // 🔐 Dummy Login Logic (backend hoy to ahiya API call aavse)
     if (username === "admin" && password === "admin123") {
       localStorage.setItem("role", "admin");
       setRole("admin");
@@ -30,18 +26,15 @@ const Login = ({ setRole }) => {
       setRole("user");
       navigate("/userdashboard");
     } 
-else if (username === "staff" && password === "staff123456") {
+    else if (username === "staff" && password === "staff123456") {
       localStorage.setItem("role", "staff");
       setRole("staff");
       navigate("/staff/dashboard");
     } 
-
-    
-   else{
-    setError("Invalid username or password");
-   }
+    else {
+      setError("Invalid username or password");
+    }
   };
-  
 
   return (
     <div className="login-container">
@@ -75,16 +68,15 @@ else if (username === "staff" && password === "staff123456") {
         <button type="submit" className="btn btn-primary w-100">
           Login
         </button>
-              <p className="mt-3 text-center">
-        New user? <Link to="/register">Register here</Link>
-      </p>
 
+        <p className="mt-3 text-center">
+          New user? <Link to="/register">Register here</Link>
+        </p>
 
         <p className="note">
           Admin → admin / admin123 <br />
-          User → user / user123
-           Staff → staff / staff123456
-          
+          User → user / user123 <br />
+          Staff → staff / staff123456
         </p>
       </form>
     </div>
@@ -92,6 +84,3 @@ else if (username === "staff" && password === "staff123456") {
 };
 
 export default Login;
-
-
-
