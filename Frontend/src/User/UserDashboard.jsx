@@ -83,7 +83,7 @@ function UserDashboard() {
 
       {/* ================= BOOK NEW SERVICE ================= */}
       <div className="text-center mt-4">
-        <Link to="/bookingform" className="btn btn-success px-4 py-2">
+        <Link to="/bookingform" className="btn btn-primary px-4 py-2">
           ➕ Book New Service
         </Link>
       </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function AddProduct() {
-
+const [editingId] = useState(null);
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -10,12 +10,6 @@ function AddProduct() {
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("Active");
-
-  const addProduct = () => {
-    if (!name || !amount || !stock) {
-      alert("Please fill required fields");
-      return;
-    }
 
     const newProduct = {
       id: Date.now(),
@@ -29,7 +23,6 @@ function AddProduct() {
 
     console.log("Product Added 👉", newProduct);
 
-    // 🔥 Future: API call or localStorage save
 
     // Reset form
     setName("");
@@ -40,13 +33,15 @@ function AddProduct() {
 
     // Redirect back to product list page
     navigate("/adminproduct");
-  };
+
 
   return (
     <div className="container mt-4">
 
       <div className="card shadow p-4">
-        <h4 className="mb-3 text-center">➕ Add New Product</h4>
+        <h4 className="mb-3 text-center">
+          {editingId ? "Edit Product" : "Add Product➕"} 
+        </h4>
 
         <input
           type="text"
@@ -88,9 +83,9 @@ function AddProduct() {
           <option value="Inactive">Inactive</option>
         </select>
 
-        <button className="btn btn-success w-100" onClick={addProduct}>
-          Add Product
-        </button>
+        <button type="submit" className="btn btn-primary w-100">
+            {editingId ? "Update Product" : "Add Product"}
+          </button>
 
       </div>
     </div>

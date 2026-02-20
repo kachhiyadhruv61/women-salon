@@ -90,7 +90,7 @@ function Addresses() {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3>My Addresses</h3>
         <button
-          className="btn btn-success"
+          className="btn btn-primary"
           onClick={() => setShowForm(true)}
         >
           + Add Address

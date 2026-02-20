@@ -607,7 +607,7 @@ function Servicedetails() {
                   <p><strong>👩‍💼 Staff:</strong> {staffAvailable ? data.staff.join(", ") : "Not Available"}</p> 
                   {data.note && <p className="text-success">🌿 {data.note}</p>} 
                   {staffAvailable ? ( 
-                    <Link to="/register" className="btn btn-success btn-sm mt-2"> Register & Book Now </Link> ) 
+                    <Link to="/register" className="btn btn-primary px-4 py-2"> Register & Book Now </Link> ) 
                     : ( <p className="text-danger mt-2">❌ Not available at this location</p> 
 
                     )} 

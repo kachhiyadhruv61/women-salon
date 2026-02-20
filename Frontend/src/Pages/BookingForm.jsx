@@ -145,6 +145,7 @@ function BookingForm({ onBookingSubmit }) {
     advance: "",
   });
 
+  const [editingId] = useState(null);
   const [availableStaff, setAvailableStaff] = useState([]);
   const [availableLocations, setAvailableLocations] = useState([]);
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
@@ -272,13 +273,16 @@ Please pay remaining amount at the time of service 🌸`;
   };
 
   return (
-    <div className="card p-4 shadow">
-      <h4 className="mb-3">Book Your Service 💆‍♀️</h4>
+    <div className="container mt-4">
+      <div className="card shadow p-4">
+        <h3 className="mb-3 text-center">
+          {editingId ? "Edit Booking" : "Book Your Service "}
+        </h3>
 
       <form onSubmit={handleSubmit}>
 
         <input
-          className="form-control mb-2"
+          className="form-control mb-3"
           name="name"
           placeholder="Your Name"
           value={formData.name}
@@ -287,7 +291,7 @@ Please pay remaining amount at the time of service 🌸`;
         />
 
         <input
-          className="form-control mb-2"
+          className="form-control mb-3"
           name="phone"
           placeholder="Mobile Number"
           value={formData.phone}
@@ -297,7 +301,7 @@ Please pay remaining amount at the time of service 🌸`;
 
         {/* Service */}
         <select
-          className="form-control mb-2"
+          className="form-control mb-3"
           name="service"
           value={formData.service}
           onChange={handleChange}
@@ -312,7 +316,7 @@ Please pay remaining amount at the time of service 🌸`;
         {/* Staff */}
         {availableStaff.length > 0 && (
           <select
-            className="form-control mb-2"
+            className="form-control mb-3"
             name="staff"
             value={formData.staff}
             onChange={handleChange}
@@ -328,7 +332,7 @@ Please pay remaining amount at the time of service 🌸`;
         {/* Location */}
         {availableLocations.length > 0 && (
           <select
-            className="form-control mb-2"
+            className="form-control mb-3"
             name="location"
             value={formData.location}
             onChange={handleChange}
@@ -344,7 +348,7 @@ Please pay remaining amount at the time of service 🌸`;
         {/* Date */}
         <input
           type="date"
-          className="form-control mb-2"
+          className="form-control mb-3"
           name="date"
           value={formData.date}
           onChange={handleChange}
@@ -354,7 +358,7 @@ Please pay remaining amount at the time of service 🌸`;
         {/* Time Slot */}
         {availableTimeSlots.length > 0 && (
           <select
-            className="form-control mb-2"
+            className="form-control mb-3"
             name="time"
             value={formData.time}
             onChange={handleChange}
@@ -370,7 +374,7 @@ Please pay remaining amount at the time of service 🌸`;
         {/* Advance */}
         <input
           type="number"
-          className="form-control mb-2"
+          className="form-control mb-3"
           name="advance"
           placeholder="Enter Advance Amount"
           value={formData.advance}
@@ -394,12 +398,13 @@ Please pay remaining amount at the time of service 🌸`;
           onChange={handleChange}
         />
 
-        <button className="btn btn-success w-100">
-          Confirm Booking
-        </button>
+         <button type="submit" className="btn btn-primary w-100">
+            {editingId ? "Update Booking" : "Confirm Booking"}
+          </button>
 
       </form>
     </div>
+  </div>
   );
 }
 

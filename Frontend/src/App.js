@@ -32,6 +32,7 @@ import AddService from "./Admin/AddService";
 import AdBooking from "./Admin/AdBooking";
 import Adpayment from "./Admin/Adpayment";
 import Staff from "./Admin/Staff";
+import AddStaff from "./Admin/AddStaff";
 import Product from "./Admin/Product";
 import AddProduct from "./Admin/AddProduct";
 import Reports from "./Admin/Reports";
@@ -126,6 +127,10 @@ function App() {
         <Route
           path="/staff"
           element={role === "admin" ? <Staff /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/addstaff"
+          element={role === "admin" ? <AddStaff /> : <Navigate to="/login" />}
         />
         <Route
           path="/orders"

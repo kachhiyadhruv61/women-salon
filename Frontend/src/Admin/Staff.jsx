@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import CommonTable from "../Components/CommonTable";
+import { useNavigate } from "react-router-dom";
 import StaffStatusBtn from "../Components/Staff/StaffStatusbtn";
 import AssignService from "../Components/Staff/AssignService";
 
 function Staffs() {
+  const navigate = useNavigate();
   const [staffList, setStaffList] = useState([
     {
       id: 1,
@@ -104,6 +106,13 @@ function Staffs() {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Staff Management 👩‍💼</h2>
+
+         <button
+          className="btn btn-primary"
+          onClick={() => navigate("/addstaff")}
+        >
+          + Add Staff
+        </button>
       </div>
 
       <CommonTable

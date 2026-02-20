@@ -157,7 +157,7 @@ function UserShop() {
 
   return (
     <div className="container py-5">
-      <h1 className="text-center mb-4">Our Organic Products 🌿</h1>
+      <h1 className="text-center text-primary mb-4">Our Organic Products</h1>
 
       <div className="row">
         {products.map((product) => (

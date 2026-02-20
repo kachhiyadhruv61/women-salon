@@ -69,7 +69,7 @@ function UserProfile() {
               </div>
             </div>
 
-            <button className="btn btn-success" onClick={handleEdit}>
+            <button className="btn btn-primary" onClick={handleEdit}>
               Edit Profile
             </button>
           </>

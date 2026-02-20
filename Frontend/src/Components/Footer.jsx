@@ -10,7 +10,7 @@ function Footer() {
           <div className="col-lg-6 pe-lg-5">
             <Link to="/" className="navbar-brand py-2 px-3">
               <img
-            src="/img/logo2.png"
+            src="/img/logo2-removebg-preview.png"
             alt="A2 Women Salon"
             className="logo-img"
           />
