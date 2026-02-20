@@ -3,7 +3,7 @@ import { useState } from "react";
 function Gallery() {
   const salonImages = [
     "/img/salon1.jpg",
-     "/img/salon17.png",
+    "/img/salon17.png",
     "/img/salon2.jpg",
     "/img/salon3.jpg",
     "/img/salon4.jpg",
