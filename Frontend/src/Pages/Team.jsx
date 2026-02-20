@@ -15,7 +15,7 @@ function Team() {
     <div className="container-fluid py-5">
       <div className="container">
         <div className="text-center mb-5">
-          <h1 className="font-dancing-script text-primary">Team Members</h1>
+          <h2 className="font-dancing-script text-primary">Team Members</h2>
           <h1>Our Experienced Specialists</h1>
         </div>
 
@@ -37,7 +37,9 @@ function Team() {
             {/* CARD 1 */}
             <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
               <div className="team-img">
-                <img src="/img/team1.png" className="img-fluid w-100" />
+                <img src="/img/team1.png" 
+                alt="team member"
+                className="img-fluid w-100" />
                 <div className="team-overlay text-center">
                   <p className="text-primary mb-1">Hair Specialist</p>
                   <h4>Neha Patel</h4>
@@ -48,7 +50,7 @@ function Team() {
             {/* CARD 2 */}
             <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
               <div className="team-img">
-                <img src="/img/team2.png" className="img-fluid w-100" />
+                <img src="/img/team2.png" alt="team member" className="img-fluid w-100" />
                 <div className="team-overlay text-center">
                   <p className="text-primary mb-1">Hair Specialist</p>
                   <h4>Pooja Joshi</h4>
@@ -59,7 +61,7 @@ function Team() {
             {/* CARD 3 */}
             <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
               <div className="team-img">
-                <img src="/img/team3.png" className="img-fluid w-100" />
+                <img src="/img/team3.png" alt="team member" className="img-fluid w-100" />
                 <div className="team-overlay text-center">
                   <p className="text-primary mb-1">Face Specialist</p>
                   <h4>Aarti Parmar</h4>
@@ -70,7 +72,7 @@ function Team() {
             {/* CARD 4 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team4.png" className="img-fluid w-100" />
+    <img src="/img/team4.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Beauty Specialist</p>
       <h4>Parul Mehta</h4>
@@ -81,7 +83,7 @@ function Team() {
 {/* CARD 5 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team5.png" className="img-fluid w-100" />
+    <img src="/img/team5.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Makeup Artist</p>
       <h4>Prachi Solanki</h4>
@@ -92,7 +94,7 @@ function Team() {
 {/* CARD 6 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team6.png" className="img-fluid w-100" />
+    <img src="/img/team6.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Pedicure Specialist</p>
       <h4>Reena Arora</h4>
@@ -103,7 +105,7 @@ function Team() {
 {/* CARD 7 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team7.png" className="img-fluid w-100" />
+    <img src="/img/team7.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Pedicure Specialist</p>
       <h4>Kajal Patel</h4>
@@ -114,7 +116,7 @@ function Team() {
 {/* CARD 8 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team8.png" className="img-fluid w-100" />
+    <img src="/img/team8.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Mehndi Specialist</p>
       <h4>Ayra Vhora</h4>
@@ -125,7 +127,7 @@ function Team() {
 {/* CARD 9 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team9.png" className="img-fluid w-100" />
+    <img src="/img/team9.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Spa Specialist</p>
       <h4>Lily Smith</h4>
@@ -136,7 +138,7 @@ function Team() {
 {/* CARD 10 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team10.png" className="img-fluid w-100" />
+    <img src="/img/team10.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Threading Specialist</p>
       <h4>Riya Pitroda</h4>
@@ -147,7 +149,7 @@ function Team() {
 {/* CARD 11 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team11.png" className="img-fluid w-100" />
+    <img src="/img/team11.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Waxing Specialist</p>
       <h4>Diya Patel</h4>
@@ -158,7 +160,7 @@ function Team() {
 {/* CARD 12 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team12.png" className="img-fluid w-100" />
+    <img src="/img/team12.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">Waxing Specialist</p>
       <h4>Priya Patel</h4>
@@ -169,7 +171,7 @@ function Team() {
 {/* CARD 13 */}
 <div className="team-item flex-shrink-0" style={{ width: "250px" }}>
   <div className="team-img">
-    <img src="/img/team13.png" className="img-fluid w-100" />
+    <img src="/img/team13.png" alt="team member" className="img-fluid w-100" />
     <div className="team-overlay text-center">
       <p className="text-primary mb-1">All-Rounder Specialist</p>
       <h4>Khushi Mehta</h4>

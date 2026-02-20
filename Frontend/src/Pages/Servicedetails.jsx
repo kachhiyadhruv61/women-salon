@@ -543,15 +543,15 @@ function Servicedetails() {
           </label>
         ))}
       </div>
-
+     <div className="row">
+      
      {category.services.map((service, i) => {
   const data = service.locationDetails[location];
   const staffAvailable = data.staff && data.staff.length > 0;
 
   return ( 
-  <div 
-  key={i} 
-  className="card p-4 mb-4 shadow-sm">
+  <div key={i} className="col-md-6 mb-4">
+   <div className="card p-4 shadow-sm h-100">
      <h3>{service.name}</h3> 
      <p>{service.details}</p> 
      {service.shapes && ( 
@@ -578,9 +578,8 @@ function Servicedetails() {
           <h5 className="mt-4">💍 Bridal Package Options</h5> 
           {service.packageTypes.map((pkg, i) => 
           (
-           <div 
-           key={i} className="border rounded p-3 mb-3"> 
-           <h6>
+          <div key={i} className="border rounded p-3 mb-3"> 
+            <h6>
             {pkg.type}</h6> 
             <p><strong>{pkg.priceRange}</strong></p> 
             <ul> {pkg.includes.map((item, j) => ( 
@@ -588,19 +587,19 @@ function Servicedetails() {
               </li> 
               ))} 
               </ul> 
-              </div> 
+          </div> 
               ))} 
               </> 
               )} 
               {service.locationDetails.products && service.locationDetails.products.length > 0 && ( 
                 <div className="mt-3"> 
-                <h6 className="text-success">🧴 Products Used</h6> 
-                <ul> 
+                  <h6 className="text-success">🧴 Products Used</h6> 
+                  <ul> 
                   {service.locationDetails.products.map((p, i) => ( 
                     <li key={i}> {p.name} – ₹{p.price} </li> 
                   ))} 
                   </ul> 
-                  </div> 
+                </div> 
                   )}, 
                   <p><strong>⏱ Time:</strong> {data.time}</p> 
                   <p><strong>💰 Price:</strong> ₹{data.price}</p> 
@@ -611,11 +610,14 @@ function Servicedetails() {
                     : ( <p className="text-danger mt-2">❌ Not available at this location</p> 
 
                     )} 
-                    </div> ); 
+                </div> 
+    </div>); 
                     })} 
-                    </div> 
-                    );
-                   } 
+          </div> 
+ 
+</div>
+);
+} 
  export default Servicedetails;
 
   

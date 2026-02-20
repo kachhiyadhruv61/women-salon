@@ -8,7 +8,8 @@ function About() {
     <div className="container py-5">
       {/* TITLE */}
       <div className="text-center mb-5">
-        <h1 className="font-dancing-script text-primary">About Us</h1>
+        <h2 className="font-dancing-script text-primary">About Us</h2>
+         <h1 className="mb-4">NatureGlow Women Salon</h1>
       </div>
 
       <div className="row align-items-center">
@@ -41,7 +42,6 @@ function About() {
 
           {/* RIGHT CONTENT SECTION */}
           <div className="col-lg-6">
-            <h1 className="mb-4">NatureGlow Women Salon 🌿</h1>
 
             <p className="mb-3">
               NatureGlow Women Salon is a dedicated <strong>women-only organic beauty salon</strong>

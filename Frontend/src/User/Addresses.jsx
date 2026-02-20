@@ -15,12 +15,23 @@ function Addresses() {
   const [form, setForm] = useState(initialForm);
 
   /* ================= LOAD FROM LOCALSTORAGE ================= */
-  useEffect(() => {
+ useEffect(() => {
+  const loadAddresses = () => {
     const saved = localStorage.getItem("myAddresses");
     if (saved) {
       setAddresses(JSON.parse(saved));
     }
-  }, []);
+  };
+
+  loadAddresses();
+
+  // 🔥 Important: Listen storage change
+  window.addEventListener("storage", loadAddresses);
+
+  return () => {
+    window.removeEventListener("storage", loadAddresses);
+  };
+}, []);
 
   /* ================= SAVE TO LOCALSTORAGE ================= */
   useEffect(() => {

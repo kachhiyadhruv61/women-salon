@@ -122,8 +122,8 @@ function Testimonial() {
   return (
     <div className="container-fluid py-5">
       <div className="container text-center">
-        <h1 className="font-dancing-script text-primary">Testimonial</h1>
-        <h2 className="mb-5">What Clients Say!</h2>
+        <h2 className="font-dancing-script text-primary">Testimonial</h2>
+        <h1 className="mb-4">What Clients Say!</h1>
 
         {/* ===== DEFAULT SLIDER VIEW ===== */}
         {!showAll && (

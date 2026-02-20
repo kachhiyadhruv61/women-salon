@@ -20,7 +20,6 @@ function Contact() {
       `Thank you ${formData.name}! 🌿\nWe have received your message. Our team will contact you soon.`
     );
 
-//clear form
     setFormData({
       name: "",
       phone: "",
@@ -30,51 +29,67 @@ function Contact() {
     });
   };
 
-
   return (
     <div className="container py-5">
       <div className="text-center mb-5">
-            <h1 className="font-dancing-script text-primary">Contact Us</h1>
-       </div>
-      <div className="row align-items-center">
+        <h2 className="font-dancing-script text-primary">Contact Us</h2>
+        <h1>Get In Touch</h1>
+      </div>
 
-        {/* LEFT SIDE - CONTACT INFO */}
-        <div className="col-lg-5">
+      <div className="row align-items-stretch">
 
-          <p>
-            We’re always happy to help you look & feel beautiful 🌿  
-            Book your appointment or contact us for free consultation.
-          </p>
+        {/* LEFT SIDE */}
+        <div className="col-lg-5 mb-4">
+          <div className="p-4 rounded shadow-sm h-100" style={{ backgroundColor: "#f8f9fa" }}>
+            
+            <p>
+              We’re always happy to help you look & feel beautiful 🌿  
+              Book your appointment or contact us for free consultation.
+            </p>
 
-          <p>📍 <strong>Address:</strong><br />
-            A<sup>2</sup> Women Salon,<br />
-           Anand, Gujarat
-          </p>
+            <p>📍 <strong>Address:</strong><br />
+              A<sup>2</sup> Women Salon,<br />
+              Anand, Gujarat
+            </p>
 
-          <p>📞 <strong>Phone:</strong><br />
-            9574568855<br />
-            9998662408
-          </p>
+            <p>📞 <strong>Phone:</strong><br />
+              9574568855<br />
+              9998662408
+            </p>
 
-          <p>🕒 <strong>Working Hours:</strong><br />
-            Mon – Sat: 9:00 AM – 8:00 PM<br />
-            Sun: 10:00 AM – 6:00 PM
-          </p>
+            <p>🕒 <strong>Working Hours:</strong><br />
+              Mon – Sat: 9:00 AM – 8:00 PM<br />
+              Sun: 10:00 AM – 6:00 PM
+            </p>
 
-          {/* WHATSAPP BUTTON */}
-          <a
-            href="https://wa.me/919574568855"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-success px-4 py-2 mt-3"
-          >
-            💬 Chat on WhatsApp
-          </a>
+            <a
+              href="https://wa.me/919574568855"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-success px-4 py-2 mt-3"
+            >
+              💬 Chat on WhatsApp
+            </a>
+
+            {/* GOOGLE MAP */}
+            <div className="mt-4">
+              <iframe
+                title="Salon Location"
+                src="https://www.google.com/maps?q=Anand,Gujarat&output=embed"
+                width="100%"
+                height="200"
+                style={{ border: 0, borderRadius: "10px" }}
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+
+          </div>
         </div>
 
-  {/* RIGHT SIDE - CONTACT FORM */}
+        {/* RIGHT SIDE */}
         <div className="col-lg-7">
-          <div className="bg-light p-4 rounded shadow">
+          <div className="bg-light p-4 rounded shadow h-100">
             <h3 className="mb-4 text-center">Send Us a Message</h3>
 
             <form onSubmit={handleSubmit}>

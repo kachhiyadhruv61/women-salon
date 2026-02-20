@@ -62,8 +62,40 @@ function Checkout() {
     });
     setShowAddresses(false);
   };
+ /* ================= ADDED ADDRESS SAVED TO ADDRESSES================= */
 
-  //billing calculation logic
+const saveAddressToAddressPage = () => {
+  if (!form.address.trim()) return;
+
+  // LocalStorage mathi current addresses lao
+  const stored = localStorage.getItem("myAddresses");
+  const existingAddresses = stored ? JSON.parse(stored) : [];
+
+  // Check duplicate (same fullAddress)
+  const alreadyExists = existingAddresses.some(
+    (addr) => addr.fullAddress === form.address
+  );
+
+  if (!alreadyExists) {
+    const newAddress = {
+      id: Date.now(),
+      name: form.name,
+      phone: form.phone,
+      fullAddress: form.address,
+      type: "Other",
+      isDefault: existingAddresses.length === 0,
+    };
+
+    const updated = [...existingAddresses, newAddress];
+
+    localStorage.setItem(
+      "myAddresses",
+      JSON.stringify(updated)
+    );
+  }
+};
+
+ /* ================= BILLING CALCULATION LOGIC ================= */
   const discountPercent = 10;   // Example 10% discount
 const taxPercent = 5;         // Example 5% GST
 
@@ -272,7 +304,8 @@ const downloadBill = () => {
 
   return (
     <div className="container py-5">
-      <h2>Checkout & Payment</h2>
+      <h3 className="mb-0">Checkout & Payment</h3>
+
 
       {!showBill && (
         <div className="card p-4 mb-4">
@@ -347,13 +380,16 @@ const downloadBill = () => {
             </div>
           )}
 
-          <button
-            className="btn btn-primary"
-            onClick={() => setShowBill(true)}
-            disabled={cart.length === 0}
-          >
-            Preview Bill
-          </button>
+         <button
+  className="btn btn-primary"
+  onClick={() => {
+     saveAddressToAddressPage();  // 🔥 New address save
+    setShowBill(true);
+  }}
+  disabled={cart.length === 0}
+>
+  Preview Bill
+</button>
         </div>
       )}
 

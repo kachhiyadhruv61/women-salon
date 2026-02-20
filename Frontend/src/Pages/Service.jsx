@@ -57,8 +57,8 @@ function Service() {
     <div className="container-fluid py-5">
       <div className="container">
         <div className="text-center mb-5">
-          <h1 className="font-dancing-script text-primary">Our Service</h1>
-          <h2>Explore Our Services</h2>
+          <h2 className="font-dancing-script text-primary">Our Service</h2>
+          <h1>Explore Our Services</h1>
         </div>
 
         {/* ✅ 4 BOX PER ROW + PARTITION */}
