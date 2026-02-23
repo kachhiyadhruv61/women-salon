@@ -3,13 +3,44 @@ import { useRef } from "react";
 function Team() {
   const scrollRef = useRef(null);
 
-  const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-  };
+  const scrollAmount = 270; // card width + gap approx
 
-  const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-  };
+const scrollLeft = () => {
+  const container = scrollRef.current;
+
+  if (container.scrollLeft <= 0) {
+    // go to end
+    container.scrollTo({
+      left: container.scrollWidth,
+      behavior: "smooth",
+    });
+  } else {
+    container.scrollBy({
+      left: -scrollAmount,
+      behavior: "smooth",
+    });
+  }
+};
+
+const scrollRight = () => {
+  const container = scrollRef.current;
+
+  if (
+    container.scrollLeft + container.clientWidth >=
+    container.scrollWidth - 5
+  ) {
+    // back to start
+    container.scrollTo({
+      left: 0,
+      behavior: "smooth",
+    });
+  } else {
+    container.scrollBy({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  }
+};
 
   return (
     <div className="container-fluid py-5">
@@ -20,7 +51,7 @@ function Team() {
         </div>
 
         {/* arrows + row */}
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center justify-content-center">
 
           {/* LEFT ARROW */}
           <button className="btn btn-primary me-2" onClick={scrollLeft}>
@@ -31,7 +62,10 @@ function Team() {
           <div
             ref={scrollRef}
             className="d-flex gap-4 overflow-hidden"
-            style={{ scrollBehavior: "smooth" }}
+            style={{ scrollBehavior: "smooth",
+              width: "830px"   // 250 + gap(approx 20) × 3
+             }}
+            
           >
 
             {/* CARD 1 */}

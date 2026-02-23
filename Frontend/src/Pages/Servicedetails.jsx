@@ -525,24 +525,28 @@ function Servicedetails() {
       <h1>{category.category}</h1>
       <p className="mb-4">{category.description}</p>
 
-      {/* LOCATION */}
-      <div className="mb-4">
-        <h5>Select Service Location</h5>
-        {["salon", "natural", "home"].map((loc) => (
-          <label key={loc} className="me-4">
-            <input
-              type="radio"
-              checked={location === loc}
-              onChange={() => setLocation(loc)}
-            />{" "}
-            {loc === "salon"
-              ? "At Salon"
-              : loc === "natural"
-              ? "At Natural Place"
-              : "At Home"}
-          </label>
-        ))}
-      </div>
+{/* LOCATION */}
+<div className="mb-4">
+  <h5 className="text-center mb-3">Select Service Location</h5>
+
+  <ul className="nav nav-pills justify-content-center">
+    {["salon", "natural", "home"].map((loc) => (
+      <li className="nav-item" key={loc}>
+        <button
+          type="button"
+          className={`nav-link ${location === loc ? "active" : ""}`}
+          onClick={() => setLocation(loc)}
+        >
+          {loc === "salon"
+            ? "At Salon"
+            : loc === "natural"
+            ? "At Natural Place"
+            : "At Home"}
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
      <div className="row">
       
      {category.services.map((service, i) => {
@@ -606,7 +610,7 @@ function Servicedetails() {
                   <p><strong>👩‍💼 Staff:</strong> {staffAvailable ? data.staff.join(", ") : "Not Available"}</p> 
                   {data.note && <p className="text-success">🌿 {data.note}</p>} 
                   {staffAvailable ? ( 
-                    <Link to="/register" className="btn btn-primary px-4 py-2"> Register & Book Now </Link> ) 
+                    <Link to="/register" className="btn btn-primary px-4 py-2"> Apply Now </Link> ) 
                     : ( <p className="text-danger mt-2">❌ Not available at this location</p> 
 
                     )} 

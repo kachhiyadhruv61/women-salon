@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
+
 function Footer() {
+  
   return (
     <div className="container-fluid footer position-relative bg-dark text-white-50 py-5 mt-5 wow fadeIn">
       <div className="container py-5">
@@ -83,10 +85,11 @@ function Footer() {
             <div className="row g-4">
               <div className="col-sm-6">
                 <h5 className="text-primary mb-4">Quick Links</h5>
+                <Link className="btn btn-link" to="/home">Home</Link>
                 <Link className="btn btn-link" to="/about">About Us</Link>
                 <Link className="btn btn-link" to="/contact">Contact Us</Link>
                 <Link className="btn btn-link" to="/service">Our Service</Link>
-                <Link className="btn btn-link" to="/terms">Products</Link>
+                <Link className="btn btn-link" to="/products">Products</Link>
               </div>
 
               <div className="col-sm-12">
@@ -114,7 +117,17 @@ function Footer() {
 
         </div>
       </div>
+                {/* Copyright */}
+<div className="container-fluid copyright bg-dark text-white-50 py-3">
+  <div className="container text-center">
+    <small>
+      © {new Date().getFullYear()} A<sup>2</sup> Women Organic Salon. 
+      All Rights Reserved.
+    </small>
+  </div>
+</div>
     </div>
+    
   );
 }
 

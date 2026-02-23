@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 /* ===== Public Pages ===== */
 import Home from "./Pages/Home";
@@ -16,6 +16,7 @@ import Register from "./Pages/Register";
 import Products from "./Pages/Products";
 import Checkout from "./Pages/Checkout";
 import Cart from "./Pages/Cart";
+import CartSummary from "./Pages/CartSummary";
 import Payment from "./Pages/Payment";
 
 
@@ -57,7 +58,16 @@ import Addresses from "./User/Addresses";
 
 import StaffDashboard from "./Components/Staff/StaffDashboard";
 
+/* 👇 Scroll to top logic INSIDE SAME FILE */
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 function App() {
   const [role, setRole] = useState("guest");
 
@@ -79,6 +89,7 @@ function App() {
       ) : (
         <Header />
       )}
+        <ScrollToTop /> {/* 👈 AA LINE IMPORTANT */}
 
       <Routes>
         {/* ===== PUBLIC ROUTES ===== */}
@@ -96,6 +107,7 @@ function App() {
         
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/cartsummary" element={<CartSummary />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
 

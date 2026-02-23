@@ -144,17 +144,17 @@ function Products() {
     });
   };
 
-  const handleAddToCart = (product) => {
-    const qty = quantities[product.id] || 1;
-    addToCart(product, qty);
-    alert("Product added to cart ✅");
-  };
+ const handleAddToCart = (product) => {
+  const qty = quantities[product.id] || 1;
+  addToCart(product, qty);
+  navigate("/cartsummary");   // 🔥 login nahi, cart page
+};
 
   const buyNow = (product) => {
-    const qty = quantities[product.id] || 1;
-    addToCart(product, qty);
-    navigate("/login");
-  };
+  const qty = quantities[product.id] || 1;
+  addToCart(product, qty);
+  navigate("/cart");
+};
 
   return (
     <div className="container py-5">

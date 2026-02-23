@@ -46,7 +46,8 @@ function Contact() {
               We’re always happy to help you look & feel beautiful 🌿  
               Book your appointment or contact us for free consultation.
             </p>
-
+            
+ {/* GOOGLE MAP */}
             <p>📍 <strong>Address:</strong><br />
               A<sup>2</sup> Women Salon,<br />
               Anand, Gujarat
@@ -71,18 +72,6 @@ function Contact() {
               💬 Chat on WhatsApp
             </a>
 
-            {/* GOOGLE MAP */}
-            <div className="mt-4">
-              <iframe
-                title="Salon Location"
-                src="https://www.google.com/maps?q=Anand,Gujarat&output=embed"
-                width="100%"
-                height="200"
-                style={{ border: 0, borderRadius: "10px" }}
-                allowFullScreen=""
-                loading="lazy"
-              ></iframe>
-            </div>
 
           </div>
         </div>
