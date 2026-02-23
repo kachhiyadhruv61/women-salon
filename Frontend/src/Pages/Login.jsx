@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {  Link,useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = ({ setRole }) => {
@@ -8,33 +8,60 @@ const Login = ({ setRole }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // ✅ Login page open thay tyare form always clean rahe
+  useEffect(() => {
+    setUsername("");
+    setPassword("");
+    setError("");
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setError("");
 
     if (!username || !password) {
       setError("All fields are required");
       return;
     }
 
+    let userRole = null;
+    let redirectPath = "/login";
+
+    // 🔐 Admin
     if (username === "admin" && password === "admin123") {
-      localStorage.setItem("role", "admin");
-      setRole("admin");
-      navigate("/dashboard");
-    } 
+      userRole = "admin";
+      redirectPath = "/dashboard";
+    }
+
+    // 👤 User
     else if (username === "user" && password === "user123") {
-      localStorage.setItem("role", "user");
-      setRole("user");
-      navigate("/userdashboard");
-    } 
+      userRole = "user";
+      redirectPath = "/userdashboard";
+    }
+
+    // 👨‍💼 Staff
     else if (username === "staff" && password === "staff123456") {
-      localStorage.setItem("role", "staff");
-      setRole("staff");
-      navigate("/staff/dashboard");
-    } 
+      userRole = "staff";
+      redirectPath = "/staff/dashboard";
+    }
+
     else {
       setError("Invalid username or password");
+      return;
     }
+
+    // ✅ Save role in localStorage
+    localStorage.setItem("role", userRole);
+
+    // ✅ Update App state
+    setRole(userRole);
+
+    // ✅ Clear form before redirect
+    setUsername("");
+    setPassword("");
+
+    // ✅ Navigate
+    navigate(redirectPath);
   };
 
   return (
@@ -52,6 +79,7 @@ const Login = ({ setRole }) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter username"
+            autoComplete="off"
           />
         </div>
 
@@ -63,6 +91,7 @@ const Login = ({ setRole }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter password"
+            autoComplete="new-password"
           />
         </div>
 
@@ -77,7 +106,7 @@ const Login = ({ setRole }) => {
         <p className="note">
           Admin → admin / admin123 <br />
           User → user / user123 <br />
-          Staff → staff / staff123456
+         
         </p>
       </form>
     </div>
