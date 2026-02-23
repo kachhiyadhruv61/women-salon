@@ -3,30 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 
+
 function Cart() {
   const { cart, removeFromCart } = useCart();
 
   const navigate = useNavigate();
-  const [setCart] = useState([]);
-  const increaseQty = (id) => {
-  const updatedCart = cart.map((item) =>
-    item.id === id
-      ? { ...item, qty: item.qty + 1 }
-      : item
-  );
 
-  setCart(updatedCart);
-};
-
-const decreaseQty = (id) => {
-  const updatedCart = cart.map((item) =>
-    item.id === id && item.qty > 1
-      ? { ...item, qty: item.qty - 1 }
-      : item
-  );
-
-  setCart(updatedCart);
-};
+   // 🔥 Quantity per product maintain karva mate object
+    const [quantities, setQuantities] = useState({});
+   const handleQtyChange = (id, value) => {
+    setQuantities({
+      ...quantities,
+      [id]: value,
+    });
+  };
+ 
 const handleProceedToBuy = () => {
   const user = localStorage.getItem("user");
 
@@ -45,10 +36,12 @@ const handleProceedToBuy = () => {
   return (
     <div className="container py-5">
   <div className="row align-items-start">
+    <div className="text-center mb-5">
+        <h1 className="font-dancing-script text-primary">Shopping Cart</h1>
+      </div>
 
     {/* LEFT SIDE */}
     <div className="col-lg-8 col-md-7">
-      <h3 className="mb-4">Shopping Cart</h3>
 
       {cart.map((item) => (
         <div key={item.id} className="d-flex border rounded p-3 mb-3 bg-white">
@@ -63,27 +56,40 @@ const handleProceedToBuy = () => {
             <h5>{item.name}</h5>
            <p>₹{item.price}</p>
 
-<div className="d-flex align-items-center mb-2">
+{/* 🔢 Quantity */}
+<div className="d-flex align-items-center mb-3">
+  <span className="fw-semibold me-3">Quantity:</span>
 
-  <button
-    className="btn btn-sm btn-outline-secondary"
-    onClick={() => decreaseQty(item.id)}
-  >
-    -
-  </button>
+  <div className="d-flex align-items-center border rounded px-2 py-1">
+    <button
+      className="btn btn-sm btn-outline-secondary"
+      onClick={() =>
+        handleQtyChange(
+          item.id,
+          Math.max(1, (quantities[item.id] || 1) - 1)
+        )
+      }
+    >
+      -
+    </button>
 
-  <span className="mx-3">{item.qty}</span>
+    <span className="mx-3 fw-bold">
+      {quantities[item.id] || 1}
+    </span>
 
-  <button
-    className="btn btn-sm btn-outline-secondary"
-    onClick={() => increaseQty(item.id)}
-  >
-    +
-  </button>
-
+    <button
+      className="btn btn-sm btn-outline-secondary"
+      onClick={() =>
+        handleQtyChange(
+          item.id,
+          Math.min(10, (quantities[item.id] || 1) + 1)
+        )
+      }
+    >
+      +
+    </button>
+  </div>
 </div>
-            <p className="mb-2">Quantity: {item.qty}</p>
-
             <button
               className="btn btn-sm btn-outline-danger"
               onClick={() => removeFromCart(item.id)}
@@ -95,18 +101,16 @@ const handleProceedToBuy = () => {
         </div>
       ))}
 
-      <h5 className="text-end mt-3">
-        Subtotal ({cart.length} items): ₹{total}
-      </h5>
     </div>
 
     {/* RIGHT SIDE */}
-    <div className="col-lg-4 col-md-5">
-      <div className="border rounded p-4 bg-light sticky-top" style={{ top: "100px" }}>
-        <h5>Subtotal: ₹{total}</h5>
+    <div className="col-lg-4 col-md-5 mt-4 mt-lg-5">
+      <div className="border rounded p-4 bg-light sticky-top shadow" style={{ top: "120px" }}
+>
+        <h5>Subtotal ({cart.length} items): ₹{total}</h5>
 
         <button
-          className="btn btn-warning w-100 mt-3"
+          className="btn btn-success w-100 mt-3"
           onClick={handleProceedToBuy}
         >
           Proceed to Buy

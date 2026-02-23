@@ -33,7 +33,7 @@ function CartSummary() {
             </button>
 
             <button
-              className="btn btn-primary w-100 mt-2"
+              className="btn btn-success w-100 mt-2"
               onClick={() => navigate("/cart")}
             >
               Proceed to Buy
