@@ -9,12 +9,10 @@ const Register = () => {
     phone: "",
     password: "",
     role: "user",
-    status: "active",
     gender: "",
     address: "",
     pincode: "",
      otp: "",          // email OTP
-  manualOtp: ""     // 🔥 new manual OTP
   });
 
   const [errors, setErrors] = useState({});
@@ -45,35 +43,67 @@ const Register = () => {
 const validate = async () => {
   let err = {};
 
-  if (!form.username) err.username = "Username required";
+  if (!form.username.trim())
+    err.username = "Username required";
 
-  /* EMAIL OTP VERIFY (backend) */
-  const res = await fetch("http://localhost:5000/api/verify-otp", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ otp: form.otp })
-  });
+  if (!form.email.trim())
+    err.email = "Email required";
 
-  const data = await res.json();
-  if (!data.success) err.otp = "Incorrect email OTP";
+  if (!form.phone.trim())
+    err.phone = "Phone required";
+  else if (!/^[0-9]{10}$/.test(form.phone))
+    err.phone = "Enter valid 10 digit phone";
 
-  /* 🔥 MANUAL OTP LOGIC */
-  if (form.role === "staff") {
-    if (form.manualOtp !== "STAFF2024") {
-      err.manualOtp = "Invalid staff OTP";
-    }
+  if (!form.password.trim())
+    err.password = "Password required";
+  else if (form.password.length < 6)
+    err.password = "Minimum 6 characters required";
+
+  if (!form.gender)
+    err.gender = "Select gender";
+
+  if (!form.address.trim())
+    err.address = "Address required";
+
+  if (!form.pincode.trim())
+    err.pincode = "Pincode required";
+  else if (!/^[0-9]{6}$/.test(form.pincode))
+    err.pincode = "Enter valid 6 digit pincode";
+
+  /* EMAIL OTP CHECK */
+  if (!form.otp.trim()) {
+    err.otp = "OTP required";
+  } else {
+    const res = await fetch("http://localhost:5000/api/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+  email: form.email,
+  otp: form.otp 
+})
+    });
+
+    const data = await res.json();
+    if (!data.success) err.otp = "Incorrect email OTP";
   }
+
+ 
 
   setErrors(err);
   return Object.keys(err).length === 0;
 };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    alert("Registered Successfully ✅");
-    console.log(form);
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const isValid = await validate();   // 🔥 await jaruri che
+  if (!isValid) return;
+
+  alert("Registered Successfully ✅");
+  console.log(form);
+};
+
+
 
   return (
     <div className="register-container">
@@ -125,17 +155,6 @@ const validate = async () => {
           <label><i className="bi bi-person-badge"></i> Role</label>
           <select name="role" className="form-control" onChange={handleChange}>
             <option value="user">User</option>
-            <option value="admin">Admin</option>
-            <option value="staff">Staff</option>
-          </select>
-        </div>
-
-        {/* Status */}
-        <div className="form-group">
-          <label><i className="bi bi-toggle-on"></i> Status</label>
-          <select name="status" className="form-control" onChange={handleChange}>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
           </select>
         </div>
 
@@ -160,22 +179,6 @@ const validate = async () => {
           <input type="text" name="pincode" className="form-control" onChange={handleChange} />
           <small className="error">{errors.pincode}</small>
         </div>
-
-        {/* Manual OTP */}
-<div className="form-group">
-  <label>
-    <i className="bi bi-key"></i> Manual OTP / Staff Code
-  </label>
-  <input
-    type="text"
-    name="manualOtp"
-    className="form-control"
-    placeholder="Enter manual OTP"
-    onChange={handleChange}
-  />
-  <small className="error">{errors.manualOtp}</small>
-</div>
-
 
         <button type="submit" className="btn btn-primary w-100">
           Register

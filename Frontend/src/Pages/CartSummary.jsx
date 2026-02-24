@@ -34,7 +34,7 @@ function CartSummary() {
 
             <button
               className="btn btn-success w-100 mt-2"
-              onClick={() => navigate("/cart")}
+              onClick={() => navigate("/login")}
             >
               Proceed to Buy
             </button>

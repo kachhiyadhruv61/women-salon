@@ -18,6 +18,8 @@ import Checkout from "./Pages/Checkout";
 import Cart from "./Pages/Cart";
 import CartSummary from "./Pages/CartSummary";
 import Payment from "./Pages/Payment";
+import OrderSuccess from "./Pages/OrderSuccess";
+import OrderTracking from "./Pages/OrderTracking";
 
 
 
@@ -57,6 +59,7 @@ import UserAppoint from "./User/UserAppoint";
 import Addresses from "./User/Addresses";
 
 import StaffDashboard from "./Components/Staff/StaffDashboard";
+
 
 /* 👇 Scroll to top logic INSIDE SAME FILE */
 const ScrollToTop = () => {
@@ -110,6 +113,9 @@ function App() {
         <Route path="/cartsummary" element={<CartSummary />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/ordersuccess" element={<OrderSuccess />} />
+        <Route path="/ordertracking" element={<OrderTracking />} />
+
 
         {/* ===== ADMIN ROUTES ===== */}
         <Route
@@ -219,9 +225,19 @@ function App() {
         {/* ===== INVALID ROUTE ===== */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+{/* WhatsApp Button */}
+<a
+  href="https://wa.me/919998662408?text=Hello%20I%20want%20to%20inquire%20about%20your%20services"
+  className="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <i className="bi bi-whatsapp"></i>
+</a>
 
-      <Footer />
+<Footer />
     </BrowserRouter>
+    
   );
 }
 

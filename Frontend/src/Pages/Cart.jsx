@@ -28,10 +28,31 @@ const handleProceedToBuy = () => {
   }
 };
 
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.qty,
-    0
-  );
+ const subtotal = cart.reduce(
+  (sum, item) =>
+    sum + item.price * (quantities[item.id] || item.qty || 1),
+  0
+);
+
+  const gstRate = 0.18;
+const gstAmount = subtotal * gstRate;
+const deliveryCharge = subtotal > 500 ? 0 : 50;
+
+const [coupon, setCoupon] = useState("");
+const [discount, setDiscount] = useState(0);
+
+const grandTotal = subtotal + gstAmount + deliveryCharge - discount;
+
+const applyCoupon = () => {
+  if (coupon === "SAVE10") {
+    setDiscount(subtotal * 0.10);
+  } else if (coupon === "FLAT50") {
+    setDiscount(50);
+  } else {
+    setDiscount(0);
+    alert("Invalid Coupon");
+  }
+};
 
   return (
     <div className="container py-5">
@@ -100,14 +121,46 @@ const handleProceedToBuy = () => {
 
         </div>
       ))}
+      <div className="mb-3">
+  <button
+    className="btn btn-outline-primary"
+    onClick={() => navigate("/products")}
+  >
+    ← Add More Products
+  </button>
+</div>
 
     </div>
 
     {/* RIGHT SIDE */}
     <div className="col-lg-4 col-md-5 mt-4 mt-lg-5">
-      <div className="border rounded p-4 bg-light sticky-top shadow" style={{ top: "120px" }}
+      <div className="border rounded p-4 bg-light shadow" style={{ top: "120px" }}
 >
-        <h5>Subtotal ({cart.length} items): ₹{total}</h5>
+  <p>Subtotal: ₹{subtotal.toFixed(2)}</p>
+  <p>GST (13%): ₹{gstAmount.toFixed(2)}</p>
+  <p>Delivery: ₹{deliveryCharge}</p>
+  <p>Discount: -₹{discount.toFixed(2)}</p>
+
+  <hr />
+
+  <h5>Grand Total ({cart.length} items): ₹{grandTotal.toFixed(2)}</h5>
+
+  {/* Coupon Input */}
+  <div className="mt-3">
+    <input
+      type="text"
+      placeholder="Enter Coupon Code"
+      value={coupon}
+      onChange={(e) => setCoupon(e.target.value)}
+      className="form-control mb-2"
+    />
+    <button
+      className="btn btn-warning w-100"
+      onClick={applyCoupon}
+    >
+      Apply Coupon
+    </button>
+  </div>
 
         <button
           className="btn btn-success w-100 mt-3"
