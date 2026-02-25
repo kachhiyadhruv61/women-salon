@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function BookingForm({ onBookingSubmit }) {
-
+const navigate = useNavigate();
   // 💰 Service Data
   const servicesData = {
     Facial: {
@@ -202,75 +203,29 @@ function BookingForm({ onBookingSubmit }) {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+  e.preventDefault();
 
-    const totalAmount =
-      servicesData[formData.service]?.price || 0;
+  const totalAmount =
+    servicesData[formData.service]?.price || 0;
 
-    if (Number(formData.advance) <= 0) {
-    alert("Please pay advance amount to confirm booking");
+  const advanceAmount = totalAmount / 2; // 🔥 Auto 50%
+
+  if (!formData.service) {
+    alert("Please select service");
     return;
   }
 
-  // 🔥 Send data to parent (UserBooking)
-  onBookingSubmit({
-    ...formData,
-    totalAmount,
-    remainingAmount,
-    status: "Confirmed",
+  // 🔥 Redirect to Payment Page with Data
+  navigate("/paymentpage", {
+    state: {
+      ...formData,
+      totalAmount,
+      advanceAmount,
+      remainingAmount: totalAmount - advanceAmount,
+    },
   });
-
-  // 📲 WhatsApp Number Format
-  const userPhone = formData.phone.startsWith("91")
-    ? formData.phone
-    : "91" + formData.phone;
-
-  // 📲 WhatsApp Message
-  const whatsappMsg = `Hello ${formData.name} 👋
-
-Your booking is CONFIRMED ✅
-
-Service: ${formData.service}
-Staff: ${formData.staff}
-Location: ${formData.location}
-Date: ${formData.date}
-Time: ${formData.time}
-
-Total Amount: ₹${totalAmount}
-Advance Paid: ₹${formData.advance}
-Remaining Amount: ₹${remainingAmount}
-
-Please pay remaining amount at the time of service 🌸`;
-
-  // 📲 Open WhatsApp
-  window.open(
-    `https://wa.me/${userPhone}?text=${encodeURIComponent(
-      whatsappMsg
-    )}`,
-    "_blank"
-  );
-
-  alert("Booking Confirmed & WhatsApp Message Sent ✅");
-
-  // 🔄 Reset Form
-  setFormData({
-    name: "",
-    phone: "",
-    service: "",
-    staff: "",
-    location: "",
-    date: "",
-    time: "",
-    message: "",
-    advance: "",
-  });
-
-    setRemainingAmount(0);
-    setAvailableStaff([]);
-    setAvailableLocations([]);
-    setAvailableTimeSlots([]);
-  };
+};
 
   return (
     <div className="container mt-4">
@@ -371,16 +326,6 @@ Please pay remaining amount at the time of service 🌸`;
           </select>
         )}
 
-        {/* Advance */}
-        <input
-          type="number"
-          className="form-control mb-3"
-          name="advance"
-          placeholder="Enter Advance Amount"
-          value={formData.advance}
-          onChange={handleChange}
-          required
-        />
 
         {/* Remaining */}
         {formData.service && (

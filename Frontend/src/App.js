@@ -9,6 +9,8 @@ import Team from "./Pages/Team";
 import Testimonial from "./Pages/Testimonial";
 import Contact from "./Pages/Contact";
 import BookingForm from "./Pages/BookingForm";
+import BookingSuccess from "./Pages/BookingSuccess";
+import PaymentPage from "./Pages/PaymentPage";
 import Login from "./Pages/Login";
 import Gallery from "./Pages/Gallery";
 import Servicedetails from "./Pages/Servicedetails";
@@ -61,6 +63,7 @@ import Addresses from "./User/Addresses";
 import StaffDashboard from "./Components/Staff/StaffDashboard";
 
 
+
 /* 👇 Scroll to top logic INSIDE SAME FILE */
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -104,6 +107,8 @@ function App() {
         <Route path="/testimonial" element={<Testimonial />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/bookingform" element={<BookingForm />} />
+        <Route path="/bookingsuccess" element={<BookingSuccess />} />
+        <Route path="/paymentpage" element={<PaymentPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
         <Route path="/gallery" element={<Gallery />} />

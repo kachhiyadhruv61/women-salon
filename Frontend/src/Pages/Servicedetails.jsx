@@ -514,6 +514,7 @@ function Servicedetails() {
 
 
   ];
+  const role = localStorage.getItem("role");
   
 
   const category = servicesData.find((c) => c.id === id);
@@ -609,11 +610,21 @@ function Servicedetails() {
                   <p><strong>💰 Price:</strong> ₹{data.price}</p> 
                   <p><strong>👩‍💼 Staff:</strong> {staffAvailable ? data.staff.join(", ") : "Not Available"}</p> 
                   {data.note && <p className="text-success">🌿 {data.note}</p>} 
-                  {staffAvailable ? ( 
-                    <Link to="/register" className="btn btn-primary px-4 py-2"> Apply Now </Link> ) 
-                    : ( <p className="text-danger mt-2">❌ Not available at this location</p> 
-
-                    )} 
+                  {staffAvailable ? (
+  role === "user" ? (
+    <Link to="/bookingform" className="btn btn-primary px-4 py-2">
+      Apply Now
+    </Link>
+  ) : (
+    <Link to="/login" className="btn btn-primary px-4 py-2">
+      Login to Book
+    </Link>
+  )
+) : (
+  <p className="text-danger mt-2">
+    ❌ Not available at this location
+  </p>
+)}
                 </div> 
     </div>); 
                     })} 
