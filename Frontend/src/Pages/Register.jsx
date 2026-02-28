@@ -9,48 +9,101 @@ const Register = () => {
     phone: "",
     password: "",
     role: "user",
-    status: "active",
     gender: "",
     address: "",
     pincode: "",
-    otp: ""
+     otp: "",          // email OTP
   });
 
   const [errors, setErrors] = useState({});
-  const [generatedOtp, setGeneratedOtp] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const sendOtp = () => {
-    if (!form.email) return alert("Enter email first");
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    setGeneratedOtp(otp.toString());
-    alert('Mock OTP: ${otp}');
-  };
+  const sendOtp = async () => {
+  if (!form.email) {
+    alert("Enter email first");
+    return;
+  }
 
-  const validate = () => {
-    let err = {};
-    if (!form.username) err.username = "Username required";
-    if (!form.email.includes("@")) err.email = "Invalid email";
-    if (!/^\d{10}$/.test(form.phone)) err.phone = "Phone must be 10 digits";
-    if (form.password.length < 6) err.password = "Min 6 characters";
-    if (!form.gender) err.gender = "Select gender";
-    if (!form.address) err.address = "Address required";
-    if (!/^\d{6}$/.test(form.pincode)) err.pincode = "Invalid pincode";
-    if (form.otp !== generatedOtp) err.otp = "Incorrect OTP";
+  const res = await fetch("http://localhost:5000/api/send-otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email: form.email })
+  });
 
-    setErrors(err);
-    return Object.keys(err).length === 0;
-  };
+  const data = await res.json();
+  if (data.success) {
+    alert("OTP sent to your email 📧");
+  }
+};
+const validate = async () => {
+  let err = {};
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    alert("Registered Successfully ✅");
-    console.log(form);
-  };
+  if (!form.username.trim())
+    err.username = "Username required";
+
+  if (!form.email.trim())
+    err.email = "Email required";
+
+  if (!form.phone.trim())
+    err.phone = "Phone required";
+  else if (!/^[0-9]{10}$/.test(form.phone))
+    err.phone = "Enter valid 10 digit phone";
+
+  if (!form.password.trim())
+    err.password = "Password required";
+  else if (form.password.length < 6)
+    err.password = "Minimum 6 characters required";
+
+  if (!form.gender)
+    err.gender = "Select gender";
+
+  if (!form.address.trim())
+    err.address = "Address required";
+
+  if (!form.pincode.trim())
+    err.pincode = "Pincode required";
+  else if (!/^[0-9]{6}$/.test(form.pincode))
+    err.pincode = "Enter valid 6 digit pincode";
+
+  /* EMAIL OTP CHECK */
+  if (!form.otp.trim()) {
+    err.otp = "OTP required";
+  } else {
+    const res = await fetch("http://localhost:5000/api/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+  email: form.email,
+  otp: form.otp 
+})
+    });
+
+    const data = await res.json();
+    if (!data.success) err.otp = "Incorrect email OTP";
+  }
+
+ 
+
+  setErrors(err);
+  return Object.keys(err).length === 0;
+};
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const isValid = await validate();   // 🔥 await jaruri che
+  if (!isValid) return;
+
+  alert("Registered Successfully ✅");
+  console.log(form);
+};
+
+
 
   return (
     <div className="register-container">
@@ -102,16 +155,6 @@ const Register = () => {
           <label><i className="bi bi-person-badge"></i> Role</label>
           <select name="role" className="form-control" onChange={handleChange}>
             <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
-        {/* Status */}
-        <div className="form-group">
-          <label><i className="bi bi-toggle-on"></i> Status</label>
-          <select name="status" className="form-control" onChange={handleChange}>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
           </select>
         </div>
 

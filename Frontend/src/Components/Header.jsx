@@ -1,14 +1,17 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
     <div className="container-fluid bg-light sticky-top p-0">
       <nav className="navbar navbar-expand-lg navbar-light p-0">
-        <Link to="/" className="navbar-brand bg-primary py-4 px-5 me-0">
-          <h1 className="mb-0">
-            <i className="bi bi-scissors"></i> Salone
-          </h1>
-        </Link>
+
+        <NavLink to="/" className="navbar-brand py-2 px-3">
+          <img
+            src="/img/logo.png"
+            alt="A2 Women Salon"
+            className="logo-img"
+          />
+        </NavLink>
 
         <button
           className="navbar-toggler me-4"
@@ -21,11 +24,43 @@ function Navbar() {
 
         <div className="collapse navbar-collapse p-3" id="navbarCollapse">
           <div className="navbar-nav mx-auto">
-            <Link to="/" className="nav-item nav-link active">Home</Link>
-            <Link to="/about" className="nav-item nav-link">About</Link>
-            <Link to="/service" className="nav-item nav-link">Service</Link>
-            <Link to="/login" className="nav-item nav-link">Login</Link>
-            
+
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              About
+            </NavLink>
+
+            <NavLink
+              to="/service"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Service
+            </NavLink>
+
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Products
+            </NavLink>
 
             <div className="nav-item dropdown">
               <span
@@ -36,22 +71,33 @@ function Navbar() {
                 Pages
               </span>
               <div className="dropdown-menu bg-light mt-2">
-                <Link to="/team" className="dropdown-item">Our Team</Link>
-                <Link to="/testimonial" className="dropdown-item">Testimonial</Link>
-                <Link to="*" className="dropdown-item">404 Page</Link>
+                <NavLink to="/gallery" className="dropdown-item">
+                  Gallery
+                </NavLink>
+                <NavLink to="/team" className="dropdown-item">
+                  Our Team
+                </NavLink>
+                <NavLink to="/testimonial" className="dropdown-item">
+                  Testimonial
+                </NavLink>
               </div>
             </div>
-              <Link to="/contact" className="nav-item nav-link">Contact</Link>
 
+            <NavLink
+              to="/contact"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Contact
+            </NavLink>
 
-            
           </div>
 
-        
-          {/* ✅ REGISTER BUTTON */}
-          <Link to="/register" className="btn btn-sm btn-primary">
-            Register
-          </Link>
+          <NavLink to="/login" className="btn btn-sm btn-primary">
+            LOGIN
+          </NavLink>
+
         </div>
       </nav>
     </div>

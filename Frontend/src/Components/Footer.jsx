@@ -1,22 +1,27 @@
 import { Link } from "react-router-dom";
 
+
 function Footer() {
+  
   return (
     <div className="container-fluid footer position-relative bg-dark text-white-50 py-5 mt-5 wow fadeIn">
       <div className="container py-5">
         <div className="row g-5">
+
           {/* Left Side */}
           <div className="col-lg-6 pe-lg-5">
-            <Link to="/" className="navbar-brand">
-              <h1 className="display-5 text-primary mb-0">
-                <i className="bi bi-scissors"></i> Salone
-              </h1>
+            <Link to="/" className="navbar-brand py-2 px-3">
+              <img
+            src="/img/logo2-removebg-preview.png"
+            alt="A2 Women Salon"
+            className="logo-img"
+          />
             </Link>
 
             <p>
-              Aliquyam sed elitr elitr erat sed diam ipsum eirmod eos lorem nonumy.
-              Tempor sea ipsum diam sed clita dolore eos dolores magna erat dolore sed
-              stet justo et dolor.
+              A<sup>2</sup> Women Organic Salon offers premium beauty and wellness
+              services using 100% natural and organic products. We focus on
+              care, comfort, and confidence for every woman.
             </p>
 
             <p className="mb-2">
@@ -35,11 +40,43 @@ function Footer() {
               <i className="fa fa-envelope me-2"></i>patelaxita75@gmail.com
             </p>
 
+            {/* Social Icons */}
             <div className="d-flex justify-content-start mt-4">
-              <a className="btn btn-sm-square btn-primary me-3" href="#"><i className="fab fa-twitter"></i></a>
-              <a className="btn btn-sm-square btn-primary me-3" href="#"><i className="fab fa-facebook-f"></i></a>
-              <a className="btn btn-sm-square btn-primary me-3" href="#"><i className="fab fa-linkedin-in"></i></a>
-              <a className="btn btn-sm-square btn-primary me-3" href="#"><i className="fab fa-instagram"></i></a>
+              <a
+                className="btn btn-sm-square btn-primary me-3"
+                href="https://twitter.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fab fa-twitter"></i>
+              </a>
+
+              <a
+                className="btn btn-sm-square btn-primary me-3"
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fab fa-facebook-f"></i>
+              </a>
+
+              <a
+                className="btn btn-sm-square btn-primary me-3"
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fab fa-linkedin-in"></i>
+              </a>
+
+              <a
+                className="btn btn-sm-square btn-primary me-3"
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i className="fab fa-instagram"></i>
+              </a>
             </div>
           </div>
 
@@ -48,19 +85,11 @@ function Footer() {
             <div className="row g-4">
               <div className="col-sm-6">
                 <h5 className="text-primary mb-4">Quick Links</h5>
+                <Link className="btn btn-link" to="/home">Home</Link>
                 <Link className="btn btn-link" to="/about">About Us</Link>
                 <Link className="btn btn-link" to="/contact">Contact Us</Link>
                 <Link className="btn btn-link" to="/service">Our Service</Link>
-                <Link className="btn btn-link" to="/terms">Terms & Condition</Link>
-                
-              </div>
-
-              <div className="col-sm-6">
-                <h5 className="text-primary mb-4">Popular Links</h5>
-                <Link className="btn btn-link" to="/about">About Us</Link>
-                <Link className="btn btn-link" to="/contact">Contact Us</Link>
-                <Link className="btn btn-link" to="/service">Our Service</Link>
-                <Link className="btn btn-link" to="/terms">Terms & Condition</Link>
+                <Link className="btn btn-link" to="/products">Products</Link>
               </div>
 
               <div className="col-sm-12">
@@ -79,18 +108,27 @@ function Footer() {
                     <i className="fa fa-paper-plane text-primary fs-4"></i>
                   </button>
                 </div>
-                <p className="mb-0">Diam sed sed dolor stet amet eirmod</p>
+                <p className="mb-0">
+                  Subscribe to get updates on offers and new services
+                </p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
+                {/* Copyright */}
+<div className="container-fluid copyright bg-dark text-white-50 py-3">
+  <div className="container text-center">
+    <small>
+      © {new Date().getFullYear()} A<sup>2</sup> Women Organic Salon. 
+      All Rights Reserved.
+    </small>
+  </div>
+</div>
     </div>
+    
   );
 }
 
 export default Footer;
-
-
-   
-

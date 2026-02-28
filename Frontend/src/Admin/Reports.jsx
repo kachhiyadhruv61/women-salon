@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+
+import CommonTable from "./../Components/CommonTable";
+
+
 
 function Reports() {
+  const navigate = useNavigate();
+
   const reportsData = {
     users: 120,
     bookings: 85,
@@ -12,13 +19,47 @@ function Reports() {
     { id: 1, title: "Daily Booking Report", date: "2026-01-20" },
     { id: 2, title: "Monthly Revenue Report", date: "2026-01-01" },
     { id: 3, title: "Service Usage Report", date: "2025-12-30" },
+
+
+
   ];
+
+  // 📊 Columns for CommonTable
+ const columns = useMemo(
+  () => [
+    {
+      accessorKey: "id",
+      header: "#",
+    },
+    {
+      accessorKey: "title",
+      header: "Report Name",
+    },
+    {
+      accessorKey: "date",
+      header: "Date",
+    },
+    {
+      header: "Action",
+      Cell: ({ row }) => (
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => navigate(`/reports/${row.original.id}`)}
+        >
+          View
+        </button>
+      ),
+    },
+  ],
+  [navigate]
+);
+
 
   return (
     <div className="container mt-4">
       <h2 className="mb-4">📊 Admin Reports</h2>
 
-      {/* SUMMARY CARDS */}
+      {/* 🔢 SUMMARY CARDS */}
       <div className="row">
         <div className="col-md-3">
           <div className="card text-center shadow">
@@ -57,36 +98,17 @@ function Reports() {
         </div>
       </div>
 
-      {/* REPORT TABLE */}
+      {/* 📄 REPORT TABLE */}
       <div className="card mt-4 shadow">
         <div className="card-body">
           <h5 className="mb-3">📄 Recent Reports</h5>
 
-          <table className="table table-bordered">
-            <thead className="table-dark">
-              <tr>
-                <th>#</th>
-                <th>Report Name</th>
-                <th>Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentReports.map((report, index) => (
-                <tr key={report.id}>
-                  <td>{index + 1}</td>
-                  <td>{report.title}</td>
-                  <td>{report.date}</td>
-                  <td>
-                    <button className="btn btn-sm btn-primary">
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
+          <CommonTable
+            columns={columns}
+            data={recentReports}
+            fileName="reports"
+            showSelection={false}
+          />
         </div>
       </div>
     </div>

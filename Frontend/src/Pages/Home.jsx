@@ -3,22 +3,25 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import About from "./About";
 import Services from "./Service";
+import About from "./About";
+import Gallery from "./Gallery";
 import Testimonial from "./Testimonial";
 import Team from "./Team";
 
 
 function Home() {
   return (
-    <div className="container-fluid p-0 hero-header bg-light mb-5">
-      <div className="container p-0">
+  <div className="herome position-relative">
+    <div className="container-fluid p-0 mb-5" >
+      <div className="">
+        <div className="hero-section">
         <div className="row g-0 align-items-center">
           <div className="col-lg-6 hero-header-text py-5">
             <div className="py-5 px-3 ps-lg-0">
-              <h1 className="font-dancing-script text-primary animated slideInLeft">Welcome</h1>
-              <h1 className="display-1 mb-4 animated slideInLeft">A^ Women Organic Services</h1>
-
+              <h1 className="font-dancing-script text-primary text-center mb-4">Welcome to</h1>
+              <h2 className="display-1 mb-4 animated slideInLeft">A<sup>2</sup> Women Salon</h2>
+                <p>A women’s salon offering organic beauty services, relaxing therapies, and personalized care in a hygienic and peaceful environment.</p>
               <div className="row g-4 animated slideInLeft">
                 <div className="col-md-6">
                   <div className="d-flex align-items-center">
@@ -72,14 +75,16 @@ function Home() {
            
           </div>
         </div>
-         <About/>
-            <Services/>
+        </div>
+         <Services/>
+            <About/>
+            <Gallery/>
             <Team/>
             <Testimonial/>
             
       </div>
     </div>
-    
+  </div> 
   );
 }
 

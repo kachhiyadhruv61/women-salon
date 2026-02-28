@@ -1,34 +1,79 @@
-
+import { useEffect, useState } from "react";
+import CommonTable from "../Components/CommonTable";
+import { Link } from "react-router-dom";
 
 function UserOrders() {
-  const orders = [
-    { id: 1, product: "Herbal Hair Oil", qty: 2, total: 998, status: "Delivered" },
-    { id: 2, product: "Aloe Vera Gel", qty: 1, total: 199, status: "Pending" },
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/orders/user/USR-01")
+      .then((res) => res.json())
+      .then((data) => setOrders(data));
+  }, []);
+
+  const columns = [
+    {
+      id: "orderId",
+      header: "Order ID",
+      accessorKey: "orderId",
+    },
+    {
+      id: "createdAt",
+      header: "Order Date",
+      accessorKey: "createdAt",
+      cell: ({ row }) =>
+        new Date(row.original.createdAt).toLocaleDateString(),
+    },
+    {
+      id: "items",
+      header: "Service Name",
+      accessorKey: "items",
+      cell: ({ row }) =>
+        row.original.items?.map((item) => item.name).join(", "),
+    },
+    {
+      id: "totalAmount",
+      header: "Total Amount",
+      accessorKey: "totalAmount",
+      cell: ({ row }) => `₹${row.original.totalAmount}`,
+    },
+    {
+      id: "orderStatus",
+      header: "Order Status",
+      accessorKey: "orderStatus",
+    },
+    {
+      id: "paymentStatus",
+      header: "Payment Status",
+      accessorKey: "paymentStatus",
+    },
+    {
+      id: "paymentMethod",
+      header: "Payment Method",
+      accessorKey: "paymentMethod",
+    },
+    {
+      id: "action",
+      header: "Action",
+      cell: ({ row }) => (
+        <Link
+          to={`/user/orders/${row.original.orderId}`}
+          className="btn btn-sm btn-primary"
+        >
+          View
+        </Link>
+      ),
+    },
   ];
 
   return (
-    <div>
-      <h4>My Orders 🛒</h4>
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Qty</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((o) => (
-            <tr key={o.id}>
-              <td>{o.product}</td>
-              <td>{o.qty}</td>
-              <td>₹{o.total}</td>
-              <td>{o.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container py-5">
+       {/* Header + Button Row */}
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h3 className="mb-0">My Orders 👩‍🦰</h3>
+
+    </div>
+      <CommonTable columns={columns} data={orders} />
     </div>
   );
 }

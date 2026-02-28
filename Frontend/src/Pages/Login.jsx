@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {  Link,useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = ({ setRole }) => {
@@ -8,29 +8,60 @@ const Login = ({ setRole }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // ✅ Login page open thay tyare form always clean rahe
+  useEffect(() => {
+    setUsername("");
+    setPassword("");
+    setError("");
+  }, []);
+
   const handleLogin = (e) => {
     e.preventDefault();
+    setError("");
 
-    // Basic validation
     if (!username || !password) {
       setError("All fields are required");
       return;
     }
 
-    // 🔐 Dummy Login Logic (backend hoy to ahiya API call aavse)
+    let userRole = null;
+    let redirectPath = "/login";
+
+    // 🔐 Admin
     if (username === "admin" && password === "admin123") {
-      localStorage.setItem("role", "admin");
-      setRole("admin");
-      navigate("/dashboard");
-    } 
+      userRole = "admin";
+      redirectPath = "/dashboard";
+    }
+
+    // 👤 User
     else if (username === "user" && password === "user123") {
-      localStorage.setItem("role", "user");
-      setRole("user");
-      navigate("/userdashboard");
-    } 
+      userRole = "user";
+      redirectPath = "/userdashboard";
+    }
+
+    // 👨‍💼 Staff
+    else if (username === "staff" && password === "staff123456") {
+      userRole = "staff";
+      redirectPath = "/staff/dashboard";
+    }
+
     else {
       setError("Invalid username or password");
+      return;
     }
+
+    // ✅ Save role in localStorage
+    localStorage.setItem("role", userRole);
+
+    // ✅ Update App state
+    setRole(userRole);
+
+    // ✅ Clear form before redirect
+    setUsername("");
+    setPassword("");
+
+    // ✅ Navigate
+    navigate(redirectPath);
   };
 
   return (
@@ -48,6 +79,7 @@ const Login = ({ setRole }) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter username"
+            autoComplete="off"
           />
         </div>
 
@@ -59,20 +91,22 @@ const Login = ({ setRole }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter password"
+            autoComplete="new-password"
           />
         </div>
 
         <button type="submit" className="btn btn-primary w-100">
           Login
         </button>
-              <p className="mt-3 text-center">
-        New user? <Link to="/register">Register here</Link>
-      </p>
 
+        <p className="mt-3 text-center">
+          New user? <Link to="/register">Register here</Link>
+        </p>
 
         <p className="note">
           Admin → admin / admin123 <br />
-          User → user / user123
+          User → user / user123 <br />
+         
         </p>
       </form>
     </div>
@@ -80,6 +114,3 @@ const Login = ({ setRole }) => {
 };
 
 export default Login;
-
-
-

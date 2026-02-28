@@ -1,76 +1,132 @@
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
+function UserHeader({ setRole }) {
+  const navigate = useNavigate();
 
-function UserHeader() {
+  const logout = () => {
+    localStorage.removeItem("role");
+    setRole("guest");
+    navigate("/login");
+  };
+
   return (
-    
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-      <div className="container">
-        {/* Logo */}
-        <Link className="navbar-brand fw-bold" to="/">
-          🌿 Organic Salon
-        </Link>
+    <div className="container-fluid bg-light sticky-top p-0">
+      <nav className="navbar navbar-expand-lg navbar-light p-0">
 
-        {/* Mobile toggle */}
+        {/* Logo */}
+        <NavLink to="/" className="navbar-brand py-2 px-3">
+          <img
+            src="/img/logo.png"
+            alt="A2 Women Salon"
+            className="logo-img"
+          />
+        </NavLink>
+
         <button
-          className="navbar-toggler"
+          className="navbar-toggler me-4"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#userNavbar"
+          data-bs-target="#navbarCollapse"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Menu */}
-        <div className="collapse navbar-collapse" id="userNavbar">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/userdashboard">
-                Dashboard
-              </Link>
-            </li>
+        <div className="collapse navbar-collapse p-3" id="navbarCollapse">
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/services">
-                Services
-              </Link>
-            </li>
+          {/* NAV MENUS */}
+          <div className="navbar-nav mx-auto">
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/products">
-                Products
-              </Link>
-            </li>
+            <NavLink
+              to="/userdashboard"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Dashboard
+            </NavLink>
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/booking">
-                Book Appointment
-              </Link>
-            </li>
+            <NavLink
+              to="/userservice"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Services
+            </NavLink>
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/contact">
-                Contact
-              </Link>
-            </li>
-          </ul>
+            <NavLink
+              to="/usershop"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              Shop
+            </NavLink>
 
-          {/* Right side */}
-          <div className="d-flex align-items-center">
-            <Link to="/login" className="btn btn-outline-primary me-2">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary me-2">
-              Register
-            </Link>
+            <NavLink
+              to="/userappoint"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              My Appointments
+            </NavLink>
 
-            <Link to="/cart" className="btn btn-outline-success">
+            <NavLink
+              to="/userorders"
+              className={({ isActive }) =>
+                isActive ? "nav-item nav-link active" : "nav-item nav-link"
+              }
+            >
+              My Orders
+            </NavLink>
+
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                isActive
+                  ? "nav-item nav-link active position-relative"
+                  : "nav-item nav-link position-relative"
+              }
+            >
               🛒 Cart
-            </Link>
+            </NavLink>
+
           </div>
+
+          {/* USER DROPDOWN */}
+          <div className="dropdown">
+            <button
+              className="btn btn-outline-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+            >
+              <i className="bi bi-person-circle me-1"></i> Account
+            </button>
+
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li>
+                <NavLink to="/userprofile" className="dropdown-item">
+                  My Profile
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/addresses" className="dropdown-item">
+                  My Addresses
+                </NavLink>
+              </li>
+              <li><hr className="dropdown-divider" /></li>
+              <li>
+                <button onClick={logout} className="dropdown-item text-danger">
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
 

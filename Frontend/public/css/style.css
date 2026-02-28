@@ -1,5 +1,27 @@
 /********** Template CSS **********/
 
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  font-size: 28px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: 0.3s;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -19,8 +41,10 @@
     display: none;
     right: 45px;
     bottom: 45px;
-    z-index: 99;
+     z-index: 99;
 }
+
+
 
 /*** Fonts ***/
 .font-work-sans {
@@ -145,14 +169,29 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--bs-dark);
+    color: #2c2c2c;              /* dark olive green */
+    transition: color .3s ease;
+}
+/* image */
+
+.logo-img {
+  height: 115px;
+  width: auto;
 }
 
+@media (max-width: 768px) {
+  .logo-img {
+    height: 70px;
+  }
+}
+
+/* Hover & Active */
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active {
-    color: var(--bs-primary)
+    color: #bf9456;              /* organic green */
 }
 
+/* Dropdown arrow */
 .navbar .dropdown-toggle::after {
     border: none;
     content: "\f107";
@@ -160,13 +199,16 @@
     font-weight: 900;
     vertical-align: middle;
     margin-left: 8px;
+    color: #bf9456;              /* leaf green */
 }
 
+/* Dropdown menu hover */
 .navbar .dropdown-menu .dropdown-item:hover,
 .navbar .dropdown-menu .dropdown-item.active {
-    color: var(--bs-white);
-    background: var(--bs-primary);
+    color: #ffffff;
+    background: #bf9456;         /* herbal green */
 }
+
 
 @media (max-width: 991.98px) {
     .navbar .navbar-nav .nav-link  {
@@ -203,11 +245,37 @@
     background: var(--bs-primary);
 }
 
+/* Admin Header Styling */
+.admin-navbar {
+  background-color: #fff;          /* main header jevo */
+  border-bottom: 1px solid #eee;
+}
+
+.admin-brand {
+  font-family: "Dancing Script", cursive;
+  font-size: 26px;
+  color: #d63384 !important;       /* pink / primary */
+}
+
+.admin-link {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #333 !important;
+  padding: 6px 10px;
+}
+
+.admin-link:hover {
+  color: #d63384 !important;
+}
+
 
 /*** Hero Header ***/
-.hero-header {
+
+.hero-section {
     background: url(../img/hero-bg.jpg) top left no-repeat;
-    background-size: cover;
+    background-size: contain;
+    position:relative;
+ 
 }
 
 @media (min-width: 992px) {
@@ -231,6 +299,7 @@
         padding-left: calc(((100% - 1320px) / 2) + .75rem);
     }
 }
+
 
 .header-carousel .owl-nav {
     position: absolute;
@@ -264,10 +333,205 @@
 .page-header {
     background: url(../img/page-header.jpg) center center no-repeat;
     background-size: contain;
+      background-position: center;
+  background-repeat: no-repeat;
+
+}
+/*** About ***/
+/* ABOUT BANNER */
+.about-banner {
+  background-image: url("/img/about-bg.png"); /* optional */
+  background-size: cover;
+  background-position: center;
+}
+
+.about-banner h1 {
+  font-weight: 600;
+}
+
+/* Breadcrumb look */
+.breadcrumb {
+  display: flex;
+  font-size: 16px;
+}
+
+/* ABOUT CONTENT RESPONSIVE */
+@media (max-width: 768px) {
+  .about-banner h1 {
+    font-size: 32px;
+  }
+
+  .about-banner {
+    padding: 40px 0;
+  }
+}
+
+/* Gallery Section */
+.section-title {
+  font-weight: 700;
+  color: #2d2d2d;
+}
+
+.gallery-tabs .nav-link {
+  border-radius: 30px;
+  padding: 8px 25px;
+  margin: 0 8px;
+  color: #555;
+  background: #f2f2f2;
+  transition: all 0.3s ease;
+}
+
+.gallery-tabs .nav-link.active {
+  background: #bf9456; 
+  color: #fff;
+}.back-link {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: #d63384;
+  text-decoration: none;
+}
+
+.gallery-desc {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  color: #555;
+}
+
+.product-title {
+  color: #6b8e23;   /* Olive Green */
+  font-weight: 600;
+}
+
+/*Products*/
+.product-card {
+  height: 100%;
+  min-height: 480px;   /* tame requirement pramane change kari sako */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-card img {
+  height: 180px;
+  object-fit: contain;
+}
+
+.product-title {
+  min-height: 50px;   /* name equal height mate */
+}
+
+.product-card p {
+  min-height: 40px;   /* description equal height mate */
+}
+.suggested-box {
+  background-color: #f4f7f2;
+  border-left: 4px solid #6b8e23;
+  padding: 6px 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.suggested-box span {
+  font-weight: 600;
+  color: #2f3e2e;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.bill-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: nowrap; /* Ek j row ma rakhe */
+}
+
+.action-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  white-space: nowrap;
+}
+
+.download-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #ff9800;
+  color: white;
+}
+
+.place-btn {
+  background-color: #e91e63;
+  color: white;
+}
+
+.action-btn:hover {
+  opacity: 0.85;
+}
+
+
+/* Gallery Card */
+.gallery-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-card:hover img {
+  transform: scale(1.08);
+}
+
+.gallery-card .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-card:hover .overlay {
+  opacity: 1;
+}
+
+.gallery-card .overlay span {
+  color: #fff;
+  font-size: 18px;
+  border: 2px solid #fff;
+  padding: 8px 20px;
+  border-radius: 30px;
+}
+
+
+/* Modal Fix */
+.modal {
+  background: rgba(0, 0, 0, 0.75);
 }
 
 
 /*** Service ***/
+
+
 @media (max-width: 768px) {
     .service .service-item {
         border: none !important;
@@ -299,9 +563,38 @@
 }
 
 .service .service-item img {
-    width: 70px;
+     width: 120px;             
+    height: 120px;              
+    object-fit: cover;         
     margin-bottom: 20px;
+    border-radius: 10px; 
 }
+.service-grid {
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+.service-col {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.service-item {
+  background: #fff;
+  transition: 0.3s;
+}
+
+.service-item:hover {
+  background: #f8f9fa;
+  transform: translateY(-5px);
+}
+
+.small-book-btn {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
 
 
 /*** Team ***/
@@ -324,6 +617,35 @@
 .team-item img {
     transition: .5s;
 }
+
+.premium-card {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Team image wrapper */
+.team-img {
+    width: 100%;
+    height: 400px;          /* ← badhi images ni SAME height */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Team image */
+.team-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* stretch thase nahi */
+    transition: .5s;
+}
+
   
 .team-item:hover img {
     transform: scale(1.2);
@@ -366,6 +688,7 @@
     position: relative;
 }
 
+/* Big quote icon */
 .testimonial-carousel .owl-item::before {
     position: absolute;
     content: "\f10d";
@@ -375,33 +698,42 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity: .1;
+    opacity: .08;
+    color: #81c784;              /* soft leaf green */
 }
 
+/* Profile image */
 .testimonial-carousel .owl-item img {
     position: relative;
     width: 100px;
     height: 100px;
     z-index: 1;
+    border: 3px solid #a5d6a7;   /* organic border */
+    border-radius: 50%;
 }
 
+/* Smooth transition */
 .testimonial-carousel .owl-item,
 .testimonial-carousel .owl-item * {
-    transition: .5s;
+    transition: .5s ease;
 }
 
+/* Name / role text */
 .testimonial-carousel .owl-item span {
     letter-spacing: 2px;
+    color: #2e7d32;              /* herbal green */
 }
 
+/* Active / center card */
 .testimonial-carousel .owl-item.center .bg-light {
-    background: var(--bs-primary) !important;
+    background: #e8f5e9 !important; /* mint green */
 }
 
 .testimonial-carousel .owl-item.center .bg-light * {
-    color: var(--bs-dark) !important;
+    color: #1b5e20 !important;   /* deep forest green */
 }
 
+/* Navigation buttons */
 .testimonial-carousel .owl-nav {
     margin-top: 25px;
     display: flex;
@@ -417,17 +749,18 @@
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    color: var(--bs-dark);
-    background: var(--bs-primary);
-    transition: .5s;
+    color: #1b5e20;              /* dark green */
+    background: #c8e6c9;         /* soft organic green */
+    transition: .4s ease;
+    border-radius: 50%;
 }
 
+/* Hover effect */
 .testimonial-carousel .owl-nav .owl-prev:hover,
 .testimonial-carousel .owl-nav .owl-next:hover {
-    color: var(--bs-white);
-    background: var(--bs-dark);
+    color: #ffffff;
+    background: #2e7d32;         /* strong organic green */
 }
-
 
 /*** Footer ***/
 @media (min-width: 992px) {
@@ -444,26 +777,34 @@
 
 .footer .btn.btn-link {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     padding: 0;
     text-align: left;
-    color: rgba(255, 255, 255, .5);
-    font-weight: normal;
+    color: #ffffff;              
+    font-weight: 500;
     text-transform: capitalize;
-    transition: .3s;
+    transition: all .3s ease;
 }
 
 .footer .btn.btn-link:hover {
-    color: var(--bs-primary);
+    color:  #ffffff;             
     letter-spacing: 1px;
     box-shadow: none;
 }
 
+
+/* Arrow icon */
 .footer .btn.btn-link::before {
     position: relative;
     content: "\f105";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    color: rgba(255, 255, 255, .5);
+    color:#ffffff;           
     margin-right: 10px;
+    transition: color .3s ease;
+}
+
+/* Arrow hover effect */
+.footer .btn.btn-link:hover::before {
+    color: #ffffff;              
 }

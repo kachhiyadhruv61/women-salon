@@ -1,63 +1,92 @@
-import { useState } from "react";
-
-import UserBooking from "./UserBooking";
-import UserOrders from "./UserOrders";
-import UserProfile from "./UserProfile";
-import Userpayment from "./Userpayment";
-
-
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function UserDashboard() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [bookings, setBookings] = useState([]);
+
+  // 🔹 Load bookings from localStorage
+  useEffect(() => {
+    const savedBookings =
+      JSON.parse(localStorage.getItem("userBookings")) || [];
+    setBookings(savedBookings);
+  }, []);
+
+  const upcomingBookings = bookings.filter(
+    (b) => b.status === "Approved" || b.status === "Pending"
+  );
 
   return (
-    <div className="container mt-4">
-      <h2>User Dashboard 👤</h2>
+    <div className="container py-4">
+      {/* ================= WELCOME ================= */}
+      <h2 className="mb-4">Welcome, User 👋</h2>
 
-      {/* Tabs */}
-      <ul className="nav nav-tabs mb-4">
-        <li className="nav-item">
-          <button
-            className={`nav-link ${activeTab === "profile" ? "active" : ""}`}
-            onClick={() => setActiveTab("profile")}
-          >
-            Profile
-          </button>
-        </li>
+      {/* ================= SUMMARY CARDS ================= */}
+      <div className="row mb-4">
+        <div className="col-md-3">
+          <div className="card text-center p-3 shadow-sm">
+            <h5>Total Bookings</h5>
+            <h3>{bookings.length}</h3>
+          </div>
+        </div>
 
-        <li className="nav-item">
-          <button
-            className={`nav-link ${activeTab === "bookings" ? "active" : ""}`}
-            onClick={() => setActiveTab("booking")}
-          >
-            My Bookings
-          </button>
-        </li>
+        <div className="col-md-3">
+          <div className="card text-center p-3 shadow-sm">
+            <h5>Upcoming</h5>
+            <h3>{upcomingBookings.length}</h3>
+          </div>
+        </div>
 
-        <li className="nav-item">
-          <button
-            className={`nav-link ${activeTab === "orders" ? "active" : ""}`}
-            onClick={() => setActiveTab("orders")}
-          >
-            My Orders
-          </button>
-        </li>
+        <div className="col-md-3">
+          <div className="card text-center p-3 shadow-sm">
+            <h5>Completed</h5>
+            <h3>
+              {bookings.filter((b) => b.status === "Completed").length}
+            </h3>
+          </div>
+        </div>
 
-        <li className="nav-item">
-          <button
-            className={`nav-link ${activeTab === "payments" ? "active" : ""}`}
-            onClick={() => setActiveTab("payments")}
-          >
-            My Payments
-          </button>
-        </li>
-      </ul>
+        <div className="col-md-3">
+          <div className="card text-center p-3 shadow-sm">
+            <h5>Cancelled</h5>
+            <h3>
+              {bookings.filter((b) => b.status === "Cancelled").length}
+            </h3>
+          </div>
+        </div>
+      </div>
 
-      {/* Tab Content */}
-      {activeTab === "userprofile" && <UserProfile />}
-      {activeTab === "userbooking" && <UserBooking />}
-      {activeTab === "userorders" && <UserOrders />}
-      {activeTab === "userpayment" && <Userpayment />}
+      {/* ================= UPCOMING APPOINTMENT ================= */}
+      {upcomingBookings.length > 0 && (
+        <>
+          <h4 className="mb-3">📅 Upcoming Appointment</h4>
+          <div className="card p-3 mb-4 shadow-sm">
+            <p>
+              <strong>Service:</strong> {upcomingBookings[0].service}
+            </p>
+            <p>
+              <strong>Date:</strong> {upcomingBookings[0].date}
+            </p>
+            <p>
+              <strong>Location:</strong> {upcomingBookings[0].location}
+            </p>
+            <p>
+              <strong>Status:</strong>{" "}
+              <span className="badge bg-warning text-dark">
+                {upcomingBookings[0].status}
+              </span>
+            </p>
+          </div>
+        </>
+      )}
+
+    
+
+      {/* ================= BOOK NEW SERVICE ================= */}
+      <div className="text-center mt-4">
+        <Link to="/bookingform" className="btn btn-primary px-4 py-2">
+          ➕ Book New Service
+        </Link>
+      </div>
     </div>
   );
 }

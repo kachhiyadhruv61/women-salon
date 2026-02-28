@@ -1,114 +1,116 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CommonTable from "../Components/CommonTable";
 
 function AdBooking() {
-  const [bookings, setBookings] = useState([]);
-  const [customer, setCustomer] = useState("");
-  const [service, setService] = useState("");
-  const [date, setDate] = useState("");
-
-  // Add Booking
-  const addBooking = (e) => {
-    e.preventDefault();
-
-    if (!customer || !service || !date) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    const newBooking = {
-      id: Date.now(),
-      customer,
-      service,
-      date,
+  const navigate = useNavigate();
+  const [bookings, setBookings] = useState([
+    {
+      id: 1,
+      name: "Aditi",
+      service: "Facial",
+      date: "2026-01-20",
       status: "Pending",
-    };
+    },
+  ]);
 
-    setBookings([...bookings, newBooking]);
-    setCustomer("");
-    setService("");
-    setDate("");
+  const updateStatus = (id, status) => {
+    setBookings(
+      bookings.map((b) =>
+        b.id === id ? { ...b, status } : b
+      )
+    );
   };
 
-  // Delete Booking
-  const deleteBooking = (id) => {
-    setBookings(bookings.filter((b) => b.id !== id));
-  };
+  // ✅ Columns for CommonTable (MRT compatible)
+  const columns = [
+    {
+      id: "sr",
+      header: "#",
+      accessorFn: (_, index) => index + 1,
+    },
+    {
+      id: "name",
+      header: "Customer Name",
+      accessorKey: "name",
+    },
+    {
+      id: "service",
+      header: "Service",
+      accessorKey: "service",
+    },
+    {
+      id: "date",
+      header: "Date",
+      accessorKey: "date",
+    },
+    {
+      id: "status",
+      header: "Status",
+      accessorKey: "status",
+      Cell: ({ cell }) => {
+        const value = cell.getValue();
+        return (
+          <span
+            className={`badge ${
+              value === "Approved"
+                ? "bg-success"
+                : value === "Rejected"
+                ? "bg-danger"
+                : "bg-warning"
+            }`}
+          >
+            {value}
+          </span>
+        );
+      },
+    },
+    {
+      id: "action",
+      header: "Action",
+      Cell: ({ row }) => (
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-success btn-sm"
+            onClick={() =>
+              updateStatus(row.original.id, "Approved")
+            }
+          >
+            Approve
+          </button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() =>
+              updateStatus(row.original.id, "Rejected")
+            }
+          >
+            Reject
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
-    <div className="container mt-4">
-      <h2>Admin Booking Management 📅</h2>
+    <div className="container py-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Booking Management 👩‍💼</h2>
 
-      {/* Booking Form */}
-      <form onSubmit={addBooking} className="mb-4">
-        <input
-          type="text"
-          placeholder="Customer Name"
-          className="form-control mb-2"
-          value={customer}
-          onChange={(e) => setCustomer(e.target.value)}
-        />
-
-        <select
-          className="form-control mb-2"
-          value={service}
-          onChange={(e) => setService(e.target.value)}
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/bookingform")}
         >
-          <option value="">Select Service</option>
-          <option>Waxing</option>
-          <option>Facial</option>
-          <option>Manicure</option>
-          <option>Pedicure</option>
-          <option>Bridal Package</option>
-        </select>
+          + Add Booking
+        </button>
+      </div>
 
-        <input
-          type="date"
-          className="form-control mb-2"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-
-        <button className="btn btn-primary w-100">Add Booking</button>
-      </form>
-
-      {/* Booking List */}
-      <table className="table table-bordered">
-        <thead className="table-dark">
-          <tr>
-            <th>Customer</th>
-            <th>Service</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.length === 0 ? (
-            <tr>
-              <td colSpan="5" className="text-center">
-                No bookings found
-              </td>
-            </tr>
-          ) : (
-            bookings.map((b) => (
-              <tr key={b.id}>
-                <td>{b.customer}</td>
-                <td>{b.service}</td>
-                <td>{b.date}</td>
-                <td>{b.status}</td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => deleteBooking(b.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+      {/* ✅ Common Table */}
+      <CommonTable
+        columns={columns}
+        data={bookings}
+        fileName="admin-bookings"
+        showSelection={true}
+      />
     </div>
   );
 }
