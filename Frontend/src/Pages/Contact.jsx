@@ -48,10 +48,25 @@ function Contact() {
             </p>
             
  {/* GOOGLE MAP */}
-            <p>📍 <strong>Address:</strong><br />
-              A<sup>2</sup> Women Salon,<br />
-              Anand, Gujarat
-            </p>
+           {/* GOOGLE MAP */}
+<p>
+  📍 <strong>Address:</strong><br />
+
+  <a 
+    href="https://www.google.com/maps/search/?api=1&query=A2+Women+Salon,+Anand,+Gujarat"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ 
+      color: "#0d6efd", 
+      textDecoration: "underline",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    A<sup>2</sup> Women Salon,<br />
+    Anand, Gujarat
+  </a>
+</p>
 
             <p>📞 <strong>Phone:</strong><br />
               9574568855<br />
