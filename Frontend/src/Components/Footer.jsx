@@ -53,7 +53,7 @@ function Footer() {
 
               <a
                 className="btn btn-sm-square btn-primary me-3"
-                href="https://www.facebook.com/"
+                href="https://business.facebook.com/latest/?asset_id=1040989989093477&business_id=800163865825078&nav_ref=biz_unified_f3_login_page_to_mbs"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -71,7 +71,7 @@ function Footer() {
 
               <a
                 className="btn btn-sm-square btn-primary me-3"
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/women_salon34/"
                 target="_blank"
                 rel="noreferrer"
               >
