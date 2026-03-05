@@ -73,14 +73,33 @@ const AdminHeader = ({ setRole }) => {
               Staff
             </NavLink>
 
-            <NavLink
-              to="/adminservice"
-              className={({ isActive }) =>
-                isActive ? "nav-item nav-link active" : "nav-item nav-link"
-              }
-            >
-              Service
-            </NavLink>
+            {/* Dropdown */}
+            <div className="nav-item dropdown">
+              <span
+                className="nav-link dropdown-toggle"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                Service
+              </span>
+              <div className="dropdown-menu bg-light mt-2">
+                 <NavLink to="adminservice" className="dropdown-item">
+                  All Service 
+                </NavLink>
+                <NavLink to="/addservicecategory" className="dropdown-item">
+                  Service Category
+                </NavLink>
+                <NavLink to="/addservice" className="dropdown-item">
+                  Sub Services
+                </NavLink>
+                <NavLink to="/addvariant" className="dropdown-item">
+                  Service Varients
+                </NavLink>
+                <NavLink to="/servicepackageform" className="dropdown-item">
+                  Service Packages
+                </NavLink>
+              </div>
+            </div>
 
             <NavLink
               to="/product"

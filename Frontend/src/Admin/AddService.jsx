@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const AddService = () => {
   const [editingId] = useState(null);
+
+  const [categories, setCategories] = useState([]);
 
   const [service, setService] = useState({
     categoryId: "",
@@ -11,6 +13,14 @@ const AddService = () => {
     includes: "",
     isActive: true,
   });
+
+  // Fetch Categories
+  useEffect(() => {
+    fetch("http://localhost:5000/api/serviceCategories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,16 +62,22 @@ const AddService = () => {
 
         <form onSubmit={handleSubmit}>
 
-          {/* Category */}
-          <input
-            type="text"
+          {/* Category Dropdown */}
+          <select
             name="categoryId"
-            placeholder="Category ID"
             value={service.categoryId}
             onChange={handleChange}
             className="form-control mb-3"
             required
-          />
+          >
+            <option value="">Select Category</option>
+
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
 
           {/* Service Name */}
           <input

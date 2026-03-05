@@ -34,6 +34,9 @@ import AdminHeader from "./Admin/AdminHeader";
 import Dashboard from "./Admin/Dashboard";
 import Adminservice from "./Admin/Adminservice";
 import AddService from "./Admin/AddService";
+import AddServiceCategory from "./Admin/AddServiceCategory";
+import AddVariant from "./Admin/AddVariant";
+import ServicePackageForm from "./Admin/ServicePackageForm";
 import AdBooking from "./Admin/AdBooking";
 import Adpayment from "./Admin/Adpayment";
 import Staff from "./Admin/Staff";
@@ -141,6 +144,18 @@ function App() {
          <Route
           path="/addservice"
           element={role === "admin" ? <AddService /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/addservicecategory"
+          element={role === "admin" ? <AddServiceCategory /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/addvariant"
+          element={role === "admin" ? <AddVariant /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/servicepackageform"
+          element={role === "admin" ? <ServicePackageForm /> : <Navigate to="/login" />}
         />
         <Route
           path="/adbooking"
