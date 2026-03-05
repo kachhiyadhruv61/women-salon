@@ -1,194 +1,245 @@
 import { useState } from "react";
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
+    name: "",
     username: "",
     email: "",
     phone: "",
     password: "",
-    role: "user",
     gender: "",
     address: "",
     pincode: "",
-     otp: "",          // email OTP
   });
 
+  // ✅ FIX 1: errors state properly define
   const [errors, setErrors] = useState({});
 
+  // ==========================
+  // HANDLE INPUT CHANGE
+  // ==========================
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const sendOtp = async () => {
-  if (!form.email) {
-    alert("Enter email first");
-    return;
-  }
+  // ==========================
+  // VALIDATION
+  // ==========================
+  const validate = () => {
+    let err = {};
 
-  const res = await fetch("http://localhost:5000/api/send-otp", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email: form.email })
-  });
+    if (!form.name.trim())
+      err.name = "Name required";
 
-  const data = await res.json();
-  if (data.success) {
-    alert("OTP sent to your email 📧");
-  }
-};
-const validate = async () => {
-  let err = {};
+    if (!form.username.trim())
+      err.username = "Username required";
 
-  if (!form.username.trim())
-    err.username = "Username required";
+    if (!form.email.trim())
+      err.email = "Email required";
 
-  if (!form.email.trim())
-    err.email = "Email required";
+    if (!form.phone.trim())
+      err.phone = "Phone required";
+    else if (!/^[0-9]{10}$/.test(form.phone))
+      err.phone = "Enter valid 10 digit phone";
 
-  if (!form.phone.trim())
-    err.phone = "Phone required";
-  else if (!/^[0-9]{10}$/.test(form.phone))
-    err.phone = "Enter valid 10 digit phone";
+    if (!form.password.trim())
+      err.password = "Password required";
+    else if (form.password.length < 6)
+      err.password = "Minimum 6 characters required";
 
-  if (!form.password.trim())
-    err.password = "Password required";
-  else if (form.password.length < 6)
-    err.password = "Minimum 6 characters required";
+    if (!form.gender)
+      err.gender = "Select gender";
 
-  if (!form.gender)
-    err.gender = "Select gender";
+    if (!form.address.trim())
+      err.address = "Address required";
 
-  if (!form.address.trim())
-    err.address = "Address required";
+    if (!form.pincode.trim())
+      err.pincode = "Pincode required";
+    else if (!/^[0-9]{6}$/.test(form.pincode))
+      err.pincode = "Enter valid 6 digit pincode";
 
-  if (!form.pincode.trim())
-    err.pincode = "Pincode required";
-  else if (!/^[0-9]{6}$/.test(form.pincode))
-    err.pincode = "Enter valid 6 digit pincode";
+    setErrors(err); // ✅ FIX 2: set errors
+    return Object.keys(err).length === 0; // ✅ FIX 3: return true/false
+  };
 
-  /* EMAIL OTP CHECK */
-  if (!form.otp.trim()) {
-    err.otp = "OTP required";
-  } else {
-    const res = await fetch("http://localhost:5000/api/verify-otp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-  email: form.email,
-  otp: form.otp 
-})
-    });
+  // ==========================
+  // REGISTER SUBMIT
+  // ==========================
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const data = await res.json();
-    if (!data.success) err.otp = "Incorrect email OTP";
-  }
+    const isValid = validate();
+    if (!isValid) return;
 
- 
+    try {
+      // ✅ FIX 4: Correct API URL (change if needed)
+      const res = await fetch("http://localhost:5000/registers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
 
-  setErrors(err);
-  return Object.keys(err).length === 0;
-};
+      const data = await res.json();
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+      if (res.ok && data.success) {
+        alert("Registration Successful ✅");
 
-  const isValid = await validate();   // 🔥 await jaruri che
-  if (!isValid) return;
+        setForm({
+          name: "",
+          username: "",
+          email: "",
+          phone: "",
+          password: "",
+          gender: "",
+          address: "",
+          pincode: "",
+        });
 
-  alert("Registered Successfully ✅");
-  console.log(form);
-};
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
 
+      } else {
+        alert(data.message || "Registration Failed ❌");
+      }
 
+    } catch (error) {
+      console.error(error);
+      alert("Server Error ❌");
+    }
+  };
 
   return (
     <div className="register-container">
       <form className="register-card" onSubmit={handleSubmit}>
-        <h3 className="text-center mb-3">
-          <i className="bi bi-person-plus"></i> Register
-        </h3>
+        <h3 className="text-center mb-3">Register</h3>
+
+        {/* Name */}
+        <div className="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            className="form-control"
+            value={form.name}
+            onChange={handleChange}
+          />
+          <small className="error">{errors.name}</small>
+        </div>
 
         {/* Username */}
         <div className="form-group">
-          <label><i className="bi bi-person"></i> Username</label>
-          <input type="text" name="username" className="form-control" onChange={handleChange} />
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            className="form-control"
+            value={form.username}
+            onChange={handleChange}
+          />
           <small className="error">{errors.username}</small>
         </div>
 
         {/* Email */}
         <div className="form-group">
-          <label><i className="bi bi-envelope"></i> Email</label>
-          <input type="email" name="email" className="form-control" onChange={handleChange} />
-          <button type="button" className="btn btn-sm btn-secondary mt-2" onClick={sendOtp}>
-            Send OTP
-          </button>
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            className="form-control"
+            value={form.email}
+            onChange={handleChange}
+          />
           <small className="error">{errors.email}</small>
-        </div>
-
-        {/* OTP */}
-        <div className="form-group">
-          <label><i className="bi bi-shield-lock"></i> Email OTP</label>
-          <input type="text" name="otp" className="form-control" onChange={handleChange} />
-          <small className="error">{errors.otp}</small>
         </div>
 
         {/* Phone */}
         <div className="form-group">
-          <label><i className="bi bi-telephone"></i> Phone</label>
-          <input type="text" name="phone" className="form-control" onChange={handleChange} />
+          <label>Phone</label>
+          <input
+            type="text"
+            name="phone"
+            className="form-control"
+            value={form.phone}
+            onChange={handleChange}
+          />
           <small className="error">{errors.phone}</small>
         </div>
 
         {/* Password */}
         <div className="form-group">
-          <label><i className="bi bi-lock"></i> Password</label>
-          <input type="password" name="password" className="form-control" onChange={handleChange} />
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            className="form-control"
+            value={form.password}
+            onChange={handleChange}
+          />
           <small className="error">{errors.password}</small>
-        </div>
-
-        {/* Role */}
-        <div className="form-group">
-          <label><i className="bi bi-person-badge"></i> Role</label>
-          <select name="role" className="form-control" onChange={handleChange}>
-            <option value="user">User</option>
-          </select>
         </div>
 
         {/* Gender */}
         <div className="form-group">
-          <label><i className="bi bi-gender-ambiguous"></i> Gender</label><br />
-          <input type="radio" name="gender" value="male" onChange={handleChange} /> Male &nbsp;
-          <input type="radio" name="gender" value="female" onChange={handleChange} /> Female
+          <label>Gender</label><br />
+          <input
+            type="radio"
+            name="gender"
+            value="male"
+            checked={form.gender === "male"}
+            onChange={handleChange}
+          /> Male &nbsp;
+          <input
+            type="radio"
+            name="gender"
+            value="female"
+            checked={form.gender === "female"}
+            onChange={handleChange}
+          /> Female
           <small className="error d-block">{errors.gender}</small>
         </div>
 
         {/* Address */}
         <div className="form-group">
-          <label><i className="bi bi-geo-alt"></i> Address</label>
-          <textarea name="address" className="form-control" onChange={handleChange}></textarea>
+          <label>Address</label>
+          <textarea
+            name="address"
+            className="form-control"
+            value={form.address}
+            onChange={handleChange}
+          ></textarea>
           <small className="error">{errors.address}</small>
         </div>
 
         {/* Pincode */}
         <div className="form-group">
-          <label><i className="bi bi-mailbox"></i> Pincode</label>
-          <input type="text" name="pincode" className="form-control" onChange={handleChange} />
+          <label>Pincode</label>
+          <input
+            type="text"
+            name="pincode"
+            className="form-control"
+            value={form.pincode}
+            onChange={handleChange}
+          />
           <small className="error">{errors.pincode}</small>
         </div>
 
-        <button type="submit" className="btn btn-primary w-100">
+        <button type="submit" className="btn btn-primary w-100 mt-3">
           Register
         </button>
 
-        <p className="note">Already have an account? {" "}
-          <Link to ="/login" className="text-primary fw-bold">
-          Login
-          </Link></p>
-        
+        <p className="note mt-3">
+          Already have an account?{" "}
+          <Link to="/login" className="text-primary fw-bold">
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   );

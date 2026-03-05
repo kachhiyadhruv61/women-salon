@@ -4,12 +4,12 @@ const AddService = () => {
   const [editingId] = useState(null);
 
   const [service, setService] = useState({
+    categoryId: "",
     name: "",
-    duration: "",
-    amount: "",
-    staff: "",
-    fishTankTherapy: false,
-    status: "active",
+    description: "",
+    shapes: "",
+    includes: "",
+    isActive: true,
   });
 
   const handleChange = (e) => {
@@ -23,9 +23,24 @@ const AddService = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Service Saved:", service);
 
-    // API call or state save logic here
+    const payload = {
+      categoryId: service.categoryId,
+      name: service.name,
+      description: service.description,
+      shapes: service.shapes
+        ? service.shapes.split(",").map((s) => s.trim())
+        : [],
+      includes: service.includes
+        ? service.includes.split(",").map((i) => i.trim())
+        : [],
+      isActive: service.isActive,
+      createdAt: new Date(),
+    };
+
+    console.log("Service Saved:", payload);
+
+    // API call here
   };
 
   return (
@@ -36,6 +51,19 @@ const AddService = () => {
         </h4>
 
         <form onSubmit={handleSubmit}>
+
+          {/* Category */}
+          <input
+            type="text"
+            name="categoryId"
+            placeholder="Category ID"
+            value={service.categoryId}
+            onChange={handleChange}
+            className="form-control mb-3"
+            required
+          />
+
+          {/* Service Name */}
           <input
             type="text"
             name="name"
@@ -46,62 +74,54 @@ const AddService = () => {
             required
           />
 
+          {/* Description */}
+          <textarea
+            name="description"
+            placeholder="Service Description"
+            value={service.description}
+            onChange={handleChange}
+            className="form-control mb-3"
+          />
+
+          {/* Shapes */}
           <input
             type="text"
-            name="duration"
-            placeholder="Duration (e.g. 60 mins)"
-            value={service.duration}
+            name="shapes"
+            placeholder="Shapes (comma separated) e.g. U, V, Straight"
+            value={service.shapes}
             onChange={handleChange}
             className="form-control mb-3"
-            required
           />
 
-          <input
-            type="number"
-            name="amount"
-            placeholder="Amount (₹)"
-            value={service.amount}
-            onChange={handleChange}
-            className="form-control mb-3"
-            required
-          />
-
+          {/* Includes */}
           <input
             type="text"
-            name="staff"
-            placeholder="Staff Assigned (comma separated)"
-            value={service.staff}
+            name="includes"
+            placeholder="Includes (comma separated)"
+            value={service.includes}
             onChange={handleChange}
             className="form-control mb-3"
           />
 
+          {/* Active Toggle */}
           <div className="form-check mb-3">
             <input
               type="checkbox"
-              name="fishTankTherapy"
-              checked={service.fishTankTherapy}
+              name="isActive"
+              checked={service.isActive}
               onChange={handleChange}
               className="form-check-input"
-              id="fishTank"
+              id="activeCheck"
             />
-            <label className="form-check-label" htmlFor="fishTank">
-              Fish Tank Pedicure Therapy
+            <label className="form-check-label" htmlFor="activeCheck">
+              Active Service
             </label>
           </div>
-
-          <select
-            name="status"
-            value={service.status}
-            onChange={handleChange}
-            className="form-control mb-3"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
 
           <button type="submit" className="btn btn-primary w-100">
             {editingId ? "Update Service" : "Add Service"}
           </button>
+
         </form>
       </div>
     </div>

@@ -1,39 +1,59 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import CommonTable from "../Components/CommonTable";
 
 function User() {
-  const [users, setUsers] = useState([
-    {
-      userId: 1,
-      name: "Aditi Patel",
-      email: "aditi@gmail.com",
-      phone: "9876543210",
-      password: "********",
-      role: "User",
-      status: "Active",
-      gender: "Female",
-      address: "Ahmedabad, Gujarat",
-      pincode: "380001",
-      emailOtp: "123456",
-      createdAt: "2026-02-01",
-      updatedAt: "2026-02-03",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
 
-  // ❌ DELETE USER
-  const deleteUser = (id) => {
-    setUsers(users.filter((u) => u.userId !== id));
+  // ==============================
+  // 📌 FETCH USERS FROM BACKEND
+  // ==============================
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/users");
+      const data = await res.json();
+      setUsers(data.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // ==============================
+  // ❌ DELETE USER (BACKEND)
+  // ==============================
+  const deleteUser = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await fetch(`http://localhost:5000/users/${id}`, {
+        method: "DELETE",
+      });
+
+      // Refresh after delete
+      setUsers((prev) => prev.filter((u) => u._id !== id));
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
+  // ==============================
   // 📊 TABLE COLUMNS
+  // ==============================
   const columns = useMemo(
     () => [
-      { accessorKey: "userId", header: "User ID" },
+      { accessorKey: "_id", header: "User ID" },
       { accessorKey: "name", header: "Name" },
+      { accessorKey: "username", header: "Usename" },
       { accessorKey: "email", header: "Email" },
       { accessorKey: "phone", header: "Phone" },
       { accessorKey: "password", header: "Password" },
-      { accessorKey: "role", header: "Role" },
+
       {
         accessorKey: "status",
         header: "Status",
@@ -49,14 +69,15 @@ function User() {
           </span>
         ),
       },
+
       { accessorKey: "gender", header: "Gender" },
       { accessorKey: "address", header: "Address" },
       { accessorKey: "pincode", header: "Pincode" },
-      { accessorKey: "emailOtp", header: "Email OTP" },
       { accessorKey: "createdAt", header: "Created At" },
       { accessorKey: "updatedAt", header: "Updated At" },
+
       {
-        accessorKey: "userId",
+        accessorKey: "_id",
         header: "Action",
         Cell: ({ cell }) => (
           <button
@@ -68,13 +89,15 @@ function User() {
         ),
       },
     ],
-    [deleteUser]
+    []
   );
+
   return (
     <div className="container py-5">
-     <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="mb-0">Admin User Management 👥 </h2>
-    </div>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="mb-0">Admin User Management 👥</h2>
+      </div>
+
       <CommonTable
         columns={columns}
         data={users}

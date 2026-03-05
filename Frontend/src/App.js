@@ -40,6 +40,8 @@ import Staff from "./Admin/Staff";
 import AddStaff from "./Admin/AddStaff";
 import Product from "./Admin/Product";
 import AddProduct from "./Admin/AddProduct";
+import Coupons from "./Admin/Coupons";
+import AddCoupon from "./Admin/AddCoupon";
 import Reports from "./Admin/Reports";
 import Settings from "./Admin/Settings";
 import User from "./Admin/User";
@@ -61,6 +63,7 @@ import UserAppoint from "./User/UserAppoint";
 import Addresses from "./User/Addresses";
 
 import StaffDashboard from "./Components/Staff/StaffDashboard";
+
 
 
 
@@ -166,6 +169,14 @@ function App() {
         <Route
           path="/addproduct"
           element={role === "admin" ? <AddProduct /> : <Navigate to="/login" />}
+        />
+       <Route
+          path="/addcoupon"
+          element={role === "admin" ? <AddCoupon /> : <Navigate to="/login" />}
+        />
+       <Route
+          path="/coupons"
+          element={role === "admin" ? <Coupons /> : <Navigate to="/login" />}
         />
         <Route
           path="/contactdata"
