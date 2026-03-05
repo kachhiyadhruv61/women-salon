@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CommonTable from "../Components/CommonTable";
 import { useNavigate } from "react-router-dom";
 import StaffStatusBtn from "../Components/Staff/StaffStatusbtn";
@@ -6,45 +6,74 @@ import AssignService from "../Components/Staff/AssignService";
 
 function Staffs() {
   const navigate = useNavigate();
-  const [staffList, setStaffList] = useState([
-    {
-      id: 1,
-      name: "Riya Patel",
-      role: "Beautician",
-      services: ["Natural Facial"],
-      phone: "9876543210",
-      experience: "3 Years",
-      status: "Active",
-    },
-  ]);
-
+  const [staffList, setStaffList] = useState([]);
   const services = ["Haircut", "Facial", "Cleanup"];
 
-  /* Assign Service */
-  const assignService = (id, service) => {
+  /* ================= FETCH STAFF ================= */
+  useEffect(() => {
+    fetchStaff();
+  }, []);
+
+  const fetchStaff = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/staff");
+      const data = await res.json();
+      setStaffList(data.data);
+    } catch (error) {
+      console.error("Error fetching staff:", error);
+    }
+  };
+
+  /* ================= ASSIGN SERVICE ================= */
+  const assignService = async (id, service) => {
     if (!service) return;
 
-    setStaffList((prev) =>
-      prev.map((s) =>
-        s.id === id
-          ? { ...s, services: [...new Set([...s.services, service])] }
-          : s
-      )
-    );
+    const staff = staffList.find((s) => s._id === id);
+
+    const updatedServices = [
+      ...new Set([...(staff.services || []), service]),
+    ];
+
+    try {
+      await fetch(`http://localhost:5000/staff/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...staff,
+          services: updatedServices,
+        }),
+      });
+
+      fetchStaff();
+    } catch (error) {
+      console.error("Error assigning service:", error);
+    }
   };
 
-  /* Toggle Status */
-  const toggleStaffStatus = (id) => {
-    setStaffList((prev) =>
-      prev.map((s) =>
-        s.id === id
-          ? { ...s, status: s.status === "Active" ? "Inactive" : "Active" }
-          : s
-      )
-    );
+  /* ================= TOGGLE STATUS ================= */
+  const toggleStaffStatus = async (id) => {
+    const staff = staffList.find((s) => s._id === id);
+
+    const updatedStatus =
+      staff.status === "Active" ? "Inactive" : "Active";
+
+    try {
+      await fetch(`http://localhost:5000/staff/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...staff,
+          status: updatedStatus,
+        }),
+      });
+
+      fetchStaff();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
-  /* ✅ Columns for CommonTable */
+  /* ================= TABLE COLUMNS ================= */
   const columns = [
     {
       header: "#",
@@ -60,7 +89,7 @@ function Staffs() {
     },
     {
       header: "Services",
-      accessor: (row) => row.services.join(", "),
+      accessor: (row) => (row.services || []).join(", "),
     },
     {
       header: "Phone",
@@ -87,7 +116,7 @@ function Staffs() {
       accessor: (row) => (
         <AssignService
           services={services}
-          onAssign={(service) => assignService(row.id, service)}
+          onAssign={(service) => assignService(row._id, service)}
         />
       ),
     },
@@ -96,7 +125,7 @@ function Staffs() {
       accessor: (row) => (
         <StaffStatusBtn
           status={row.status}
-          onToggle={() => toggleStaffStatus(row.id)}
+          onToggle={() => toggleStaffStatus(row._id)}
         />
       ),
     },
@@ -107,7 +136,7 @@ function Staffs() {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Staff Management 👩‍💼</h2>
 
-         <button
+        <button
           className="btn btn-primary"
           onClick={() => navigate("/addstaff")}
         >

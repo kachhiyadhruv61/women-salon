@@ -32,8 +32,8 @@ const AdminHeader = ({ setRole }) => {
     <div className="container-fluid bg-light sticky-top p-0">
       <nav className="navbar navbar-expand-lg navbar-light p-0">
 
-        {/* Logo */}
-        <NavLink to="/" className="navbar-brand py-2 px-3">
+        {/* Logo → Dashboard */}
+        <NavLink to="/dashboard" className="navbar-brand py-2 px-3">
           <img
             src="/img/logo.png"
             alt="A2 Women Salon"
@@ -54,15 +54,6 @@ const AdminHeader = ({ setRole }) => {
         <div className="collapse navbar-collapse p-3" id="adminNavbar">
 
           <div className="navbar-nav mx-auto">
-
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive ? "nav-item nav-link active" : "nav-item nav-link"
-              }
-            >
-              Dashboard
-            </NavLink>
 
             <NavLink
               to="/user"
@@ -137,6 +128,9 @@ const AdminHeader = ({ setRole }) => {
                 Pages
               </span>
               <div className="dropdown-menu bg-light mt-2">
+                 <NavLink to="/contactdata" className="dropdown-item">
+                  Coupons
+                </NavLink>
                 <NavLink to="/contactdata" className="dropdown-item">
                   Inqueries
                 </NavLink>

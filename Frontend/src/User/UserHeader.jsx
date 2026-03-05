@@ -13,8 +13,8 @@ function UserHeader({ setRole }) {
     <div className="container-fluid bg-light sticky-top p-0">
       <nav className="navbar navbar-expand-lg navbar-light p-0">
 
-        {/* Logo */}
-        <NavLink to="/" className="navbar-brand py-2 px-3">
+        {/* Logo → Dashboard Open */}
+        <NavLink to="/userdashboard" className="navbar-brand py-2 px-3">
           <img
             src="/img/logo.png"
             alt="A2 Women Salon"
@@ -33,17 +33,8 @@ function UserHeader({ setRole }) {
 
         <div className="collapse navbar-collapse p-3" id="navbarCollapse">
 
-          {/* NAV MENUS */}
+          {/* NAV MENUS (Dashboard Removed) */}
           <div className="navbar-nav mx-auto">
-
-            <NavLink
-              to="/userdashboard"
-              className={({ isActive }) =>
-                isActive ? "nav-item nav-link active" : "nav-item nav-link"
-              }
-            >
-              Dashboard
-            </NavLink>
 
             <NavLink
               to="/userservice"
