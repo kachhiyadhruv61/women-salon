@@ -141,7 +141,7 @@ const today = new Date();
 
   try {
     const res = await fetch(
-      "http://localhost:5000/api/orders",
+      "http://localhost:5000/orders",
       {
         method: "POST",
         headers: {

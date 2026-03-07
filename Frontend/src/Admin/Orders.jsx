@@ -10,9 +10,9 @@ function Orders() {
   }, []);
 
   const fetchOrders = async () => {
-    const res = await fetch("http://localhost:5000/api/orders");
+    const res = await fetch("http://localhost:5000/orders");
     const data = await res.json();
-    setOrders(data);
+    setOrders(data.data);
   };
 
   /* 🟢 UPDATE STATUS */
@@ -29,6 +29,22 @@ function Orders() {
     { id: "orderId", header: "Order ID", accessorKey: "orderId" },
     { id: "userName", header: "User", accessorKey: "userName" },
     { id: "contact", header: "Contact", accessorKey: "contact" },
+    {
+      id: "items",
+      header: "Items",
+      accessorKey: "items",
+      Cell: ({ cell }) => {
+        const items = cell.getValue();
+
+        if (!items) return "-";
+
+        return items.map((item, index) => (
+          <div key={index}>
+            {item.name} (x{item.qty})
+          </div>
+        ));
+      },
+    },
     {
       id: "totalAmount",
       header: "Amount",

@@ -6,9 +6,9 @@ function UserOrders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/orders/user/USR-01")
+    fetch("http://localhost:5000/orders")
       .then((res) => res.json())
-      .then((data) => setOrders(data));
+      .then((data) => setOrders(data.data));
   }, []);
 
   const columns = [
@@ -25,12 +25,21 @@ function UserOrders() {
         new Date(row.original.createdAt).toLocaleDateString(),
     },
     {
-      id: "items",
-      header: "Service Name",
-      accessorKey: "items",
-      cell: ({ row }) =>
-        row.original.items?.map((item) => item.name).join(", "),
-    },
+  id: "items",
+  header: "Items",
+  accessorKey: "items",
+  Cell: ({ cell }) => {
+    const items = cell.getValue();
+
+    if (!items) return "-";
+
+    return items.map((item, index) => (
+      <div key={index}>
+        {item.name} (x{item.qty})
+      </div>
+    ));
+  },
+},
     {
       id: "totalAmount",
       header: "Total Amount",

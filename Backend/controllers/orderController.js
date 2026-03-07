@@ -49,11 +49,12 @@ const createOrder = async (req, res, next) => {
     const db = getDB();
 
     const newOrder = {
-      userId: req.body.userId, // optionally convert to ObjectId
-      paymentMode: req.body.paymentMode,
+      userId: req.body.userId ?? "12314", // optionally convert to ObjectId
+      paymentMethod: req.body.paymentMethod,
       paymentStatus: req.body.paymentStatus,
-      amount: req.body.amount,
+      totalAmount: req.body.totalAmount,
       orderStatus: req.body.orderStatus,
+      items: req.body.items,
       createdAt: new Date(),
       updatedAt: new Date()
     };

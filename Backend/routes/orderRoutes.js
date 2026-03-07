@@ -69,22 +69,18 @@ router.get('/orders/:id', orderController.getOrderById);
  *           schema:
  *             type: object
  *             required:
- *               - userId
- *               - paymentMode
+ *               - paymentMethod
  *               - paymentStatus
- *               - amount
+ *               - totalAmount
  *               - orderStatus
  *             properties:
- *               userId:
- *                 type: integer
- *                 example: 1
- *               paymentMode:
+ *               paymentMethod:
  *                 type: string
  *                 example: UPI
  *               paymentStatus:
  *                 type: string
  *                 example: Paid
- *               amount:
+ *               totalAmount:
  *                 type: number
  *                 example: 1500
  *               orderStatus:
@@ -104,19 +100,16 @@ router.get('/orders/:id', orderController.getOrderById);
  */
 router.post(
   '/orders',
-  body('userId')
-    .notEmpty().withMessage('User ID is required')
-    .isInt().withMessage('User ID must be an integer'),
 
-  body('paymentMode')
+  body('paymentMethod')
     .notEmpty().withMessage('Payment mode is required'),
 
   body('paymentStatus')
     .notEmpty().withMessage('Payment status is required'),
 
-  body('amount')
-    .notEmpty().withMessage('Amount is required')
-    .isNumeric().withMessage('Amount must be a number'),
+  body('totalAmount')
+    .notEmpty().withMessage('totalAmount is required')
+    .isNumeric().withMessage('totalAmount must be a number'),
 
   body('orderStatus')
     .notEmpty().withMessage('Order status is required'),
@@ -144,11 +137,11 @@ router.post(
  *             properties:
  *               userId:
  *                 type: integer
- *               paymentMode:
+ *               paymentMethod:
  *                 type: string
  *               paymentStatus:
  *                 type: string
- *               amount:
+ *               totalAmount:
  *                 type: number
  *               orderStatus:
  *                 type: string
@@ -170,15 +163,15 @@ router.put(
     .notEmpty().withMessage('User ID is required')
     .isInt().withMessage('User ID must be an integer'),
 
-  body('paymentMode')
+  body('paymentMethod')
     .notEmpty().withMessage('Payment mode is required'),
 
   body('paymentStatus')
     .notEmpty().withMessage('Payment status is required'),
 
-  body('amount')
-    .notEmpty().withMessage('Amount is required')
-    .isNumeric().withMessage('Amount must be a number'),
+  body('totalAmount')
+    .notEmpty().withMessage('totalAmount is required')
+    .isNumeric().withMessage('totalAmount must be a number'),
 
   body('orderStatus')
     .notEmpty().withMessage('Order status is required'),
