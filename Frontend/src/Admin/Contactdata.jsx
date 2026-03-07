@@ -1,73 +1,95 @@
-import React, { useState, useMemo, useCallback } from "react";
-import CommonTable from "./../Components/CommonTable";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import CommonTable from "../Components/CommonTable";
 
 function Contactdata() {
 
-  const [contacts, setContacts] = useState([
-    {
-      id: 1,
-      name: "Axita Patel",
-      phone: "9876543210",
-      email: "axita@gmail.com",
-      subject: "Service Inquiry",
-      message: "I want more details about organic facial.",
-    },
-  ]);
+  const navigate = useNavigate();
+  const [contacts, setContacts] = useState([]);
 
-  // ❌ DELETE CONTACT
-  const deleteContact = useCallback((id) => {
-    setContacts((prev) =>
-      prev.filter((c) => c.id !== id)
-    );
+  // ✅ GET CONTACTS FROM BACKEND
+  const getContacts = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/contacts");
+      const result = await res.json();
+
+      if (result.success) {
+        setContacts(result.data);
+      }
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    }
+  };
+
+  // ✅ PAGE LOAD API CALL
+  useEffect(() => {
+    getContacts();
   }, []);
 
-  // 📊 TABLE COLUMNS
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "id",
-        header: "ID",
-      },
-      {
-        accessorKey: "name",
-        header: "Name",
-      },
-      {
-        accessorKey: "phone",
-        header: "Phone No",
-      },
-      {
-        accessorKey: "email",
-        header: "Email",
-      },
-      {
-        accessorKey: "subject",
-        header: "Subject",
-      },
-      {
-        accessorKey: "message",
-        header: "Message",
-      },
-      {
-        accessorKey: "id",
-        header: "Action",
-        Cell: ({ cell }) => (
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => deleteContact(cell.getValue())}
-          >
-            Delete
-          </button>
-        ),
-      },
-    ],
-    [deleteContact]
-  );
+  // ❌ DELETE CONTACT (Frontend only)
+  const deleteContact = (id) => {
+    setContacts(
+      contacts.filter((c) => c._id !== id)
+    );
+  };
+
+  const columns = [
+    {
+      id: "sr",
+      header: "#",
+      accessorFn: (_, index) => index + 1,
+    },
+    {
+      id: "name",
+      header: "Name",
+      accessorKey: "name",
+    },
+    {
+      id: "phone",
+      header: "Phone No",
+      accessorKey: "phone",
+    },
+    {
+      id: "email",
+      header: "Email",
+      accessorKey: "email",
+    },
+    {
+      id: "subject",
+      header: "Subject",
+      accessorKey: "subject",
+    },
+    {
+      id: "message",
+      header: "Message",
+      accessorKey: "message",
+    },
+    {
+      id: "action",
+      header: "Action",
+      Cell: ({ row }) => (
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => deleteContact(row.original._id)}
+        >
+          Delete
+        </button>
+      ),
+    },
+  ];
 
   return (
     <div className="container py-5">
+
       <div className="d-flex justify-content-between align-items-center mb-4">
-      <h2> Contact Messages 📩 </h2>
+        <h2>Contact Messages 📩</h2>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/contact")}
+        >
+          + Add Contact
+        </button>
       </div>
 
       <CommonTable
@@ -76,6 +98,7 @@ function Contactdata() {
         fileName="contactData"
         showSelection={true}
       />
+
     </div>
   );
 }

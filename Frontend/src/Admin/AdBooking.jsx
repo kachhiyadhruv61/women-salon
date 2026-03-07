@@ -1,28 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
 
 function AdBooking() {
   const navigate = useNavigate();
-  const [bookings, setBookings] = useState([
-    {
-      id: 1,
-      name: "Aditi",
-      service: "Facial",
-      date: "2026-01-20",
-      status: "Pending",
-    },
-  ]);
+  const [bookings, setBookings] = useState([]);
 
+  // ✅ GET BOOKINGS FROM BACKEND
+  const getBookings = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/bookings");
+      const result = await res.json();
+
+      if (result.success) {
+        setBookings(result.data);
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
+
+  // ✅ PAGE LOAD API CALL
+  useEffect(() => {
+    getBookings();
+  }, []);
+
+  // ✅ UPDATE STATUS (Frontend only)
   const updateStatus = (id, status) => {
     setBookings(
       bookings.map((b) =>
-        b.id === id ? { ...b, status } : b
+        b._id === id ? { ...b, status } : b
       )
     );
   };
 
-  // ✅ Columns for CommonTable (MRT compatible)
   const columns = [
     {
       id: "sr",
@@ -73,15 +84,16 @@ function AdBooking() {
           <button
             className="btn btn-success btn-sm"
             onClick={() =>
-              updateStatus(row.original.id, "Approved")
+              updateStatus(row.original._id, "Approved")
             }
           >
             Approve
           </button>
+
           <button
             className="btn btn-danger btn-sm"
             onClick={() =>
-              updateStatus(row.original.id, "Rejected")
+              updateStatus(row.original._id, "Rejected")
             }
           >
             Reject
@@ -104,7 +116,6 @@ function AdBooking() {
         </button>
       </div>
 
-      {/* ✅ Common Table */}
       <CommonTable
         columns={columns}
         data={bookings}

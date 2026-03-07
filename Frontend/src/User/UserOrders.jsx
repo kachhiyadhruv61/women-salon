@@ -1,17 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
-import { Link } from "react-router-dom";
 
 function UserOrders() {
+
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
 
+  // ✅ GET ORDERS FROM BACKEND
+  const getOrders = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/orders");
+      const result = await res.json();
+
+      if (result.success) {
+        setOrders(result.data);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  // ✅ PAGE LOAD API CALL
   useEffect(() => {
-    fetch("http://localhost:5000/orders")
-      .then((res) => res.json())
-      .then((data) => setOrders(data.data));
+    getOrders();
   }, []);
 
   const columns = [
+    {
+      id: "sr",
+      header: "#",
+      accessorFn: (_, index) => index + 1,
+    },
     {
       id: "orderId",
       header: "Order ID",
@@ -20,31 +40,28 @@ function UserOrders() {
     {
       id: "createdAt",
       header: "Order Date",
-      accessorKey: "createdAt",
-      cell: ({ row }) =>
+      Cell: ({ row }) =>
         new Date(row.original.createdAt).toLocaleDateString(),
     },
     {
-  id: "items",
-  header: "Items",
-  accessorKey: "items",
-  Cell: ({ cell }) => {
-    const items = cell.getValue();
+      id: "items",
+      header: "Items",
+      Cell: ({ row }) => {
+        const items = row.original.items;
 
-    if (!items) return "-";
+        if (!items) return "-";
 
-    return items.map((item, index) => (
-      <div key={index}>
-        {item.name} (x{item.qty})
-      </div>
-    ));
-  },
-},
+        return items.map((item, index) => (
+          <div key={index}>
+            {item.name} (x{item.qty})
+          </div>
+        ));
+      },
+    },
     {
       id: "totalAmount",
       header: "Total Amount",
-      accessorKey: "totalAmount",
-      cell: ({ row }) => `₹${row.original.totalAmount}`,
+      Cell: ({ row }) => `₹${row.original.totalAmount}`,
     },
     {
       id: "orderStatus",
@@ -64,25 +81,33 @@ function UserOrders() {
     {
       id: "action",
       header: "Action",
-      cell: ({ row }) => (
-        <Link
-          to={`/user/orders/${row.original.orderId}`}
-          className="btn btn-sm btn-primary"
+      Cell: ({ row }) => (
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={() =>
+            navigate(`/user/orders/${row.original.orderId}`)
+          }
         >
           View
-        </Link>
+        </button>
       ),
     },
   ];
 
   return (
     <div className="container py-5">
-       {/* Header + Button Row */}
-    <div className="d-flex justify-content-between align-items-center mb-4">
-      <h3 className="mb-0">My Orders 👩‍🦰</h3>
 
-    </div>
-      <CommonTable columns={columns} data={orders} />
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h3 className="mb-0">My Orders 👩‍🦰</h3>
+      </div>
+
+      <CommonTable
+        columns={columns}
+        data={orders}
+        fileName="userOrders"
+        showSelection={false}
+      />
+
     </div>
   );
 }

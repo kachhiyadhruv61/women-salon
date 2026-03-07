@@ -1,38 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
 
 function UserAppoint() {
   const navigate = useNavigate();
+  const [bookings, setBookings] = useState([]);
 
-  const [bookings, setBookings] = useState([
-    {
-      id: 1,
-      bookingId: "SALON-001",
-      name: "Aditi",
-      service: "Facial",
-      date: "2026-01-20",
-      status: "Approved",
-    },
-    {
-      id: 2,
-      bookingId: "SALON-002",
-      name: "Aditi",
-      service: "Haircut",
-      date: "2026-01-22",
-      status: "Pending",
-    },
-  ]);
+  // ✅ GET BOOKINGS FROM BACKEND
+  const getBookings = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/bookings");
+      const data = await res.json();
 
+      setBookings(data.data);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
+
+  // ✅ PAGE LOAD TIME API CALL
+  useEffect(() => {
+    getBookings();
+  }, []);
+
+  // ❌ Cancel Booking (frontend state change)
   const cancelBooking = (id) => {
     setBookings(
       bookings.map((b) =>
-        b.id === id ? { ...b, status: "Cancelled" } : b
+        b._id === id ? { ...b, status: "Cancelled" } : b
       )
     );
   };
 
-  // ✅ USER SIDE columns
   const columns = [
     {
       id: "sr",
@@ -82,7 +81,7 @@ function UserAppoint() {
         row.original.status === "Pending" && (
           <button
             className="btn btn-danger btn-sm"
-            onClick={() => cancelBooking(row.original.id)}
+            onClick={() => cancelBooking(row.original._id)}
           >
             Cancel
           </button>
@@ -92,24 +91,23 @@ function UserAppoint() {
 
   return (
     <div className="container py-5">
-       {/* Header + Button Row */}
-    <div className="d-flex justify-content-between align-items-center mb-4">
-      <h3 className="mb-0">My Appointments 👩‍🦰</h3>
 
-      <button
-        className="btn btn-primary"
-        onClick={() => navigate("/userbooking")}
-      >
-        + Book Appointment
-      </button>
-    </div>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h3 className="mb-0">My Appointments 👩‍🦰</h3>
 
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/userbooking")}
+        >
+          + Book Appointment
+        </button>
+      </div>
 
       <CommonTable
         columns={columns}
         data={bookings}
         fileName="userbooking"
-        showSelection={false}   // 👈 user side ma usually selection bandh
+        showSelection={false}
       />
     </div>
   );

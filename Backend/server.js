@@ -30,6 +30,9 @@ app.use('/', contactRoutes);
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use('/', paymentRoutes);
 
+const bookingRoutes = require('./routes/bookingRoutes');
+app.use('/', bookingRoutes);
+
 const serviceRoutes = require('./routes/serviceRoutes');
 app.use('/', serviceRoutes);
 
