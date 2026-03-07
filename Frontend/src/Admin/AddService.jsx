@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const AddService = () => {
+
   const [editingId] = useState(null);
 
   const [categories, setCategories] = useState([]);
@@ -14,7 +15,11 @@ const AddService = () => {
     isActive: true,
   });
 
-  // Fetch Categories
+  const [errors, setErrors] = useState({});
+
+  // ===============================
+  // FETCH CATEGORIES
+  // ===============================
   useEffect(() => {
     fetch("http://localhost:5000/api/serviceCategories")
       .then((res) => res.json())
@@ -22,6 +27,9 @@ const AddService = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  // ===============================
+  // HANDLE CHANGE
+  // ===============================
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -31,8 +39,35 @@ const AddService = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // ===============================
+  // VALIDATION
+  // ===============================
+  const validate = () => {
+    let err = {};
+
+    if (!service.categoryId)
+      err.categoryId = "Category required";
+
+    if (!service.name.trim())
+      err.name = "Service name required";
+
+    if (!service.description.trim())
+      err.description = "Description required";
+
+    setErrors(err);
+
+    return Object.keys(err).length === 0;
+  };
+
+  // ===============================
+  // SUBMIT SERVICE
+  // ===============================
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isValid = validate();
+
+    if (!isValid) return;
 
     const payload = {
       categoryId: service.categoryId,
@@ -48,27 +83,60 @@ const AddService = () => {
       createdAt: new Date(),
     };
 
-    console.log("Service Saved:", payload);
+    try {
 
-    // API call here
+      const res = await fetch("http://localhost:5000/services", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+
+        alert("Service Added Successfully ✅");
+
+        setService({
+          categoryId: "",
+          name: "",
+          description: "",
+          shapes: "",
+          includes: "",
+          isActive: true,
+        });
+
+        setErrors({});
+
+      } else {
+        alert(data.message || "Service Add Failed ❌");
+      }
+
+    } catch (error) {
+      console.log(error);
+      alert("Server Error ❌");
+    }
   };
 
   return (
     <div className="container mt-4">
+
       <div className="card shadow p-4">
+
         <h4 className="mb-3 text-center">
           {editingId ? "Edit Service" : "Add Service"}
         </h4>
 
         <form onSubmit={handleSubmit}>
 
-          {/* Category Dropdown */}
+          {/* Category */}
           <select
             name="categoryId"
             value={service.categoryId}
             onChange={handleChange}
-            className="form-control mb-3"
-            required
+            className="form-control mb-2"
           >
             <option value="">Select Category</option>
 
@@ -77,7 +145,10 @@ const AddService = () => {
                 {cat.name}
               </option>
             ))}
+
           </select>
+
+          <small className="text-danger">{errors.categoryId}</small>
 
           {/* Service Name */}
           <input
@@ -86,9 +157,10 @@ const AddService = () => {
             placeholder="Service Name"
             value={service.name}
             onChange={handleChange}
-            className="form-control mb-3"
-            required
+            className="form-control mb-2"
           />
+
+          <small className="text-danger">{errors.name}</small>
 
           {/* Description */}
           <textarea
@@ -96,14 +168,16 @@ const AddService = () => {
             placeholder="Service Description"
             value={service.description}
             onChange={handleChange}
-            className="form-control mb-3"
+            className="form-control mb-2"
           />
+
+          <small className="text-danger">{errors.description}</small>
 
           {/* Shapes */}
           <input
             type="text"
             name="shapes"
-            placeholder="Shapes (comma separated) e.g. U, V, Straight"
+            placeholder="Shapes (comma separated) e.g. U,V,Straight"
             value={service.shapes}
             onChange={handleChange}
             className="form-control mb-3"
@@ -119,8 +193,9 @@ const AddService = () => {
             className="form-control mb-3"
           />
 
-          {/* Active Toggle */}
+          {/* Active */}
           <div className="form-check mb-3">
+
             <input
               type="checkbox"
               name="isActive"
@@ -129,9 +204,11 @@ const AddService = () => {
               className="form-check-input"
               id="activeCheck"
             />
+
             <label className="form-check-label" htmlFor="activeCheck">
               Active Service
             </label>
+
           </div>
 
           <button type="submit" className="btn btn-primary w-100">
@@ -139,7 +216,9 @@ const AddService = () => {
           </button>
 
         </form>
+
       </div>
+
     </div>
   );
 };

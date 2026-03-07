@@ -10,6 +10,11 @@ const AddServiceCategory = () => {
     isActive: true
   });
 
+  const [errors, setErrors] = useState({});
+
+  // ===============================
+  // HANDLE CHANGE
+  // ===============================
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -19,21 +24,81 @@ const AddServiceCategory = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // ===============================
+  // VALIDATION
+  // ===============================
+  const validate = () => {
+
+    let err = {};
+
+    if (!category.name.trim())
+      err.name = "Category name required";
+
+    if (!category.slug.trim())
+      err.slug = "Slug required";
+
+    setErrors(err);
+
+    return Object.keys(err).length === 0;
+  };
+
+  // ===============================
+  // SUBMIT CATEGORY
+  // ===============================
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
+
+    const isValid = validate();
+
+    if (!isValid) return;
 
     const payload = {
       ...category,
       createdAt: new Date()
     };
 
-    console.log("Category Saved:", payload);
+    try {
 
-    // API call here
+      const res = await fetch("http://localhost:5000/serviceCategories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+
+        alert("Category Added Successfully ✅");
+
+        setCategory({
+          name: "",
+          slug: "",
+          description: "",
+          image: "",
+          isActive: true
+        });
+
+        setErrors({});
+
+      } else {
+        alert(data.message || "Category Add Failed ❌");
+      }
+
+    } catch (error) {
+
+      console.log(error);
+      alert("Server Error ❌");
+
+    }
   };
 
   return (
     <div className="container mt-4">
+
       <div className="card shadow p-4">
 
         <h4 className="text-center mb-4">Add Service Category</h4>
@@ -47,9 +112,10 @@ const AddServiceCategory = () => {
             placeholder="Category Name (e.g. Haircut)"
             value={category.name}
             onChange={handleChange}
-            className="form-control mb-3"
-            required
+            className="form-control mb-2"
           />
+
+          <small className="text-danger">{errors.name}</small>
 
           {/* Slug */}
           <input
@@ -58,9 +124,10 @@ const AddServiceCategory = () => {
             placeholder="Slug (e.g. haircut)"
             value={category.slug}
             onChange={handleChange}
-            className="form-control mb-3"
-            required
+            className="form-control mb-2"
           />
+
+          <small className="text-danger">{errors.slug}</small>
 
           {/* Description */}
           <textarea
@@ -83,6 +150,7 @@ const AddServiceCategory = () => {
 
           {/* Active Checkbox */}
           <div className="form-check mb-3">
+
             <input
               type="checkbox"
               name="isActive"
@@ -91,9 +159,11 @@ const AddServiceCategory = () => {
               className="form-check-input"
               id="activeCheck"
             />
+
             <label className="form-check-label" htmlFor="activeCheck">
               Active Category
             </label>
+
           </div>
 
           <button type="submit" className="btn btn-primary w-100">
@@ -103,6 +173,7 @@ const AddServiceCategory = () => {
         </form>
 
       </div>
+
     </div>
   );
 };
