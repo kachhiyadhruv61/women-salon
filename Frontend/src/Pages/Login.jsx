@@ -8,14 +8,14 @@ const Login = ({ setRole }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // ✅ Login page open thay tyare form always clean rahe
+  // form reset
   useEffect(() => {
     setUsername("");
     setPassword("");
     setError("");
   }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -24,44 +24,46 @@ const Login = ({ setRole }) => {
       return;
     }
 
-    let userRole = null;
-    let redirectPath = "/login";
+    try {
+      const res = await fetch("http://localhost:5000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      });
 
-    // 🔐 Admin
-    if (username === "admin" && password === "admin123") {
-      userRole = "admin";
-      redirectPath = "/dashboard";
+      const data = await res.json();
+
+      if (!data.success) {
+        setError(data.message || "Invalid username or password");
+        return;
+      }
+
+      // ✅ Save logged in user
+      localStorage.setItem("user", JSON.stringify(data.data));
+
+      // role
+      const role = data.data.role || "user";
+      localStorage.setItem("role", role);
+
+      setRole(role);
+
+      // redirect
+      if (role === "admin") {
+        navigate("/dashboard");
+      } else if (role === "staff") {
+        navigate("/staff/dashboard");
+      } else {
+        navigate("/userdashboard");
+      }
+
+    } catch (err) {
+      setError("Server error. Please try again.");
     }
-
-    // 👤 User
-    else if (username === "user" && password === "user123") {
-      userRole = "user";
-      redirectPath = "/userdashboard";
-    }
-
-    // 👨‍💼 Staff
-    else if (username === "staff" && password === "staff123456") {
-      userRole = "staff";
-      redirectPath = "/staff/dashboard";
-    }
-
-    else {
-      setError("Invalid username or password");
-      return;
-    }
-
-    // ✅ Save role in localStorage
-    localStorage.setItem("role", userRole);
-
-    // ✅ Update App state
-    setRole(userRole);
-
-    // ✅ Clear form before redirect
-    setUsername("");
-    setPassword("");
-
-    // ✅ Navigate
-    navigate(redirectPath);
   };
 
   return (
@@ -104,9 +106,7 @@ const Login = ({ setRole }) => {
         </p>
 
         <p className="note">
-          Admin → admin / admin123 <br />
-          User → user / user123 <br />
-         
+          Admin → admin / admin123
         </p>
       </form>
     </div>

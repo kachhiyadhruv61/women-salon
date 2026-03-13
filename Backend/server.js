@@ -16,7 +16,7 @@ app.use(
 
 // Import Routes
 const userRoutes = require('./routes/userRoutes');
-app.use('/', userRoutes);
+app.use('/users', userRoutes);
 
 const productRoutes = require('./routes/productRoutes');
 app.use('/', productRoutes);

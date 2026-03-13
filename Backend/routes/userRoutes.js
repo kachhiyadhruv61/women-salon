@@ -4,6 +4,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const validate = require('../middleware/validationMiddleware');
 
+
 /**
  * @swagger
  * tags:
@@ -30,7 +31,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/users', userController.getUsers);
+router.get('/', userController.getUsers);
 
 
 /**
@@ -58,7 +59,7 @@ router.get('/users', userController.getUsers);
  *       500:
  *         description: Internal server error
  */
-router.get('/users/:id', userController.getUserById);
+router.get('/:id', userController.getUserById);
 
 
 /**
@@ -118,7 +119,7 @@ router.get('/users/:id', userController.getUserById);
  *         description: Internal server error
  */
 router.post(
-  '/users',
+  '/',
   body('name')
     .notEmpty().withMessage('Name is required')
     .isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
@@ -139,6 +140,55 @@ router.post(
   userController.createUser
 );
 
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: User Login
+ *     description: Authenticate user using username and password
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: axita123
+ *               password:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Invalid username or password
+ *       400:
+ *         description: Validation error
+ *       500:
+ *         description: Internal server error
+ */
+router.post(
+  "/login",
+
+  body("username")
+    .notEmpty()
+    .withMessage("Username is required"),
+
+  body("password")
+    .notEmpty()
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
+
+  validate,
+  userController.loginUser
+);
 
 /**
  * @swagger
@@ -190,7 +240,7 @@ router.post(
  *         description: Internal server error
  */
 router.put(
-  '/users/:id',
+  '/:id',
   body('name')
     .optional()
     .isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
@@ -232,7 +282,7 @@ router.put(
  *       500:
  *         description: Internal server error
  */
-router.delete('/users/:id', userController.deleteUser);
+router.delete('/:id', userController.deleteUser);
 
 
 module.exports = router;

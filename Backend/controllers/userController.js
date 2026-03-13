@@ -78,6 +78,48 @@ const createUser = async (req, res, next) => {
   }
 };
 
+// ✅ LOGIN USER
+const loginUser = async (req, res, next) => {
+  try {
+    const db = getDB();
+    const { username, password } = req.body;
+
+    // 🔐 Admin static login
+    if (username === "admin" && password === "admin123") {
+      return res.status(200).json({
+        success: true,
+        message: "Admin login successful",
+        data: {
+          username: "admin",
+          role: "admin"
+        }
+      });
+    }
+
+    // 👤 Check user in MongoDB
+    const user = await db.collection("users").findOne({
+      username: username,
+      password: password
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid username or password"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      data: user
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 // ✅ UPDATE USER
 const updateUser = async (req, res, next) => {
@@ -143,6 +185,7 @@ module.exports = {
   getUsers,
   getUserById,
   createUser,
+  loginUser,
   updateUser,
   deleteUser
 };

@@ -147,7 +147,7 @@ const AdminHeader = ({ setRole }) => {
                 Pages
               </span>
               <div className="dropdown-menu bg-light mt-2">
-                 <NavLink to="/contactdata" className="dropdown-item">
+                 <NavLink to="/coupons" className="dropdown-item">
                   Coupons
                 </NavLink>
                 <NavLink to="/contactdata" className="dropdown-item">

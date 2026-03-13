@@ -13,21 +13,54 @@ function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+// ==========================
+// CONTACT SUBMIT
+// ==========================
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    alert(
-      `Thank you ${formData.name}! 🌿\nWe have received your message. Our team will contact you soon.`
-    );
+  try {
 
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      subject: "",
-      message: "",
+    const res = await fetch("http://localhost:5000/contacts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formData,
+        action: "Open"
+      }),
     });
-  };
+
+    const data = await res.json();
+
+    console.log(data); // debug
+
+    if (res.ok && data.success) {
+
+      alert(data.message);
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+
+    } else {
+
+      alert("Failed to send message ❌");
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+    alert("Server error ❌");
+
+  }
+};
 
   return (
     <div className="container py-5">
@@ -160,7 +193,7 @@ function Contact() {
                 </div>
 
                 <div className="col-12 text-center">
-                  <button className="btn btn-primary px-5 py-2">
+                  <button type="submit" className="btn btn-primary px-5 py-2">
                     Send Message
                   </button>
                 </div>

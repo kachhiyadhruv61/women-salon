@@ -21,6 +21,26 @@ function UserOrders() {
     }
   };
 
+  // ✅ CANCEL ORDER
+  const cancelOrder = async (orderId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/orders/cancel/${orderId}`, {
+        method: "PUT",
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        alert("Order cancelled successfully");
+        getOrders(); // refresh orders
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      console.error("Cancel error:", error);
+    }
+  };
+
   // ✅ PAGE LOAD API CALL
   useEffect(() => {
     getOrders();
@@ -35,7 +55,7 @@ function UserOrders() {
     {
       id: "orderId",
       header: "Order ID",
-      accessorKey: "orderId",
+       Cell: ({ row }) => row.original._id.slice(-6),
     },
     {
       id: "createdAt",
@@ -78,6 +98,33 @@ function UserOrders() {
       header: "Payment Method",
       accessorKey: "paymentMethod",
     },
+
+    // ✅ CANCEL ORDER COLUMN
+    {
+      id: "cancel",
+      header: "Cancel Order",
+      Cell: ({ row }) => {
+        const status = row.original.orderStatus;
+
+        if (
+          status === "Shipped" ||
+          status === "Delivered" ||
+          status === "Cancelled"
+        ) {
+          return "-";
+        }
+
+        return (
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => cancelOrder(row.original.orderId)}
+          >
+            Cancel
+          </button>
+        );
+      },
+    },
+
     {
       id: "action",
       header: "Action",

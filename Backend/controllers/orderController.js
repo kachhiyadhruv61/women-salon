@@ -108,6 +108,53 @@ const updateOrder = async (req, res, next) => {
   }
 };
 
+// ✅ CANCEL ORDER (USER)
+const cancelOrder = async (req, res, next) => {
+  try {
+    const db = getDB();
+
+    const order = await db.collection("orders").findOne({
+      orderId: req.params.orderId
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found"
+      });
+    }
+
+    if (
+      order.orderStatus === "Shipped" ||
+      order.orderStatus === "Delivered"
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Order cannot be cancelled"
+      });
+    }
+
+    await db.collection("orders").updateOne(
+      { orderId: req.params.orderId },
+      {
+        $set: {
+          orderStatus: "Cancelled",
+          updatedAt: new Date()
+        }
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Order cancelled successfully"
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 // ✅ DELETE ORDER
 const deleteOrder = async (req, res, next) => {
   try {
@@ -139,5 +186,6 @@ module.exports = {
   getOrderById,
   createOrder,
   updateOrder,
+  cancelOrder,
   deleteOrder
 };

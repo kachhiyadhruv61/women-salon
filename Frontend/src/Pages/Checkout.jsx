@@ -160,7 +160,7 @@ const today = new Date();
     setShowBill(false);
 
     // ✅ Redirect AFTER success
-    navigate("/");
+    navigate("/userorders");
   } catch (err) {
     alert("Backend not reachable ❌");
   }

@@ -47,7 +47,7 @@ function User() {
   // ==============================
   const columns = useMemo(
     () => [
-      { accessorKey: "_id", header: "User ID" },
+      { accessorKey: "_id", header: "User ID",Cell: ({ row }) => row.original._id.slice(-6) },
       { accessorKey: "name", header: "Name" },
       { accessorKey: "username", header: "Usename" },
       { accessorKey: "email", header: "Email" },

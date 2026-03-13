@@ -181,6 +181,16 @@ router.put(
 );
 
 /**
+ * 🟢 USER CANCEL ORDER
+ * PUT /orders/cancel/:orderId
+ */
+router.put(
+  '/orders/cancel/:orderId',
+  orderController.cancelOrder
+);
+
+
+/**
  * @swagger
  * /orders/{id}:
  *   delete:

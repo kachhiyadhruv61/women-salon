@@ -27,11 +27,29 @@ function Contactdata() {
   }, []);
 
   // ❌ DELETE CONTACT (Frontend only)
-  const deleteContact = (id) => {
-    setContacts(
-      contacts.filter((c) => c._id !== id)
-    );
-  };
+  const deleteContact = async (id) => {
+
+  try {
+
+    const res = await fetch(`http://localhost:5000/contacts/${id}`, {
+      method: "DELETE"
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+
+      setContacts(
+        contacts.filter((c) => c._id !== id)
+      );
+
+    }
+
+  } catch (error) {
+    console.error("Delete error:", error);
+  }
+
+};
 
   const columns = [
     {
