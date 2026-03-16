@@ -3,12 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = ({ setRole }) => {
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  // form reset
   useEffect(() => {
     setUsername("");
     setPassword("");
@@ -25,7 +26,8 @@ const Login = ({ setRole }) => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/users/login", {
+
+      const res = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -38,16 +40,19 @@ const Login = ({ setRole }) => {
 
       const data = await res.json();
 
+           // ❌ login failed
       if (!data.success) {
         setError(data.message || "Invalid username or password");
         return;
       }
 
-      // ✅ Save logged in user
-      localStorage.setItem("user", JSON.stringify(data.data));
+      // ✅ save user
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
+      localStorage.setItem("refreshToken", JSON.stringify(data.refreshToken));
 
       // role
-      const role = data.data.role || "user";
+      const role = data.user.role || "user";
       localStorage.setItem("role", role);
 
       setRole(role);
@@ -55,26 +60,36 @@ const Login = ({ setRole }) => {
       // redirect
       if (role === "admin") {
         navigate("/dashboard");
-      } else if (role === "staff") {
+      } 
+      else if (role === "staff") {
         navigate("/staff/dashboard");
-      } else {
+      } 
+      else {
         navigate("/userdashboard");
       }
 
     } catch (err) {
+        console.log(err);
+
       setError("Server error. Please try again.");
+
     }
+
   };
 
   return (
+
     <div className="login-container">
+
       <form className="login-card" onSubmit={handleLogin}>
+
         <h2>Login</h2>
 
         {error && <p className="error">{error}</p>}
 
         <div className="form-group">
           <label>Username</label>
+
           <input
             type="text"
             className="form-control"
@@ -83,10 +98,12 @@ const Login = ({ setRole }) => {
             placeholder="Enter username"
             autoComplete="off"
           />
+
         </div>
 
         <div className="form-group">
           <label>Password</label>
+
           <input
             type="password"
             className="form-control"
@@ -95,6 +112,7 @@ const Login = ({ setRole }) => {
             placeholder="Enter password"
             autoComplete="new-password"
           />
+
         </div>
 
         <button type="submit" className="btn btn-primary w-100">
@@ -108,7 +126,9 @@ const Login = ({ setRole }) => {
         <p className="note">
           Admin → admin / admin123
         </p>
+
       </form>
+
     </div>
   );
 };

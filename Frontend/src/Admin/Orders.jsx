@@ -59,16 +59,16 @@ function Orders() {
       header: "Items",
       accessorKey: "items",
       Cell: ({ cell }) => {
-        const items = cell.getValue();
+  const items = cell.getValue();
 
-        if (!items) return "-";
+  if (!Array.isArray(items)) return "-";
 
-        return items.map((item, index) => (
-          <div key={index}>
-            {item.name} (x{item.qty})
-          </div>
-        ));
-      },
+  return items.map((item, index) => (
+    <div key={index}>
+      {item.name} (x{item.qty})
+    </div>
+  ));
+}
     },
 
     {

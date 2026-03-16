@@ -3,13 +3,14 @@ const { body } = require('express-validator');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User CRUD API
+ *    name: Users
+ *    description: User CRUD API
  */
 
 
@@ -19,6 +20,8 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all users
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of users
@@ -31,7 +34,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/', userController.getUsers);
+router.get('/', auth, userController.getUsers);
 
 
 /**

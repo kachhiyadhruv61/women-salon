@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import CommonTable from "../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function User() {
   const [users, setUsers] = useState([]);
@@ -9,7 +10,11 @@ function User() {
   // ==============================
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/users");
+      // const res = await fetch("http://localhost:5000/users");
+      const res = await apiFetch("/users", {
+        method: "GET",
+      });
+
       const data = await res.json();
       setUsers(data.data);
     } catch (error) {

@@ -36,8 +36,6 @@ app.use('/', bookingRoutes);
 const serviceRoutes = require('./routes/serviceRoutes');
 app.use('/', serviceRoutes);
 
-const registerRoutes = require('./routes/registerRoutes');
-app.use('/', registerRoutes);
 
 const addressRoutes = require('./routes/addressRoutes');
 app.use('/', addressRoutes);
@@ -47,6 +45,9 @@ app.use('/', staffRoutes);
 
 const otpRoutes = require('./routes/otpRoutes');
 app.use('/', otpRoutes);
+
+const authRoutes = require('./routes/authRoutes');
+app.use('/', authRoutes);
 
 const notificationRoutes = require('./routes/notificationRoutes');
 app.use('/', notificationRoutes);
@@ -67,7 +68,17 @@ const options = {
       {
         url: "http://localhost:5000"
       }
-    ]
+    ],
+
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT"
+        }
+      }
+    }
   },
   apis: ["./routes/*.js"], // Important change
 };
