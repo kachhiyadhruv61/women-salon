@@ -1,18 +1,17 @@
 const express = require('express');
 const { body } = require('express-validator');
 const router = express.Router();
+
 const userController = require('../controllers/userController');
 const validate = require('../middleware/validationMiddleware');
 const auth = require("../middleware/authMiddleware");
 
-
 /**
  * @swagger
  * tags:
- *    name: Users
- *    description: User CRUD API
+ *   name: Users
+ *   description: User CRUD API
  */
-
 
 /**
  * @swagger
@@ -36,13 +35,14 @@ const auth = require("../middleware/authMiddleware");
  */
 router.get('/', auth, userController.getUsers);
 
-
 /**
  * @swagger
  * /users/{id}:
  *   get:
  *     summary: Get user by ID
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -62,8 +62,7 @@ router.get('/', auth, userController.getUsers);
  *       500:
  *         description: Internal server error
  */
-router.get('/:id', userController.getUserById);
-
+router.get('/:id', auth, userController.getUserById);
 
 /**
  * @swagger
@@ -71,6 +70,8 @@ router.get('/:id', userController.getUserById);
  *   post:
  *     summary: Create new user
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -116,8 +117,6 @@ router.get('/:id', userController.getUserById);
  *         description: Invalid request
  *       401:
  *         description: Unauthorized access
- *       404:
- *         description: User not found
  *       500:
  *         description: Internal server error
  */
@@ -140,58 +139,10 @@ router.post(
     .isLength({ min: 10 }).withMessage('Phone must be at least 10 digits'),
 
   validate,
+  auth,
   userController.createUser
 );
 
-/**
- * @swagger
- * /users/login:
- *   post:
- *     summary: User Login
- *     description: Authenticate user using username and password
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - username
- *               - password
- *             properties:
- *               username:
- *                 type: string
- *                 example: axita123
- *               password:
- *                 type: string
- *                 example: 123456
- *     responses:
- *       200:
- *         description: Login successful
- *       401:
- *         description: Invalid username or password
- *       400:
- *         description: Validation error
- *       500:
- *         description: Internal server error
- */
-router.post(
-  "/login",
-
-  body("username")
-    .notEmpty()
-    .withMessage("Username is required"),
-
-  body("password")
-    .notEmpty()
-    .withMessage("Password is required")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters"),
-
-  validate,
-  userController.loginUser
-);
 
 /**
  * @swagger
@@ -199,6 +150,8 @@ router.post(
  *   put:
  *     summary: Update user
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -207,29 +160,6 @@ router.post(
  *           type: string
  *     requestBody:
  *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               phone:
- *                 type: string
- *               password:
- *                 type: string
- *               role:
- *                 type: string
- *               gender:
- *                 type: string
- *               address:
- *                 type: string
- *               pincode:
- *                 type: string
- *               emailOtp:
- *                 type: string
  *     responses:
  *       200:
  *         description: User updated
@@ -257,9 +187,9 @@ router.put(
     .isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
 
   validate,
+  auth,
   userController.updateUser
 );
-
 
 /**
  * @swagger
@@ -267,6 +197,8 @@ router.put(
  *   delete:
  *     summary: Delete user
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -276,16 +208,11 @@ router.put(
  *     responses:
  *       200:
  *         description: User deleted
- *       400:
- *         description: Invalid request
  *       401:
  *         description: Unauthorized access
  *       404:
  *         description: User not found
- *       500:
- *         description: Internal server error
  */
-router.delete('/:id', userController.deleteUser);
-
+router.delete('/:id', auth, userController.deleteUser);
 
 module.exports = router;

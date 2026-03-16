@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const router = express.Router();
 const staffController = require('../controllers/staffController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,11 +18,13 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all staff members
  *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of staff members
  */
-router.get('/staff', staffController.getStaff);
+router.get('/staff',auth, staffController.getStaff);
 
 /**
  * @swagger
@@ -29,6 +32,8 @@ router.get('/staff', staffController.getStaff);
  *   get:
  *     summary: Get staff by ID
  *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -42,7 +47,7 @@ router.get('/staff', staffController.getStaff);
  *       404:
  *         description: Staff not found
  */
-router.get('/staff/:id', staffController.getStaffById);
+router.get('/staff/:id',auth, staffController.getStaffById);
 
 /**
  * @swagger
@@ -50,6 +55,8 @@ router.get('/staff/:id', staffController.getStaffById);
  *   post:
  *     summary: Create new staff
  *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -96,7 +103,7 @@ router.post(
   body('phone')
     .notEmpty().withMessage('Phone number is required')
     .isLength({ min: 10, max: 10 }).withMessage('Phone must be 10 digits'),
-  validate,
+  validate,auth,
   staffController.createStaff
 );
 
@@ -106,6 +113,8 @@ router.post(
  *   put:
  *     summary: Update staff
  *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -149,7 +158,7 @@ router.put(
   body('phone')
     .notEmpty().withMessage('Phone number is required')
     .isLength({ min: 10, max: 10 }).withMessage('Phone must be 10 digits'),
-  validate,
+  validate,auth,
   staffController.updateStaff
 );
 
@@ -159,6 +168,8 @@ router.put(
  *   delete:
  *     summary: Delete staff
  *     tags: [Staff]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -171,6 +182,6 @@ router.put(
  *       404:
  *         description: Staff not found
  */
-router.delete('/staff/:id', staffController.deleteStaff);
+router.delete('/staff/:id',auth,staffController.deleteStaff);
 
 module.exports = router;

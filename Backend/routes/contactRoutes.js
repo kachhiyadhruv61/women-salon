@@ -3,6 +3,7 @@ const { body, param } = require('express-validator');
 const router = express.Router();
 const contactController = require('../controllers/contactController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,6 +18,8 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all contacts
  *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of contacts
@@ -29,7 +32,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/contacts', contactController.getContacts);
+router.get('/contacts',auth, contactController.getContacts);
 
 /**
  * @swagger
@@ -37,6 +40,8 @@ router.get('/contacts', contactController.getContacts);
  *   get:
  *     summary: Get contact by ID
  *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -57,7 +62,7 @@ router.get('/contacts', contactController.getContacts);
 router.get(
   '/contacts/:id',
   param('id').isInt().withMessage('Contact ID must be integer'),
-  validate,
+  validate,auth,
   contactController.getContactById
 );
 
@@ -67,6 +72,8 @@ router.get(
  *   post:
  *     summary: Create new contact
  *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -138,7 +145,7 @@ router.post(
     .isIn(['Open', 'Closed'])
     .withMessage('Action must be Open or Closed'),
 
-  validate,
+  validate,auth,
   contactController.createContact
 );
 
@@ -148,6 +155,8 @@ router.post(
  *   put:
  *     summary: Update contact
  *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -212,7 +221,7 @@ router.put(
     .isIn(['Open', 'Closed'])
     .withMessage('Action must be Open or Closed'),
 
-  validate,
+  validate,auth,
   contactController.updateContact
 );
 
@@ -222,6 +231,8 @@ router.put(
  *   delete:
  *     summary: Delete contact
  *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -241,7 +252,7 @@ router.put(
 router.delete(
   '/contacts/:id',
   param('id').isInt().withMessage('Contact ID must be integer'),
-  validate,
+  validate,auth,
   contactController.deleteContact
 );
 

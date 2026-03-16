@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const router = express.Router();
 const notificationController = require('../controllers/notificationController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,11 +18,13 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all notifications
  *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of notifications
  */
-router.get('/notifications', notificationController.getNotifications);
+router.get('/notifications',auth, notificationController.getNotifications);
 
 /**
  * @swagger
@@ -29,6 +32,8 @@ router.get('/notifications', notificationController.getNotifications);
  *   get:
  *     summary: Get notification by ID
  *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -40,7 +45,7 @@ router.get('/notifications', notificationController.getNotifications);
  *       404:
  *         description: Notification not found
  */
-router.get('/notifications/:id', notificationController.getNotificationById);
+router.get('/notifications/:id',auth, notificationController.getNotificationById);
 
 /**
  * @swagger
@@ -48,6 +53,8 @@ router.get('/notifications/:id', notificationController.getNotificationById);
  *   post:
  *     summary: Create new notification
  *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -84,7 +91,7 @@ router.post(
     .isLength({ min: 3 }).withMessage('Title must be at least 3 characters'),
   body('message')
     .notEmpty().withMessage('Message is required'),
-  validate,
+  validate,auth,
   notificationController.createNotification
 );
 
@@ -94,6 +101,8 @@ router.post(
  *   put:
  *     summary: Update notification
  *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -129,7 +138,7 @@ router.put(
   body('message')
     .optional()
     .notEmpty().withMessage('Message cannot be empty'),
-  validate,
+  validate,auth,
   notificationController.updateNotification
 );
 
@@ -139,6 +148,8 @@ router.put(
  *   delete:
  *     summary: Delete notification
  *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -149,6 +160,6 @@ router.put(
  *       404:
  *         description: Notification not found
  */
-router.delete('/notifications/:id', notificationController.deleteNotification);
+router.delete('/notifications/:id',auth, notificationController.deleteNotification);
 
 module.exports = router;

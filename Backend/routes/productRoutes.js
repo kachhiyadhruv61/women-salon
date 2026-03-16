@@ -3,6 +3,7 @@ const { body, param } = require('express-validator');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,6 +18,8 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all products
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of products
@@ -29,7 +32,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/products', productController.getProducts);
+router.get('/products',auth, productController.getProducts);
 
 /**
  * @swagger
@@ -37,6 +40,8 @@ router.get('/products', productController.getProducts);
  *   get:
  *     summary: Get product by ID
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -57,7 +62,7 @@ router.get('/products', productController.getProducts);
 router.get(
   '/products/:id/:name',
   param('id').isInt().withMessage('Product ID must be integer'),
-  validate,
+  validate,auth,
   productController.getProductById
 );
 
@@ -67,6 +72,8 @@ router.get(
  *   post:
  *     summary: Create new product
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -136,7 +143,7 @@ router.post(
     .isIn(['Active', 'Inactive'])
     .withMessage('Action must be Active or Inactive'),
 
-  validate,
+  validate,auth,
   productController.createProduct
 );
 
@@ -146,6 +153,8 @@ router.post(
  *   put:
  *     summary: Update product
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -211,7 +220,7 @@ router.put(
     .isIn(['Active', 'Inactive'])
     .withMessage('Action must be Active or Inactive'),
 
-  validate,
+  validate,auth,
   productController.updateProduct
 );
 
@@ -221,6 +230,8 @@ router.put(
  *   delete:
  *     summary: Delete product
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -240,7 +251,7 @@ router.put(
 router.delete(
   '/products/:id',
   param('id').isInt().withMessage('Product ID must be integer'),
-  validate,
+  validate,auth,
   productController.deleteProduct
 );
 

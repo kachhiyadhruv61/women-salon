@@ -1,8 +1,10 @@
 const express = require('express');
 const { body, param } = require('express-validator');
 const router = express.Router();
+
 const addressController = require('../controllers/addressController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,11 +19,13 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all addresses
  *     tags: [Addresses]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of addresses
  */
-router.get('/addresses', addressController.getAddresses);
+router.get('/addresses', auth, addressController.getAddresses);
 
 /**
  * @swagger
@@ -29,11 +33,15 @@ router.get('/addresses', addressController.getAddresses);
  *   get:
  *     summary: Get address by ID
  *     tags: [Addresses]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         description: Address ID
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Address found
@@ -44,6 +52,7 @@ router.get(
   '/addresses/:id',
   param('id').isInt().withMessage('Address ID must be integer'),
   validate,
+  auth,
   addressController.getAddressById
 );
 
@@ -53,6 +62,8 @@ router.get(
  *   post:
  *     summary: Create new address
  *     tags: [Addresses]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -112,6 +123,7 @@ router.post(
     .withMessage('Location must be Home, Office, or Other'),
 
   validate,
+  auth,
   addressController.createAddress
 );
 
@@ -121,27 +133,16 @@ router.post(
  *   put:
  *     summary: Update address
  *     tags: [Addresses]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               mobile:
- *                 type: string
- *               address:
- *                 type: string
- *               pincode:
- *                 type: string
- *               location:
- *                 type: string
  *     responses:
  *       200:
  *         description: Address updated
@@ -152,6 +153,7 @@ router.post(
  */
 router.put(
   '/addresses/:id',
+
   param('id').isInt().withMessage('Address ID must be integer'),
 
   body('name')
@@ -176,6 +178,7 @@ router.put(
     .withMessage('Location must be Home, Office, or Other'),
 
   validate,
+  auth,
   addressController.updateAddress
 );
 
@@ -185,10 +188,14 @@ router.put(
  *   delete:
  *     summary: Delete address
  *     tags: [Addresses]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Address deleted
@@ -199,6 +206,7 @@ router.delete(
   '/addresses/:id',
   param('id').isInt().withMessage('Address ID must be integer'),
   validate,
+  auth,
   addressController.deleteAddress
 );
 

@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const router = express.Router();
 const orderController = require('../controllers/orderController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,6 +18,8 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all orders
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of orders
@@ -29,7 +32,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/orders', orderController.getOrders);
+router.get('/orders',auth, orderController.getOrders);
 
 /**
  * @swagger
@@ -37,6 +40,8 @@ router.get('/orders', orderController.getOrders);
  *   get:
  *     summary: Get order by ID
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -54,7 +59,7 @@ router.get('/orders', orderController.getOrders);
  *       500:
  *         description: Internal server error
  */
-router.get('/orders/:id', orderController.getOrderById);
+router.get('/orders/:id',auth, orderController.getOrderById);
 
 /**
  * @swagger
@@ -62,6 +67,8 @@ router.get('/orders/:id', orderController.getOrderById);
  *   post:
  *     summary: Create new order
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -114,7 +121,7 @@ router.post(
   body('orderStatus')
     .notEmpty().withMessage('Order status is required'),
 
-  validate,
+  validate,auth,
   orderController.createOrder
 );
 
@@ -124,6 +131,8 @@ router.post(
  *   put:
  *     summary: Update order
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -176,7 +185,7 @@ router.put(
   body('orderStatus')
     .notEmpty().withMessage('Order status is required'),
 
-  validate,
+  validate,auth,
   orderController.updateOrder
 );
 
@@ -196,6 +205,8 @@ router.put(
  *   delete:
  *     summary: Delete order
  *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -212,6 +223,6 @@ router.put(
  *       500:
  *         description: Internal server error
  */
-router.delete('/orders/:id', orderController.deleteOrder);
+router.delete('/orders/:id',auth, orderController.deleteOrder);
 
 module.exports = router;

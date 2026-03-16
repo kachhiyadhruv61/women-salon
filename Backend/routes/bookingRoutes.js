@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const router = express.Router();
 const bookingController = require('../controllers/bookingController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -18,6 +19,8 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all bookings
  *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of bookings
@@ -28,7 +31,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/bookings', bookingController.getBookings);
+router.get('/bookings',auth, bookingController.getBookings);
 
 
 /**
@@ -37,6 +40,8 @@ router.get('/bookings', bookingController.getBookings);
  *   get:
  *     summary: Get booking by ID
  *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -52,7 +57,7 @@ router.get('/bookings', bookingController.getBookings);
  *       500:
  *         description: Internal server error
  */
-router.get('/bookings/:id', bookingController.getBookingById);
+router.get('/bookings/:id',auth, bookingController.getBookingById);
 
 
 /**
@@ -61,6 +66,8 @@ router.get('/bookings/:id', bookingController.getBookingById);
  *   post:
  *     summary: Create new booking
  *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -104,7 +111,7 @@ router.post(
   body('date')
     .notEmpty().withMessage('Date is required'),
 
-  validate,
+  validate,auth,
   bookingController.createBooking
 );
 
@@ -115,6 +122,8 @@ router.post(
  *   put:
  *     summary: Update booking
  *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -159,7 +168,7 @@ router.put(
   body('status')
     .optional(),
 
-  validate,
+  validate,auth,
   bookingController.updateBooking
 );
 
@@ -170,6 +179,8 @@ router.put(
  *   delete:
  *     summary: Delete booking
  *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -184,6 +195,6 @@ router.put(
  *       500:
  *         description: Internal server error
  */
-router.delete('/bookings/:id', bookingController.deleteBooking);
+router.delete('/bookings/:id',auth,bookingController.deleteBooking);
 
 module.exports = router;

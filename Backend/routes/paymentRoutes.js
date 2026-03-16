@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const router = express.Router();
 const paymentController = require('../controllers/paymentController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,6 +18,8 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all payments
  *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of payments
@@ -29,7 +32,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/payments', paymentController.getPayments);
+router.get('/payments',auth, paymentController.getPayments);
 
 /**
  * @swagger
@@ -37,6 +40,8 @@ router.get('/payments', paymentController.getPayments);
  *   get:
  *     summary: Get payment by ID
  *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -54,7 +59,7 @@ router.get('/payments', paymentController.getPayments);
  *       500:
  *         description: Internal server error
  */
-router.get('/payments/:id', paymentController.getPaymentById);
+router.get('/payments/:id',auth, paymentController.getPaymentById);
 
 /**
  * @swagger
@@ -62,6 +67,8 @@ router.get('/payments/:id', paymentController.getPaymentById);
  *   post:
  *     summary: Create new payment
  *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -129,7 +136,7 @@ router.post(
   body('date')
     .notEmpty().withMessage('Date is required'),
 
-  validate,
+  validate,auth,
   paymentController.createPayment
 );
 
@@ -139,6 +146,8 @@ router.post(
  *   put:
  *     summary: Update payment
  *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -197,7 +206,7 @@ router.put(
   body('date')
     .notEmpty().withMessage('Date is required'),
 
-  validate,
+  validate,auth,
   paymentController.updatePayment
 );
 
@@ -207,6 +216,8 @@ router.put(
  *   delete:
  *     summary: Delete payment
  *     tags: [Payments]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -223,6 +234,6 @@ router.put(
  *       500:
  *         description: Internal server error
  */
-router.delete('/payments/:id', paymentController.deletePayment);
+router.delete('/payments/:id',auth, paymentController.deletePayment);
 
 module.exports = router;

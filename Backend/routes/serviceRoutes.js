@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const router = express.Router();
 const serviceController = require('../controllers/serviceController');
 const validate = require('../middleware/validationMiddleware');
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -17,6 +18,8 @@ const validate = require('../middleware/validationMiddleware');
  *   get:
  *     summary: Get all services
  *     tags: [Services]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of services
@@ -29,7 +32,7 @@ const validate = require('../middleware/validationMiddleware');
  *       500:
  *         description: Internal server error
  */
-router.get('/services', serviceController.getServices);
+router.get('/services',auth, serviceController.getServices);
 
 /**
  * @swagger
@@ -37,6 +40,8 @@ router.get('/services', serviceController.getServices);
  *   get:
  *     summary: Get service by ID
  *     tags: [Services]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -54,7 +59,7 @@ router.get('/services', serviceController.getServices);
  *       500:
  *         description: Internal server error
  */
-router.get('/services/:id/:name', serviceController.getServiceById);
+router.get('/services/:id/:name',auth, serviceController.getServiceById);
 
 /**
  * @swagger
@@ -62,6 +67,8 @@ router.get('/services/:id/:name', serviceController.getServiceById);
  *   post:
  *     summary: Create new service
  *     tags: [Services]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -122,7 +129,7 @@ router.post(
   body('serviceStatus')
     .notEmpty().withMessage('Service status is required'),
 
-  validate,
+  validate,auth,
   serviceController.createService
 );
 
@@ -132,6 +139,8 @@ router.post(
  *   put:
  *     summary: Update service
  *     tags: [Services]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -185,7 +194,7 @@ router.put(
   body('serviceStatus')
     .notEmpty().withMessage('Service status is required'),
 
-  validate,
+  validate,auth,
   serviceController.updateService
 );
 
@@ -195,6 +204,8 @@ router.put(
  *   delete:
  *     summary: Delete service
  *     tags: [Services]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -211,6 +222,6 @@ router.put(
  *       500:
  *         description: Internal server error
  */
-router.delete('/services/:id', serviceController.deleteService);
+router.delete('/services/:id',auth, serviceController.deleteService);
 
 module.exports = router;
