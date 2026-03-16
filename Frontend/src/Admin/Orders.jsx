@@ -58,7 +58,7 @@ function Orders() {
       id: "items",
       header: "Items",
       accessorKey: "items",
-      Cell: ({ cell }) => {
+     Cell: ({ cell }) => {
   const items = cell.getValue();
 
   if (!Array.isArray(items)) return "-";

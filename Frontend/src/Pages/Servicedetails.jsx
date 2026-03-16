@@ -4,6 +4,7 @@ import { useState } from "react";
 function Servicedetails() {
   const { id } = useParams();
   const [location, setLocation] = useState("salon");
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
 
 
@@ -24,6 +25,20 @@ function Servicedetails() {
               price: 1100,
               time: "60 mins",
               staff: ["Aarti"],
+               places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],
               note: "Fresh fruit facial prepared live",
             },
             home: { price: 1300, time: "70 mins", staff: [] },
@@ -36,7 +51,21 @@ function Servicedetails() {
           details: "Premium glow facial with organic products.",
           locationDetails: {
             salon: { price: 1000, time: "60 mins", staff: ["Neha"] },
-            natural: { price: 2000, time: "75 mins", staff: ["Neha"] },
+            natural: { price: 2000, time: "75 mins",
+               places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Neha"] },
             home: { price: 1300, time: "90 mins", staff: [] },
               products: [{ name: "Gold Facial Kit", price: 899 }],
 
@@ -74,7 +103,20 @@ function Servicedetails() {
           
           locationDetails: {
             salon: { price: 500, time: "45 mins", staff: ["Neha"] },
-            natural: { price: 800, time: "60 mins", staff: ["Neha"] },
+            natural: { price: 800, time: "60 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Neha"] },
             home: { price: 1000, time: "60 mins", staff: [] },
               products: [
             { name: "Herbal Shampoo", price: 299 },
@@ -87,7 +129,20 @@ function Servicedetails() {
           details: "Deep nourishment hair spa.",
           locationDetails: {
             salon: { price: 1200, time: "1 hr", staff: ["Pooja"] },
-            natural: { price: 1600, time: "90 mins", staff: ["Pooja"] },
+            natural: { price: 1600, time: "90 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Pooja"] },
             home: { price: 1800, time: "90 mins", staff: [] },
              products: [{ name: "Hair Spa Cream", price: 499 }],
 
@@ -108,7 +163,20 @@ function Servicedetails() {
       details: "Nail shaping, cuticle care & massage.",
       locationDetails: {
         salon: { price: 400, time: "30 mins", staff: ["Pooja"] },
-        natural: { price: 650, time: "45 mins", staff: ["Pooja"] },
+        natural: { price: 650, time: "45 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Pooja"] },
         home: { price: 750, time: "45 mins", staff: [] },
         products: [{ name: "Hand Cream", price: 199 }],
       },
@@ -136,6 +204,20 @@ function Servicedetails() {
         natural: {
           price: 700,
           time: "45 mins",
+           places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],
           staff: ["Priya"],
         },
         home: {
@@ -162,6 +244,20 @@ function Servicedetails() {
         natural: {
           price: 4200,
           time: "4–5 hrs",
+           places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],
           staff: ["Ayra"],
         },
         home: {
@@ -188,6 +284,20 @@ function Servicedetails() {
         natural: {
           price: 1100,
           time: "1 hr",
+           places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],
           staff: ["Riya"],
         },
         home: {
@@ -215,7 +325,20 @@ function Servicedetails() {
           details: "Foot soak, scrub & massage.",
           locationDetails: {
             salon: { price: 999, time: "60 mins", staff: ["Reena"] },
-            natural: { price: 1400, time: "75 mins", staff: ["Reena"] },
+            natural: { price: 1400, time: "75 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Reena"] },
             home: { price: 1600, time: "90 mins", staff: [] },
           },
         },
@@ -224,7 +347,20 @@ function Servicedetails() {
           details: "Foot soak, scrub & massage.",
           locationDetails: {
             salon: { price: 999, time: "60 mins", staff: ["Reena"] },
-            natural: { price: 1400, time: "75 mins", staff: ["Reena"] },
+            natural: { price: 1400, time: "75 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Reena"] },
             home: { price: 1600, time: "90 mins", staff: [] },
           },
         },
@@ -237,6 +373,20 @@ function Servicedetails() {
               price: 1700,
               time: "40 mins",
               staff: [],
+               places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],
               note: "Eco-friendly fish therapy setup",
             },
             home: { price: "-", time: "-", staff: [] },
@@ -274,7 +424,20 @@ function Servicedetails() {
           details: "Smooth waxing for sensitive skin.",
           locationDetails: {
             salon: { price: 350, time: "30 mins", staff: ["Diya"] },
-            natural: { price: 550, time: "40 mins", staff: ["Diya"] },
+            natural: { price: 550, time: "40 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Diya"] },
             home: { price: 700, time: "45 mins", staff: [] },
               products: [{ name: "Post Wax Lotion", price: 199 }],
 
@@ -285,7 +448,20 @@ function Servicedetails() {
           details: "Smooth waxing for sensitive skin.",
           locationDetails: {
             salon: { price: 200, time: "30 mins", staff: ["Diya"] },
-            natural: { price: 350, time: "40 mins", staff: ["Diya"] },
+            natural: { price: 350, time: "40 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Diya"] },
             home: { price: 390, time: "45 mins", staff: [] },
               products: [{ name: "Post Wax Lotion", price: 199 }],
 
@@ -296,7 +472,20 @@ function Servicedetails() {
           details: "Gentle waxing suitable for sensitive skin.",
           locationDetails: {
             salon: { price: 350, time: "30 mins", staff: ["Diya"] },
-            natural: { price: 550, time: "40 mins", staff: ["Diya"] },
+            natural: { price: 550, time: "40 mins",  places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],staff: ["Diya"] },
             home: { price: 700, time: "45 mins", staff: [] },
              products: [{ name: "Aloe Cooling Gel", price: 249 }],
 
@@ -307,7 +496,21 @@ function Servicedetails() {
           details: "Smooth waxing for sensitive skin.",
           locationDetails: {
             salon: { price: 200, time: "30 mins", staff: ["Diya"] },
-            natural: { price: 350, time: "40 mins", staff: ["Diya"] },
+            natural: { price: 350, time: "40 mins", 
+               places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],staff: ["Diya"] },
             home: { price: 390, time: "45 mins", staff: [] },
               products: [{ name: "Post Wax Lotion", price: 199 }],
 
@@ -318,7 +521,20 @@ function Servicedetails() {
           details: "Smooth waxing for sensitive skin.",
           locationDetails: {
             salon: { price: 100, time: "20 mins", staff: ["Diya"] },
-            natural: { price: 150, time: "30 mins", staff: ["Diya"] },
+            natural: { price: 150, time: "30 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Diya"] },
             home: { price: 200, time: "20 mins", staff: [] },
               products: [{ name: "Post Wax Lotion", price: 199 }],
 
@@ -338,7 +554,20 @@ function Servicedetails() {
           details: "Perfect eyebrow shaping.",
           locationDetails: {
             salon: { price: 100, time: "15 mins", staff: ["Riya"] },
-            natural: { price: 150, time: "20 mins", staff: ["Riya"] },
+            natural: { price: 150, time: "20 mins", places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ], staff: ["Riya"] },
             home: { price: 200, time: "20 mins", staff: [] },
             products: [{ name: "Aloe Vera Gel", price: 149 }],
 
@@ -349,7 +578,20 @@ function Servicedetails() {
           details: "Gentle threading for upper lips.",
           locationDetails: {
             salon: { price: 80, time: "15 mins", staff: ["Riya"] },
-            natural: { price: 100, time: "20 mins", staff: ["Riya"] },
+            natural: { price: 100, time: "20 mins", staff: ["Riya"], places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ] },
             home: { price: 150, time: "20 mins", staff: [] },
             products: [{ name: "Soothing Gel", price: 129 }],
 
@@ -445,6 +687,20 @@ function Servicedetails() {
           price: 8500,
           time: "7 hrs",
           staff: [],
+           places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],
           availability: "Premium Package",
         },
         home: {
@@ -504,6 +760,20 @@ function Servicedetails() {
               price: 1800,
               time: "75 mins",
               staff: ["Aarti"],
+               places: [
+    {
+      name: "Green Valley Farmhouse",
+      map: "https://www.google.com/maps/search/?api=1&query=Green+Valley+Farmhouse+Anand"
+    },
+    {
+      name: "Krishna Eco Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Krishna+Eco+Farm+Anand"
+    },
+    {
+      name: "Nature Bliss Farm",
+      map: "https://www.google.com/maps/search/?api=1&query=Nature+Bliss+Farm+Anand"
+    }
+  ],
               note: "Prepared in front of client",
             },
             home: { price: 2000, time: "80 mins", staff: [] },
@@ -609,12 +879,50 @@ function Servicedetails() {
                   <p><strong>⏱ Time:</strong> {data.time}</p> 
                   <p><strong>💰 Price:</strong> ₹{data.price}</p> 
                   <p><strong>👩‍💼 Staff:</strong> {staffAvailable ? data.staff.join(", ") : "Not Available"}</p> 
+                  <p>{location === "natural" && data.places && (
+  <div className="mt-3">
+    <h6>📍 Select Farmhouse Location</h6>
+
+    {data.places.map((place, index) => (
+      <div className="form-check" key={index}>
+        <input
+          type="radio"
+          className="form-check-input"
+          name={`place-${i}`}
+          value={place.name}
+          onChange={() => setSelectedPlace(place)}
+        />
+        <label className="form-check-label">
+          {place.name}
+        </label>
+      </div>
+    ))}
+
+    {selectedPlace && (
+      <p className="mt-2">
+        🗺{" "}
+        <Link to={selectedPlace.map} target="_blank">
+          View on Google Maps
+        </Link>
+      </p>
+    )}
+  </div>
+)}</p>
                   {data.note && <p className="text-success">🌿 {data.note}</p>} 
                   {staffAvailable ? (
   role === "user" ? (
-    <Link to="/bookingform" className="btn btn-primary px-4 py-2">
-      Apply Now
-    </Link>
+    location === "natural" && selectedPlace ? (
+      <Link
+        to={`/bookingform?place=${selectedPlace.name}`}
+        className="btn btn-success px-4 py-2"
+      >
+        Book at this Farmhouse
+      </Link>
+    ) : (
+      <Link to="/bookingform" className="btn btn-primary px-4 py-2">
+        Apply Now
+      </Link>
+    )
   ) : (
     <Link to="/login" className="btn btn-primary px-4 py-2">
       Login to Book
