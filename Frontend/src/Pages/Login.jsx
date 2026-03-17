@@ -47,9 +47,9 @@ const Login = ({ setRole }) => {
       }
 
       // ✅ save user
-      localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
-      localStorage.setItem("refreshToken", JSON.stringify(data.refreshToken));
+      localStorage.setItem("user", data.user);
+      localStorage.setItem("accessToken",data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
 
       // role
       const role = data.user.role || "user";

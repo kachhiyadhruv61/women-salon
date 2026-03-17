@@ -8,6 +8,7 @@ function User() {
   // ==============================
   // 📌 FETCH USERS FROM BACKEND
   // ==============================
+  
   const fetchUsers = async () => {
     try {
       // const res = await fetch("http://localhost:5000/users");
