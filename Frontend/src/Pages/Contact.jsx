@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../utils/apiFetch";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -21,7 +22,8 @@ const handleSubmit = async (e) => {
 
   try {
 
-    const res = await fetch("http://localhost:5000/contacts", {
+    // const res = await fetch("http://localhost:5000/contacts", 
+    const res = await apiFetch("/contacts",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,9 +34,15 @@ const handleSubmit = async (e) => {
       }),
     });
 
-    const data = await res.json();
 
-    console.log(data); // debug
+
+const data = await res.json();
+console.log("STATUS:", res.status);
+console.log("RESPONSE:", data);
+console.log("ERRORS:", data.errors);
+console.log(data.errors.map(err => err.msg));
+
+
 
     if (res.ok && data.success) {
 
