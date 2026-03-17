@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function Contactdata() {
 
@@ -10,7 +11,10 @@ function Contactdata() {
   // ✅ GET CONTACTS FROM BACKEND
   const getContacts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/contacts");
+      // const res = await fetch("http://localhost:5000/contacts");
+      const res = await apiFetch("/contacts", {
+              method: "GET",
+            });
       const result = await res.json();
 
       if (result.success) {

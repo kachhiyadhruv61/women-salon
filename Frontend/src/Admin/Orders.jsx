@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CommonTable from "../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -11,7 +12,10 @@ function Orders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch("http://localhost:5000/orders");
+      // const res = await fetch("http://localhost:5000/orders");
+      const res = await apiFetch("/orders", {
+              method: "GET",
+            });
       const data = await res.json();
       setOrders(data.data || []);
     } catch (error) {
