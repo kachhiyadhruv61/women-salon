@@ -45,7 +45,7 @@ function Orders() {
       accessorFn: (_, index) => index + 1,
     },
 
-    { id: "orderId", header: "Order ID",  Cell: ({ row }) => row.original._id.slice(-6) },
+    { id: "orderId", header: "Order ID",  Cell: ({ row }) => row.original._id.slice() },
 
     {
       id: "createdAt",

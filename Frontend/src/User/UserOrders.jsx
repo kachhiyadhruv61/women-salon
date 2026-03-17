@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function UserOrders() {
 
@@ -10,7 +11,11 @@ function UserOrders() {
   // ✅ GET ORDERS FROM BACKEND
   const getOrders = async () => {
     try {
-      const res = await fetch("http://localhost:5000/orders");
+      // const res = await fetch("http://localhost:5000/orders");
+       const res = await apiFetch("/orders", {
+                method: "GET",
+              });
+        
       const result = await res.json();
 
       if (result.success) {
@@ -55,7 +60,7 @@ function UserOrders() {
     {
       id: "orderId",
       header: "Order ID",
-       Cell: ({ row }) => row.original._id.slice(-6),
+       Cell: ({ row }) => row.original._id.slice(),
     },
     {
       id: "createdAt",

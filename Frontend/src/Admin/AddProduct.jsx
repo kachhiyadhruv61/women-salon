@@ -11,7 +11,7 @@ function AddProduct() {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("Active");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newProduct = {
@@ -24,17 +24,34 @@ function AddProduct() {
       createdDate: new Date().toLocaleString(),
     };
 
-    console.log("Product Added 👉", newProduct);
+    try {
+      const response = await fetch("http://localhost:5000/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newProduct),
+      });
 
-    // Reset form
-    setName("");
-    setAmount("");
-    setStock("");
-    setDescription("");
-    setStatus("Active");
+      const data = await response.json();
+      console.log("Product Added 👉", data);
 
-    // Redirect page
-    navigate("/adminproduct");
+      // Reset form
+      setName("");
+      setAmount("");
+      setStock("");
+      setDescription("");
+      setStatus("Active");
+
+      if(response.ok){
+  navigate("/product");
+}
+      // Redirect
+      // navigate("/adminproduct");
+
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
   };
 
   return (

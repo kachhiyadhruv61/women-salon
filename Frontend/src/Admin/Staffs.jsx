@@ -3,6 +3,7 @@ import CommonTable from "../Components/CommonTable";
 import { useNavigate } from "react-router-dom";
 import StaffStatusBtn from "../Components/Staff/StaffStatusbtn";
 import AssignService from "../Components/Staff/AssignService";
+import { apiFetch } from "../utils/apiFetch";
 
 function Staffs() {
   const navigate = useNavigate();
@@ -16,7 +17,11 @@ function Staffs() {
 
   const fetchStaff = async () => {
     try {
-      const res = await fetch("http://localhost:5000/staff");
+      const res = await apiFetch("/staff", {
+        method: "GET",
+        
+      });
+
       const data = await res.json();
       setStaffList(data.data);
     } catch (error) {
@@ -35,14 +40,16 @@ function Staffs() {
     ];
 
     try {
-      await fetch(`http://localhost:5000/staff/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...staff,
-          services: updatedServices,
-        }),
-      });
+      await apiFetch(`/staff/${id}`, {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    ...staff,
+    services: updatedServices,
+  }),
+});
 
       fetchStaff();
     } catch (error) {
@@ -58,15 +65,16 @@ function Staffs() {
       staff.status === "Active" ? "Inactive" : "Active";
 
     try {
-      await fetch(`http://localhost:5000/staff/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...staff,
-          status: updatedStatus,
-        }),
-      });
-
+      await apiFetch(`/staff/${id}`, {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    ...staff,
+    status: updatedStatus,
+  }),
+});
       fetchStaff();
     } catch (error) {
       console.error("Error updating status:", error);
@@ -77,31 +85,34 @@ function Staffs() {
   const columns = [
     {
       header: "#",
-      accessor: (_, index) => index + 1,
+      accessorFn: (_, index) => index + 1,
     },
     {
       header: "Name",
-      accessor: "name",
+      accessorKey: "name",
     },
     {
       header: "Role",
-      accessor: "role",
+      accessorKey: "role",
     },
     {
-      header: "Services",
-      accessor: (row) => (row.services || []).join(", "),
-    },
+  header: "Services",
+  accessorFn: (row) =>
+    Array.isArray(row.services)
+      ? row.services.join(", ")
+      : row.services || "",
+},
     {
       header: "Phone",
-      accessor: "phone",
+      accessorKey: "phone",
     },
     {
       header: "Experience",
-      accessor: "experience",
+      accessorKey: "experience",
     },
     {
       header: "Status",
-      accessor: (row) => (
+      accessorFn: (row) => (
         <span
           className={`badge ${
             row.status === "Active" ? "bg-success" : "bg-danger"
@@ -113,7 +124,7 @@ function Staffs() {
     },
     {
       header: "Assign",
-      accessor: (row) => (
+      accessorFn: (row) => (
         <AssignService
           services={services}
           onAssign={(service) => assignService(row._id, service)}
@@ -122,7 +133,7 @@ function Staffs() {
     },
     {
       header: "Action",
-      accessor: (row) => (
+      accessorFn: (row) => (
         <StaffStatusBtn
           status={row.status}
           onToggle={() => toggleStaffStatus(row._id)}

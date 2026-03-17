@@ -1,19 +1,34 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "./../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function Product() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([
-    {
-      productId: 1,
-      name: "Herbal Face Pack",
-      amount: 499,
-      stock: 50,
-      description: "Facial product",
-      status: "Active",
-    },
   ]);
+
+   // ==============================
+    // 📌 FETCH USERS FROM BACKEND
+    // ==============================
+    
+    const fetchProducts = async () => {
+      try {
+        // const res = await fetch("http://localhost:5000/products");
+        const res = await apiFetch("/products", {
+          method: "GET",
+        });
+  
+        const data = await res.json();
+        setProducts(data.data);
+      } catch (error) {
+        console.error("Error fetching productss:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchProducts();
+    }, []);
 
   // ❌ DELETE PRODUCT
   const deleteProduct = (id) => {
@@ -24,7 +39,7 @@ function Product() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "productId",
+        accessorKey: "_id",
         header: "Product ID",
       },
       {

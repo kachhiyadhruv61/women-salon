@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function AdBooking() {
   const navigate = useNavigate();
@@ -9,7 +10,10 @@ function AdBooking() {
   // ✅ GET BOOKINGS FROM BACKEND
   const getBookings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/bookings");
+      // const res = await fetch("http://localhost:5000/bookings");
+       const res = await apiFetch("/bookings", {
+              method: "GET",
+            });
       const result = await res.json();
 
       if (result.success) {

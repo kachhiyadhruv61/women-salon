@@ -39,7 +39,7 @@ import AddVariant from "./Admin/AddVariant";
 import ServicePackageForm from "./Admin/ServicePackageForm";
 import AdBooking from "./Admin/AdBooking";
 import Adpayment from "./Admin/Adpayment";
-import Staff from "./Admin/Staff";
+import Staffs from "./Admin/Staffs";
 import AddStaff from "./Admin/AddStaff";
 import Product from "./Admin/Product";
 import AddProduct from "./Admin/AddProduct";
@@ -166,8 +166,8 @@ function App() {
           element={role === "admin" ? <Adpayment /> : <Navigate to="/login" />}
         />
         <Route
-          path="/staff"
-          element={role === "admin" ? <Staff /> : <Navigate to="/login" />}
+          path="/staffs"
+          element={role === "admin" ? <Staffs /> : <Navigate to="/login" />}
         />
         <Route
           path="/addstaff"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function UserAppoint() {
   const navigate = useNavigate();
@@ -9,7 +10,11 @@ function UserAppoint() {
   // ✅ GET BOOKINGS FROM BACKEND
   const getBookings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/bookings");
+      // const res = await fetch("http://localhost:5000/bookings");
+      const res = await apiFetch("/bookings", {
+              method: "GET",
+            });
+      
       const data = await res.json();
 
       setBookings(data.data);
@@ -41,7 +46,7 @@ function UserAppoint() {
     {
       id: "bookingId",
       header: "Booking ID",
-      accessorKey: "bookingId",
+      accessorKey: "_id",
     },
     {
       id: "service",
