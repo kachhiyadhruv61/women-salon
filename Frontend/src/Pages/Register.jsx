@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [agree, setAgree] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -66,11 +67,19 @@ const Register = () => {
     return Object.keys(err).length === 0; // ✅ FIX 3: return true/false
   };
 
+
   // ==========================
   // REGISTER SUBMIT
   // ==========================
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+     // 🔥 STEP 1: Terms check
+  if (!agree) {
+    alert("Please accept Terms & Conditions ⚠️");
+    return;
+  }
+
 
     const isValid = validate();
     if (!isValid) return;
@@ -191,13 +200,6 @@ const Register = () => {
           <input
             type="radio"
             name="gender"
-            value="male"
-            checked={form.gender === "male"}
-            onChange={handleChange}
-          /> Male &nbsp;
-          <input
-            type="radio"
-            name="gender"
             value="female"
             checked={form.gender === "female"}
             onChange={handleChange}
@@ -230,7 +232,22 @@ const Register = () => {
           <small className="error">{errors.pincode}</small>
         </div>
 
-        <button type="submit" className="btn btn-primary w-100 mt-3">
+        <div className="form-check mb-3">
+  <input
+    type="checkbox"
+    className="form-check-input"
+    id="termsCheck"
+    checked={agree}
+    onChange={(e) => setAgree(e.target.checked)}
+  />
+  <label className="form-check-label" htmlFor="termsCheck">
+    I agree to{" "}
+    <Link to="/terms">Terms & Conditions</Link> and{" "}
+    <Link to="/policies">Privacy Policy</Link>
+  </label>
+</div>
+        
+        <button type="submit" className="btn btn-primary w-100 mt-3"  disabled={!agree}>
           Register
         </button>
 

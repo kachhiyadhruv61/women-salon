@@ -255,4 +255,51 @@ router.delete(
   productController.deleteProduct
 );
 
+/**
+ * @swagger
+ * /products/update-stock/{id}:
+ *   put:
+ *     summary: Update product stock
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - qty
+ *             properties:
+ *               qty:
+ *                 type: integer
+ *                 example: 10
+ *     responses:
+ *       200:
+ *         description: Stock updated
+ *       400:
+ *         description: invalid request
+ *       404:
+ *         description: Product not found
+ */
+router.put(
+  '/products/update-stock/:id',
+
+  param('id')
+    .isMongoId().withMessage('Invalid Product ID'),
+
+  body('qty')
+    .notEmpty().withMessage('Quantity is required')
+    .isInt().withMessage('Quantity must be integer'),
+
+  validate,
+  auth,
+  productController.updateStock
+);
+
 module.exports = router;

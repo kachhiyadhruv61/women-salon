@@ -47,9 +47,54 @@ const getOrderById = async (req, res, next) => {
 const createOrder = async (req, res, next) => {
   try {
     const db = getDB();
+     const { items } = req.body;
+
+    // 🔥 STEP 1: CHECK & REDUCE STOCK
+    for (const item of items) {
+      const product = await db.collection("products").findOne({
+        _id: new ObjectId(item.productId)
+      });
+
+      if (!product) {
+        return res.status(404).json({
+          success: false,
+          message: `Product not found`
+        });
+      }
+
+      // ❌ Out of stock
+      if (product.stock < item.qty) {
+        return res.status(400).json({
+          success: false,
+          message: `${product.name} is out of stock`
+        });
+      }
+
+      // ✅ Reduce stock safely
+      const result = await db.collection("products").updateOne(
+        {
+          _id: new ObjectId(item.productId),
+          stock: { $gte: item.qty }
+        },
+        {
+          $inc: { stock: -item.qty }
+        }
+      );
+
+      // ⚠️ safety check
+      if (result.modifiedCount === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Stock update failed"
+        });
+      }
+    }
+
 
     const newOrder = {
       userId: req.body.userId ?? "12314", // optionally convert to ObjectId
+      userName: req.body.userName,
+      contact: req.body.contact,
       paymentMethod: req.body.paymentMethod,
       paymentStatus: req.body.paymentStatus,
       totalAmount: req.body.totalAmount,
@@ -114,7 +159,7 @@ const cancelOrder = async (req, res, next) => {
     const db = getDB();
 
     const order = await db.collection("orders").findOne({
-      orderId: req.params.orderId
+      _id: new ObjectId(req.params.id)
     });
 
     if (!order) {
@@ -134,8 +179,18 @@ const cancelOrder = async (req, res, next) => {
       });
     }
 
+    // 🔥 RESTORE STOCK
+    for (const item of order.items) {
+      await db.collection("products").updateOne(
+        { _id: new ObjectId(item.productId) },
+        {
+          $inc: { stock: item.qty }
+        }
+      );
+    }
+
     await db.collection("orders").updateOne(
-      { orderId: req.params.orderId },
+      { _id: new ObjectId(req.params.id) },
       {
         $set: {
           orderStatus: "Cancelled",

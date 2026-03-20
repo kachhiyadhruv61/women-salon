@@ -71,7 +71,8 @@ function UserOrders() {
     {
       id: "items",
       header: "Items",
-        Cell: ({ cell }) => {
+      accessorKey: "items",
+     Cell: ({ cell }) => {
   const items = cell.getValue();
 
   if (!Array.isArray(items)) return "-";

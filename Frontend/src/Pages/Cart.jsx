@@ -19,18 +19,19 @@ function Cart() {
   };
  
 const handleProceedToBuy = () => {
-  const user = JSON.parse(localStorage.getItem("users"));
+ const token = localStorage.getItem("accessToken");
 
-  if (!user) {
-    navigate("/login", { state: { from: "/checkout" } });
-  } else {
-    navigate("/checkout");
-  }
+if (!token) {
+  navigate("/login", { state: { from: "/checkout" } });
+} else {
+  navigate("/checkout");
+}
 };
+console.log(localStorage.getItem("accessToken"));
 
  const subtotal = cart.reduce(
   (sum, item) =>
-    sum + item.price * (quantities[item.id] || item.qty || 1),
+    sum + item.price * (quantities[item._id] || item.qty || 1),
   0
 );
 
@@ -65,7 +66,7 @@ const applyCoupon = () => {
     <div className="col-lg-8 col-md-7">
 
       {cart.map((item) => (
-        <div key={item.id} className="d-flex border rounded p-3 mb-3 bg-white">
+        <div key={item._id} className="d-flex border rounded p-3 mb-3 bg-white">
 
           <img
             src={item.img}
@@ -86,8 +87,8 @@ const applyCoupon = () => {
       className="btn btn-sm btn-outline-secondary"
       onClick={() =>
         handleQtyChange(
-          item.id,
-          Math.max(1, (quantities[item.id] || 1) - 1)
+          item._id,
+          Math.max(1, (quantities[item._id] || 1) - 1)
         )
       }
     >
@@ -95,15 +96,15 @@ const applyCoupon = () => {
     </button>
 
     <span className="mx-3 fw-bold">
-      {quantities[item.id] || 1}
+      {quantities[item._id] || 1}
     </span>
 
     <button
       className="btn btn-sm btn-outline-secondary"
       onClick={() =>
         handleQtyChange(
-          item.id,
-          Math.min(10, (quantities[item.id] || 1) + 1)
+          item._id,
+          Math.min(10, (quantities[item._id] || 1) + 1)
         )
       }
     >
@@ -113,7 +114,7 @@ const applyCoupon = () => {
 </div>
             <button
               className="btn btn-sm btn-outline-danger"
-              onClick={() => removeFromCart(item.id)}
+              onClick={() => removeFromCart(item._id)}
             >
               Delete
             </button>

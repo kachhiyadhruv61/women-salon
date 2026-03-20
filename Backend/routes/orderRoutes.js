@@ -1,5 +1,5 @@
 const express = require('express');
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 const router = express.Router();
 const orderController = require('../controllers/orderController');
 const validate = require('../middleware/validationMiddleware');
@@ -59,7 +59,13 @@ router.get('/orders',auth, orderController.getOrders);
  *       500:
  *         description: Internal server error
  */
-router.get('/orders/:id',auth, orderController.getOrderById);
+router.get(
+  '/orders/:id',
+  param('id').isMongoId().withMessage('Invalid Order ID'),
+  validate,
+  auth,
+  orderController.getOrderById
+);
 
 /**
  * @swagger
@@ -121,10 +127,20 @@ router.post(
   body('orderStatus')
     .notEmpty().withMessage('Order status is required'),
 
-  validate,auth,
+  // 🔥 IMPORTANT FOR STOCK
+  body('items')
+    .isArray({ min: 1 }).withMessage('Items are required'),
+
+  body('items.*.productId')
+    .notEmpty().withMessage('Product ID required'),
+
+  body('items.*.qty')
+    .isInt({ min: 1 }).withMessage('Quantity must be at least 1'),
+
+  validate,
+  auth,
   orderController.createOrder
 );
-
 /**
  * @swagger
  * /orders/{id}:
@@ -168,9 +184,11 @@ router.post(
  */
 router.put(
   '/orders/:id',
+
+  param('id').isMongoId().withMessage('Invalid Order ID'),
+
   body('userId')
-    .notEmpty().withMessage('User ID is required')
-    .isInt().withMessage('User ID must be an integer'),
+    .notEmpty().withMessage('User ID is required'),
 
   body('paymentMethod')
     .notEmpty().withMessage('Payment mode is required'),
@@ -185,7 +203,8 @@ router.put(
   body('orderStatus')
     .notEmpty().withMessage('Order status is required'),
 
-  validate,auth,
+  validate,
+  auth,
   orderController.updateOrder
 );
 
@@ -194,7 +213,8 @@ router.put(
  * PUT /orders/cancel/:orderId
  */
 router.put(
-  '/orders/cancel/:orderId',
+  '/orders/cancel/:id',
+  auth,
   orderController.cancelOrder
 );
 
@@ -223,6 +243,12 @@ router.put(
  *       500:
  *         description: Internal server error
  */
-router.delete('/orders/:id',auth, orderController.deleteOrder);
+router.delete(
+  '/orders/:id',
+  param('id').isMongoId().withMessage('Invalid Order ID'),
+  validate,
+  auth,
+  orderController.deleteOrder
+);
 
 module.exports = router;

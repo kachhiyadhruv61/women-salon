@@ -42,7 +42,7 @@ function Home() {
                     </div>
                     <div className="px-3">
                       <h5 className="text-primary mb-0">Mail Us</h5>
-                      <p className="fs-5 text-dark mb-0">beenakachhiya.com</p>
+                      <p className="fs-5 text-dark mb-0">womenogsalon@gmail.com</p>
                     </div>
                   </div>
                 </div>
@@ -76,6 +76,65 @@ function Home() {
           </div>
         </div>
         </div>
+
+        <div className="container py-5">
+
+  <div className="text-center why-section py-5">
+    <h2 className="font-dancing-script text-primary">Why Choose Us</h2>
+    <p className="text-muted">
+      Experience natural beauty with trusted organic care
+    </p>
+  </div>
+
+  <div className="row g-4">
+
+    {/* 🌿 Organic */}
+    <div className="col-md-3 col-sm-6">
+      <div className="text-center p-4 shadow-sm h-100 rounded">
+        <div style={{ fontSize: "40px" }}>🌿</div>
+        <h5 className="mt-3">Organic Products</h5>
+        <p className="small text-muted">
+          Made with carefully selected natural & herbal ingredients
+        </p>
+      </div>
+    </div>
+
+    {/* 🧪 Chemical Free */}
+    <div className="col-md-3 col-sm-6">
+      <div className="text-center p-4 shadow-sm h-100 rounded">
+        <div style={{ fontSize: "40px" }}>🧪</div>
+        <h5 className="mt-3">Chemical-Free</h5>
+        <p className="small text-muted">
+          Free from harmful chemicals, safe for regular use
+        </p>
+      </div>
+    </div>
+
+    {/* 🌸 Handmade */}
+    <div className="col-md-3 col-sm-6">
+      <div className="text-center p-4 shadow-sm h-100 rounded">
+        <div style={{ fontSize: "40px" }}>🌸</div>
+        <h5 className="mt-3">Handcrafted Care</h5>
+        <p className="small text-muted">
+          Handmade with love for better quality & results
+        </p>
+      </div>
+    </div>
+
+    {/* 💖 Trusted */}
+    <div className="col-md-3 col-sm-6">
+      <div className="text-center p-4 shadow-sm h-100 rounded">
+        <div style={{ fontSize: "40px" }}>💖</div>
+        <h5 className="mt-3">Trusted by Clients</h5>
+        <p className="small text-muted">
+          Loved by customers for visible and natural results
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
          <Services/>
             <About/>
             <Gallery/>

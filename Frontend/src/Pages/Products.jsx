@@ -308,13 +308,19 @@ function Products() {
   };
 
  const handleAddToCart = (product) => {
-  const qty = quantities[product.id] || 1;
-  addToCart(product, qty);
+  const qty = quantities[product._id] || 1;
+  addToCart({
+  _id: product._id,          // 👈 MUST
+  name: product.name,
+  price: product.amount,
+  img: product.img,
+  qty: qty
+});
   navigate("/cartsummary");   // 🔥 login nahi, cart page
 };
 
   const buyNow = (product) => {
-  const qty = quantities[product.id] || 1;
+  const qty = quantities[product._id] || 1;
   addToCart(product, qty);
   navigate("/cart");
 };
@@ -324,9 +330,17 @@ function Products() {
       <div className="text-center mb-5">
         <h1 className="font-dancing-script text-primary">Our Organic Products</h1>
       </div>
+      <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
+
+  <span>🌿 Organic Ingredients</span>
+  <span>🧪 Chemical-Free</span>
+  <span>🌸 Handmade</span>
+  <span>🛡 Safe for Regular Use</span>
+
+</div>
       <div className="row">
         {products.map((product) => (
-          <div className="col-md-4 mb-4 d-flex" key={product.id}>
+          <div className="col-md-4 mb-4 d-flex" key={product._id}>
             <div className="card p-3 text-center h-100 product-card">
               <img
                 src={product.img}
@@ -366,8 +380,8 @@ function Products() {
                   className="btn btn-secondary"
                   onClick={() =>
                     handleQtyChange(
-                      product.id,
-                      Math.max(1, (quantities[product.id] || 1) - 1)
+                      product._id,
+                      Math.max(1, (quantities[product._id] || 1) - 1)
                     )
                   }
                 >
@@ -375,15 +389,15 @@ function Products() {
                 </button>
 
                 <span className="mx-3">
-                  {quantities[product.id] || 1}
+                  {quantities[product._id] || 1}
                 </span>
 
                 <button
                   className="btn btn-secondary"
                   onClick={() =>
                     handleQtyChange(
-                      product.id,
-                      Math.min(10, (quantities[product.id] || 1) + 1)
+                      product._id,
+                      Math.min(10, (quantities[product._id] || 1) + 1)
                     )
                   }
                 >
@@ -416,6 +430,18 @@ function Products() {
           </div>
         ))}
       </div>
+        <div
+  className="text-center mt-4"
+  style={{
+    border: "1px dashed #bf9456",
+    padding: "10px",
+    borderRadius: "10px",
+    color: "#555",
+    fontSize: "13px"
+  }}
+>
+  ⚠️ Results may vary depending on skin type. Please do a patch test before use.
+</div>
     </div>
   );
 }

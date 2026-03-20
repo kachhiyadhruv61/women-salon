@@ -134,11 +134,59 @@ const deleteProduct = async (req, res, next) => {
     next(error);
   }
 };
+// ✅ UPDATE STOCK ONLY
+const updateStock = async (req, res, next) => {
+  try {
+    const db = getDB();
+    const { qty } = req.body; // +10 or -5
+
+    const product = await db.collection("products").findOne({
+      _id: new ObjectId(req.params.id)
+    });
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found"
+      });
+    }
+
+    const newStock = product.stock + qty;
+
+    // ❌ prevent negative stock
+    if (newStock < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Stock cannot be negative"
+      });
+    }
+
+    await db.collection("products").updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $set: {
+          stock: newStock,
+          updatedAt: new Date()
+        }
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Stock updated successfully",
+      stock: newStock
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  updateStock
 };

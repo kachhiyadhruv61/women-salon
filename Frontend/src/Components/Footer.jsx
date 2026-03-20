@@ -83,14 +83,31 @@ function Footer() {
           {/* Right Side */}
           <div className="col-lg-6 ps-lg-5">
             <div className="row g-4">
-              <div className="col-sm-6">
-                <h5 className="text-primary mb-4">Quick Links</h5>
-                <Link className="btn btn-link" to="/home">Home</Link>
-                <Link className="btn btn-link" to="/about">About Us</Link>
-                <Link className="btn btn-link" to="/contact">Contact Us</Link>
-                <Link className="btn btn-link" to="/service">Our Service</Link>
-                <Link className="btn btn-link" to="/products">Products</Link>
-              </div>
+              {/* 🔗 MAIN LINKS */}
+    <div className="col-sm-6">
+      <h5 className="text-primary mb-4">Quick Links</h5>
+
+      <Link className="btn btn-link" to="/home">Home</Link>
+      <Link className="btn btn-link" to="/about">About Us</Link>
+      <Link className="btn btn-link" to="/contact">Contact Us</Link>
+      <Link className="btn btn-link" to="/service">Our Services</Link>
+      <Link className="btn btn-link" to="/products">Products</Link>
+    </div>
+
+    {/* 🔐 LEGAL LINKS */}
+    <div className="col-sm-6">
+      <h5 className="text-primary mb-4">Legal</h5>
+
+      <Link className="btn btn-link" to="/terms">
+        Terms & Conditions
+      </Link>
+
+      <Link className="btn btn-link" to="/policies">
+        Privacy & Policies
+      </Link>
+    </div>
+
+    {/* 📩 NEWSLETTER */}
 
               <div className="col-sm-12">
                 <h5 className="text-primary mb-4">Newsletter</h5>

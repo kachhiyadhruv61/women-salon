@@ -22,6 +22,8 @@ import CartSummary from "./Pages/CartSummary";
 import Payment from "./Pages/Payment";
 import OrderSuccess from "./Pages/OrderSuccess";
 import OrderTracking from "./Pages/OrderTracking";
+import Terms from "./Pages/Terms";
+import Policies from "./Pages/Policies";
 
 
 
@@ -126,6 +128,9 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/ordersuccess" element={<OrderSuccess />} />
         <Route path="/ordertracking" element={<OrderTracking />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/policies" element={<Policies />} />
+        
 
 
         {/* ===== ADMIN ROUTES ===== */}

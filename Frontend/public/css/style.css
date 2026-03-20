@@ -337,6 +337,33 @@
   background-repeat: no-repeat;
 
 }
+
+
+/* 🌟 WHY CHOOSE US CONTAINER */
+.why-section {
+  background: linear-gradient(135deg, #fffaf5, #fdf1e3);
+  border-radius: 20px;
+  padding: 40px 20px;
+  box-shadow: 0 10px 30px rgba(191, 148, 86, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.shadow-sm:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+/* ✨ subtle glow effect */
+.why-section::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: rgba(191, 148, 86, 0.1);
+  border-radius: 50%;
+}
 /*** About ***/
 /* ABOUT BANNER */
 .about-banner {
