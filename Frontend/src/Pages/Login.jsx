@@ -3,19 +3,20 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = ({ setRole }) => {
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  // ✅ Login page open thay tyare form always clean rahe
   useEffect(() => {
     setUsername("");
     setPassword("");
     setError("");
   }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -24,55 +25,71 @@ const Login = ({ setRole }) => {
       return;
     }
 
-    let userRole = null;
-    let redirectPath = "/login";
+    try {
 
-    // 🔐 Admin
-    if (username === "admin" && password === "admin123") {
-      userRole = "admin";
-      redirectPath = "/dashboard";
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      });
+
+      const data = await res.json();
+
+           // ❌ login failed
+      if (!data.success) {
+        setError(data.message || "Invalid username or password");
+        return;
+      }
+
+      // ✅ save user
+      localStorage.setItem("user", data.user);
+      localStorage.setItem("accessToken",data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+
+      // role
+      const role = data.user.role || "user";
+      localStorage.setItem("role", role);
+
+      setRole(role);
+
+      // redirect
+      if (role === "admin") {
+        navigate("/dashboard");
+      } 
+      else if (role === "staff") {
+        navigate("/staff/dashboard");
+      } 
+      else {
+        navigate("/userdashboard");
+      }
+
+    } catch (err) {
+        console.log(err);
+
+      setError("Server error. Please try again.");
+
     }
 
-    // 👤 User
-    else if (username === "user" && password === "user123") {
-      userRole = "user";
-      redirectPath = "/userdashboard";
-    }
-
-    // 👨‍💼 Staff
-    else if (username === "staff" && password === "staff123456") {
-      userRole = "staff";
-      redirectPath = "/staff/dashboard";
-    }
-
-    else {
-      setError("Invalid username or password");
-      return;
-    }
-
-    // ✅ Save role in localStorage
-    localStorage.setItem("role", userRole);
-
-    // ✅ Update App state
-    setRole(userRole);
-
-    // ✅ Clear form before redirect
-    setUsername("");
-    setPassword("");
-
-    // ✅ Navigate
-    navigate(redirectPath);
   };
 
   return (
+
     <div className="login-container">
+
       <form className="login-card" onSubmit={handleLogin}>
+
         <h2>Login</h2>
 
         {error && <p className="error">{error}</p>}
 
         <div className="form-group">
           <label>Username</label>
+
           <input
             type="text"
             className="form-control"
@@ -81,10 +98,12 @@ const Login = ({ setRole }) => {
             placeholder="Enter username"
             autoComplete="off"
           />
+
         </div>
 
         <div className="form-group">
           <label>Password</label>
+
           <input
             type="password"
             className="form-control"
@@ -93,6 +112,7 @@ const Login = ({ setRole }) => {
             placeholder="Enter password"
             autoComplete="new-password"
           />
+
         </div>
 
         <button type="submit" className="btn btn-primary w-100">
@@ -104,11 +124,11 @@ const Login = ({ setRole }) => {
         </p>
 
         <p className="note">
-          Admin → admin / admin123 <br />
-          User → user / user123 <br />
-         
+          Admin → admin / admin123
         </p>
+
       </form>
+
     </div>
   );
 };

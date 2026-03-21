@@ -337,6 +337,33 @@
   background-repeat: no-repeat;
 
 }
+
+
+/* 🌟 WHY CHOOSE US CONTAINER */
+.why-section {
+  background: linear-gradient(135deg, #fffaf5, #fdf1e3);
+  border-radius: 20px;
+  padding: 40px 20px;
+  box-shadow: 0 10px 30px rgba(191, 148, 86, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.shadow-sm:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+/* ✨ subtle glow effect */
+.why-section::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: rgba(191, 148, 86, 0.1);
+  border-radius: 50%;
+}
 /*** About ***/
 /* ABOUT BANNER */
 .about-banner {
@@ -478,6 +505,32 @@ button:disabled {
   opacity: 0.85;
 }
 
+.ingredients-box {
+  font-size: 14px;
+  color: #555;
+}
+
+.ingredients-box span {
+  font-weight: 600;
+  color: #2e7d32; /* green tone */
+}
+.ingredient-list {
+  padding-left: 15px;
+  margin: 0;
+  font-size: 13px;
+  color: #444;
+}
+
+.ingredient-list li {
+  list-style: none;
+}
+.ingredient-badge {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+}
 
 /* Gallery Card */
 .gallery-card {

@@ -1,7 +1,9 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useCart } from "../Pages/CartContext";
 
 function UserHeader({ setRole }) {
   const navigate = useNavigate();
+  const { cart } = useCart(); // cart array
 
   const logout = () => {
     localStorage.removeItem("role");
@@ -13,8 +15,8 @@ function UserHeader({ setRole }) {
     <div className="container-fluid bg-light sticky-top p-0">
       <nav className="navbar navbar-expand-lg navbar-light p-0">
 
-        {/* Logo */}
-        <NavLink to="/" className="navbar-brand py-2 px-3">
+        {/* Logo → Dashboard Open */}
+        <NavLink to="/userdashboard" className="navbar-brand py-2 px-3">
           <img
             src="/img/logo.png"
             alt="A2 Women Salon"
@@ -33,17 +35,8 @@ function UserHeader({ setRole }) {
 
         <div className="collapse navbar-collapse p-3" id="navbarCollapse">
 
-          {/* NAV MENUS */}
+          {/* NAV MENUS (Dashboard Removed) */}
           <div className="navbar-nav mx-auto">
-
-            <NavLink
-              to="/userdashboard"
-              className={({ isActive }) =>
-                isActive ? "nav-item nav-link active" : "nav-item nav-link"
-              }
-            >
-              Dashboard
-            </NavLink>
 
             <NavLink
               to="/userservice"
@@ -90,6 +83,14 @@ function UserHeader({ setRole }) {
               }
             >
               🛒 Cart
+               {cart.length > 0 && (
+        <span
+          className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style={{ fontSize: "10px" }}
+        >
+          {cart.length}
+        </span>
+      )}
             </NavLink>
 
           </div>

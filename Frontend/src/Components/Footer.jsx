@@ -53,7 +53,7 @@ function Footer() {
 
               <a
                 className="btn btn-sm-square btn-primary me-3"
-                href="https://www.facebook.com/"
+                href="https://business.facebook.com/latest/?asset_id=1040989989093477&business_id=800163865825078&nav_ref=biz_unified_f3_login_page_to_mbs"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -71,7 +71,7 @@ function Footer() {
 
               <a
                 className="btn btn-sm-square btn-primary me-3"
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/women_salon34/"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -83,14 +83,31 @@ function Footer() {
           {/* Right Side */}
           <div className="col-lg-6 ps-lg-5">
             <div className="row g-4">
-              <div className="col-sm-6">
-                <h5 className="text-primary mb-4">Quick Links</h5>
-                <Link className="btn btn-link" to="/home">Home</Link>
-                <Link className="btn btn-link" to="/about">About Us</Link>
-                <Link className="btn btn-link" to="/contact">Contact Us</Link>
-                <Link className="btn btn-link" to="/service">Our Service</Link>
-                <Link className="btn btn-link" to="/products">Products</Link>
-              </div>
+              {/* 🔗 MAIN LINKS */}
+    <div className="col-sm-6">
+      <h5 className="text-primary mb-4">Quick Links</h5>
+
+      <Link className="btn btn-link" to="/home">Home</Link>
+      <Link className="btn btn-link" to="/about">About Us</Link>
+      <Link className="btn btn-link" to="/contact">Contact Us</Link>
+      <Link className="btn btn-link" to="/service">Our Services</Link>
+      <Link className="btn btn-link" to="/products">Products</Link>
+    </div>
+
+    {/* 🔐 LEGAL LINKS */}
+    <div className="col-sm-6">
+      <h5 className="text-primary mb-4">Legal</h5>
+
+      <Link className="btn btn-link" to="/terms">
+        Terms & Conditions
+      </Link>
+
+      <Link className="btn btn-link" to="/policies">
+        Privacy & Policies
+      </Link>
+    </div>
+
+    {/* 📩 NEWSLETTER */}
 
               <div className="col-sm-12">
                 <h5 className="text-primary mb-4">Newsletter</h5>

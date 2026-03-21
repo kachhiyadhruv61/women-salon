@@ -32,8 +32,8 @@ const AdminHeader = ({ setRole }) => {
     <div className="container-fluid bg-light sticky-top p-0">
       <nav className="navbar navbar-expand-lg navbar-light p-0">
 
-        {/* Logo */}
-        <NavLink to="/" className="navbar-brand py-2 px-3">
+        {/* Logo → Dashboard */}
+        <NavLink to="/dashboard" className="navbar-brand py-2 px-3">
           <img
             src="/img/logo.png"
             alt="A2 Women Salon"
@@ -56,15 +56,6 @@ const AdminHeader = ({ setRole }) => {
           <div className="navbar-nav mx-auto">
 
             <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive ? "nav-item nav-link active" : "nav-item nav-link"
-              }
-            >
-              Dashboard
-            </NavLink>
-
-            <NavLink
               to="/user"
               className={({ isActive }) =>
                 isActive ? "nav-item nav-link active" : "nav-item nav-link"
@@ -74,7 +65,7 @@ const AdminHeader = ({ setRole }) => {
             </NavLink>
 
             <NavLink
-              to="/staff"
+              to="/staffs"
               className={({ isActive }) =>
                 isActive ? "nav-item nav-link active" : "nav-item nav-link"
               }
@@ -82,14 +73,33 @@ const AdminHeader = ({ setRole }) => {
               Staff
             </NavLink>
 
-            <NavLink
-              to="/adminservice"
-              className={({ isActive }) =>
-                isActive ? "nav-item nav-link active" : "nav-item nav-link"
-              }
-            >
-              Service
-            </NavLink>
+            {/* Dropdown */}
+            <div className="nav-item dropdown">
+              <span
+                className="nav-link dropdown-toggle"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                Service
+              </span>
+              <div className="dropdown-menu bg-light mt-2">
+                 <NavLink to="adminservice" className="dropdown-item">
+                  All Service 
+                </NavLink>
+                <NavLink to="/addservicecategory" className="dropdown-item">
+                  Service Category
+                </NavLink>
+                <NavLink to="/addservice" className="dropdown-item">
+                  Sub Services
+                </NavLink>
+                <NavLink to="/addvariant" className="dropdown-item">
+                  Service Varients
+                </NavLink>
+                <NavLink to="/servicepackageform" className="dropdown-item">
+                  Service Packages
+                </NavLink>
+              </div>
+            </div>
 
             <NavLink
               to="/product"
@@ -137,6 +147,9 @@ const AdminHeader = ({ setRole }) => {
                 Pages
               </span>
               <div className="dropdown-menu bg-light mt-2">
+                 <NavLink to="/coupons" className="dropdown-item">
+                  Coupons
+                </NavLink>
                 <NavLink to="/contactdata" className="dropdown-item">
                   Inqueries
                 </NavLink>

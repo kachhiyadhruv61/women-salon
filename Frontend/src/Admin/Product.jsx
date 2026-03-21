@@ -1,30 +1,54 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "./../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function Product() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([
-    {
-      productId: 1,
-      name: "Herbal Face Pack",
-      amount: 499,
-      stock: 50,
-      description: "Facial product",
-      status: "Active",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
-  // ❌ DELETE PRODUCT
-  const deleteProduct = (id) => {
-    setProducts(products.filter((p) => p.productId !== id));
+  // ==============================
+  // 📌 FETCH PRODUCTS
+  // ==============================
+  const fetchProducts = async () => {
+    try {
+      const res = await apiFetch("/products", {
+        method: "GET",
+      });
+
+      const data = await res.json();
+      setProducts(data.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   };
 
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // ==============================
+  // ❌ DELETE PRODUCT
+  // ==============================
+  const deleteProduct = async (id) => {
+    try {
+      await apiFetch(`/products/${id}`, {
+        method: "DELETE",
+      });
+
+      setProducts(products.filter((p) => p._id !== id));
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
+  // ==============================
   // 📊 TABLE COLUMNS
+  // ==============================
   const columns = useMemo(
     () => [
       {
-        accessorKey: "productId",
+        accessorKey: "_id",
         header: "Product ID",
       },
       {
@@ -39,7 +63,67 @@ function Product() {
       {
         accessorKey: "stock",
         header: "Stock",
+        Cell: ({ cell }) => {
+          const stock = cell.getValue();
+
+          return (
+            <span
+              className={`badge ${
+                stock === 0
+                  ? "bg-danger"
+                  : stock < 5
+                  ? "bg-warning"
+                  : "bg-success"
+              }`}
+            >
+              {stock === 0 ? "Out of Stock" : `${stock} left`}
+            </span>
+          );
+        },
       },
+
+      // 🔥 UPDATE STOCK COLUMN
+      {
+        header: "Update Stock",
+        Cell: ({ row }) => {
+          const [qty, setQty] = useState(0);
+
+          const updateStock = async () => {
+            try {
+              await apiFetch(
+                `/products/update-stock/${row.original._id}`,
+                {
+                  method: "PUT",
+                  body: JSON.stringify({ qty }),
+                }
+              );
+
+              fetchProducts(); // refresh data
+            } catch (err) {
+              console.error("Stock update failed:", err);
+            }
+          };
+
+          return (
+            <div className="d-flex gap-2">
+              <input
+                type="number"
+                className="form-control form-control-sm"
+                style={{ width: "70px" }}
+                placeholder="+/-"
+                onChange={(e) => setQty(Number(e.target.value))}
+              />
+              <button
+                className="btn btn-sm btn-success"
+                onClick={updateStock}
+              >
+                Update
+              </button>
+            </div>
+          );
+        },
+      },
+
       {
         accessorKey: "description",
         header: "Description",
@@ -60,7 +144,7 @@ function Product() {
         ),
       },
       {
-        accessorKey: "productId",
+        accessorKey: "_id",
         header: "Action",
         Cell: ({ cell }) => (
           <button
@@ -77,10 +161,10 @@ function Product() {
 
   return (
     <div className="container py-5">
-     <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Admin Product Management 👩‍💼</h2>
 
-         <button
+        <button
           className="btn btn-primary"
           onClick={() => navigate("/addproduct")}
         >
@@ -88,7 +172,7 @@ function Product() {
         </button>
       </div>
 
-      {/* 📊 COMMON TABLE */}
+      {/* 📊 TABLE */}
       <CommonTable
         columns={columns}
         data={products}
@@ -97,6 +181,6 @@ function Product() {
       />
     </div>
   );
-};
+}
 
 export default Product;

@@ -19,18 +19,19 @@ function Cart() {
   };
  
 const handleProceedToBuy = () => {
-  const user = localStorage.getItem("user");
+ const token = localStorage.getItem("accessToken");
 
-  if (!user) {
-    navigate("/login", { state: { from: "/checkout" } });
-  } else {
-    navigate("/checkout");
-  }
+if (!token) {
+  navigate("/login", { state: { from: "/checkout" } });
+} else {
+  navigate("/checkout");
+}
 };
+console.log(localStorage.getItem("accessToken"));
 
- const subtotal = cart.reduce(
+const subtotal = cart.reduce(
   (sum, item) =>
-    sum + item.price * (quantities[item.id] || item.qty || 1),
+    sum + item.price * (quantities[item.id] || item.qty),
   0
 );
 
@@ -103,7 +104,7 @@ const applyCoupon = () => {
       onClick={() =>
         handleQtyChange(
           item.id,
-          Math.min(10, (quantities[item.id] || 1) + 1)
+          Math.min(10, ((quantities[item.id] || item.qty)) + 1)
         )
       }
     >

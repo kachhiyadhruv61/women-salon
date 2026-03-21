@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
     if (existing) {
       setCart(
         cart.map((item) =>
-          item.id === product.id
+          item.id === product.id   // ✅ FIXED
             ? { ...item, qty: item.qty + qty }
             : item
         )
@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+    setCart(cart.filter((item) => item.id !== id));  // ✅ FIXED
   };
 
   return (

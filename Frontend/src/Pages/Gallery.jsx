@@ -18,21 +18,48 @@ function Gallery() {
 
   const naturalPlaceImages = [
     "/img/farm1.jpg",
+    "/img/tulsi.jpg",
     "/img/farm2.jpg",
     "/img/farm3.jpg",
+    "/img/ashwa.jpg",
+    "/img/arithatree.jpeg",
+    "/img/aloevera.jpg",
+    "/img/neem.jpg",
+    "/img/shikakaitree.jpg",
+    "/img/potato.jpg",
+    "/img/tomato.jpg",
+    "/img/watermelon.jpg",
     "/img/farm4.jpg",
     "/img/farm5.jpg",
+    "/img/sitting1.jpg",
+    "/img/bed1.jpg",
+    "/img/bed2.jpg",
+    "/img/amla.jpg",
+    "/img/apple.jpg",
+    "/img/strawberry.jpg",
     "/img/farm6.jpg",
     "/img/farm7.avif",
+    "/img/guvava.jpg",
+    "/img/lichi.jpg",
+    "/img/mango.jpg",
     "/img/farm8.jpg",
-    "/img/farm9.avif",
-    "/img/farm10.avif",
-    "/img/farm11.avif",
-    "/img/farm12.avif",
-    "/img/farm13.jpg",
+    "/img/banana.jpg",
+    "/img/amla tree.jpg",
+    "/img/chiku.jpg",
+    "/img/coconut.jpg",
+    "/img/cucumber.jpg",
     "/img/farm14.webp",
-    "/img/farm15.jpg",
-    "/img/farm16.jpg",
+    "/img/custrudapple.jpg",
+    "/img/grapes.jpg",
+    "/img/farm12.avif",
+    "/img/orange.jpg",
+    "/img/papaya.jpg",
+    "/img/pineapple.jpg",
+    "/img/pomo.jpg",
+    "/img/farm9.avif",
+    "/img/sitting.jpg",
+    
+
   ];
 
   const [activeTab, setActiveTab] = useState("salon");
@@ -109,10 +136,17 @@ function Gallery() {
                 onClick={() => setSelectedImg(null)}
               ></button>
               <img
-                src={selectedImg}
-                alt="preview"
-                className="img-fluid rounded"
-              />
+  src={selectedImg}
+  alt="preview"
+  className="img-fluid rounded"
+  style={{
+    maxHeight: "80vh",
+    width: "auto",
+    margin: "0 auto",
+    display: "block",
+    objectFit: "contain"
+  }}
+/>
             </div>
           </div>
         </div>

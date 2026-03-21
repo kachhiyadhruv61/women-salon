@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../utils/apiFetch";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -13,21 +14,61 @@ function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+// ==========================
+// CONTACT SUBMIT
+// ==========================
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    alert(
-      `Thank you ${formData.name}! 🌿\nWe have received your message. Our team will contact you soon.`
-    );
+  try {
 
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      subject: "",
-      message: "",
+    // const res = await fetch("http://localhost:5000/contacts", 
+    const res = await apiFetch("/contacts",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formData,
+        action: "Open"
+      }),
     });
-  };
+
+
+
+const data = await res.json();
+console.log("STATUS:", res.status);
+console.log("RESPONSE:", data);
+console.log("ERRORS:", data.errors);
+console.log(data.errors.map(err => err.msg));
+
+
+
+    if (res.ok && data.success) {
+
+      alert(data.message);
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+
+    } else {
+
+      alert("Failed to send message ❌");
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+    alert("Server error ❌");
+
+  }
+};
 
   return (
     <div className="container py-5">
@@ -48,10 +89,25 @@ function Contact() {
             </p>
             
  {/* GOOGLE MAP */}
-            <p>📍 <strong>Address:</strong><br />
-              A<sup>2</sup> Women Salon,<br />
-              Anand, Gujarat
-            </p>
+           {/* GOOGLE MAP */}
+<p>
+  📍 <strong>Address:</strong><br />
+
+  <a 
+    href="https://www.google.com/maps/search/?api=1&query=A2+Women+Salon,+Anand,+Gujarat"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ 
+      color: "#0d6efd", 
+      textDecoration: "underline",
+      fontWeight: "500",
+      cursor: "pointer"
+    }}
+  >
+    A<sup>2</sup> Women Salon,<br />
+    Anand, Gujarat
+  </a>
+</p>
 
             <p>📞 <strong>Phone:</strong><br />
               9574568855<br />
@@ -145,7 +201,7 @@ function Contact() {
                 </div>
 
                 <div className="col-12 text-center">
-                  <button className="btn btn-primary px-5 py-2">
+                  <button type="submit" className="btn btn-primary px-5 py-2">
                     Send Message
                   </button>
                 </div>

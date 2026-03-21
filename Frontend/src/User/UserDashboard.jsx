@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 function UserDashboard() {
   const [bookings, setBookings] = useState([]);
 
-  // 🔹 Load bookings from localStorage
   useEffect(() => {
     const savedBookings =
       JSON.parse(localStorage.getItem("userBookings")) || [];
@@ -17,10 +16,8 @@ function UserDashboard() {
 
   return (
     <div className="container py-4">
-      {/* ================= WELCOME ================= */}
       <h2 className="mb-4">Welcome, User 👋</h2>
 
-      {/* ================= SUMMARY CARDS ================= */}
       <div className="row mb-4">
         <div className="col-md-3">
           <div className="card text-center p-3 shadow-sm">
@@ -55,7 +52,6 @@ function UserDashboard() {
         </div>
       </div>
 
-      {/* ================= UPCOMING APPOINTMENT ================= */}
       {upcomingBookings.length > 0 && (
         <>
           <h4 className="mb-3">📅 Upcoming Appointment</h4>
@@ -79,9 +75,6 @@ function UserDashboard() {
         </>
       )}
 
-    
-
-      {/* ================= BOOK NEW SERVICE ================= */}
       <div className="text-center mt-4">
         <Link to="/bookingform" className="btn btn-primary px-4 py-2">
           ➕ Book New Service
