@@ -4,88 +4,114 @@ function Addresses() {
 
   const initialForm = {
     name: "",
-    phone: "",
-    fullAddress: "",
-    type: "Home",
+    mobile: "",
+    address: "",
+    pincode: "",
+    location: "Home",
   };
 
   const [addresses, setAddresses] = useState([]);
   const [editingAddress, setEditingAddress] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(initialForm);
-
-  /* ================= LOAD FROM LOCALSTORAGE ================= */
- useEffect(() => {
-  const loadAddresses = () => {
-    const saved = localStorage.getItem("myAddresses");
-    if (saved) {
-      setAddresses(JSON.parse(saved));
-    }
-  };
-
-  loadAddresses();
-
-  // 🔥 Important: Listen storage change
-  window.addEventListener("storage", loadAddresses);
-
-  return () => {
-    window.removeEventListener("storage", loadAddresses);
-  };
+  /* ================= BACKEND API FETCH ================= */
+  useEffect(() => {
+  fetchAddresses();
 }, []);
 
-  /* ================= SAVE TO LOCALSTORAGE ================= */
-  useEffect(() => {
-    localStorage.setItem("myAddresses", JSON.stringify(addresses));
-  }, [addresses]);
+const fetchAddresses = async () => {
+  try {
+    const res = await fetch("http://localhost:5000/addresses", {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    });
 
-  /* ================= ADD / UPDATE ================= */
-  const addOrUpdateAddress = (e) => {
-    e.preventDefault();
+    const result = await res.json();
 
-    if (editingAddress) {
-      setAddresses(
-        addresses.map((addr) =>
-          addr.id === editingAddress.id
-            ? { ...form, id: addr.id, isDefault: addr.isDefault }
-            : addr
-        )
-      );
-    } else {
-      setAddresses([
-        ...addresses,
-        {
-          ...form,
-          id: Date.now(),
-          isDefault: addresses.length === 0,
-        },
-      ]);
+    if (result.success) {
+      setAddresses(result.data); // ✅ IMPORTANT
     }
 
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+  /* ================= ADD / UPDATE ================= */
+  const addOrUpdateAddress = async (e) => {
+  e.preventDefault();
+
+  try {
+    const payload = {
+      name: form.name,
+      mobile: form.mobile,
+      address: form.address,
+      location: form.location,
+      pincode: form.pincode || "388001"
+    };
+    if (editingAddress) {
+      await fetch(`http://localhost:5000/addresses/${editingAddress._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+        },
+       body: JSON.stringify(payload)
+      });
+    } else {
+      await fetch("http://localhost:5000/addresses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+        },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    fetchAddresses(); // 🔥 reload
     resetForm();
-  };
+
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   /* ================= DELETE ================= */
-  const deleteAddress = (id) => {
-    const updated = addresses.filter((addr) => addr.id !== id);
-    setAddresses(updated);
-  };
+ const deleteAddress = async (_id) => {
+  await fetch(`http://localhost:5000/addresses/${_id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+    }
+  });
+
+  fetchAddresses();
+};
 
   /* ================= SET DEFAULT ================= */
-  const setDefaultAddress = (id) => {
+  const setDefaultAddress = (_id) => {
     setAddresses(
       addresses.map((addr) => ({
         ...addr,
-        isDefault: addr.id === id,
+        isDefault: addr._id === _id,
       }))
     );
   };
 
   /* ================= EDIT ================= */
   const editAddress = (address) => {
-    setEditingAddress(address);
-    setForm(address);
-    setShowForm(true);
-  };
+  setEditingAddress(address);
+  setForm({
+    name: address.name,
+    mobile: address.mobile,
+    address: address.address,
+    pincode: address.pincode,
+    location: address.location
+  });
+  setShowForm(true);
+};
 
   /* ================= RESET ================= */
   const resetForm = () => {
@@ -127,39 +153,39 @@ function Addresses() {
 
             <div className="col-md-6">
               <input
-                className="form-control"
-                placeholder="Mobile Number"
-                value={form.phone}
-                onChange={(e) =>
-                  setForm({ ...form, phone: e.target.value })
-                }
-                required
-              />
+  className="form-control"
+  placeholder="Mobile Number"
+  value={form.mobile}
+  onChange={(e) =>
+    setForm({ ...form, mobile: e.target.value })
+  }
+  required
+/>
             </div>
 
             <div className="col-12">
               <textarea
-                className="form-control"
-                placeholder="Full Address"
-                value={form.fullAddress}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    fullAddress: e.target.value,
-                  })
-                }
-                required
-              />
+  className="form-control"
+  placeholder="Full Address"
+  value={form.address}
+  onChange={(e) =>
+    setForm({
+      ...form,
+      address: e.target.value,
+    })
+  }
+  required
+/>
             </div>
 
             <div className="col-md-4">
               <select
-                className="form-select"
-                value={form.type}
-                onChange={(e) =>
-                  setForm({ ...form, type: e.target.value })
-                }
-              >
+  className="form-select"
+  value={form.location}
+  onChange={(e) =>
+    setForm({ ...form, location: e.target.value })
+  }
+>
                 <option>Home</option>
                 <option>Office</option>
                 <option>Other</option>
@@ -192,7 +218,7 @@ function Addresses() {
         )}
 
         {addresses.map((address) => (
-          <div className="col-md-6 mb-3" key={address.id}>
+          <div className="col-md-6 mb-3" key={address._id}>
             <div
               className={`card p-3 ${
                 address.isDefault ? "border-success" : ""
@@ -207,13 +233,9 @@ function Addresses() {
                 )}
               </h6>
 
-              <p className="mb-1">{address.phone}</p>
-              <p className="mb-1">
-                {address.fullAddress}
-              </p>
-              <p className="text-muted">
-                {address.type}
-              </p>
+              <p>{address.mobile}</p>
+<p>{address.address}</p>
+<p className="text-muted">{address.location}</p>
 
               <div className="d-flex gap-2">
                 <button
@@ -226,7 +248,7 @@ function Addresses() {
                 <button
                   className="btn btn-sm btn-outline-danger"
                   onClick={() =>
-                    deleteAddress(address.id)
+                    deleteAddress(address._id)
                   }
                 >
                   Delete
@@ -236,7 +258,7 @@ function Addresses() {
                   <button
                     className="btn btn-sm btn-outline-success"
                     onClick={() =>
-                      setDefaultAddress(address.id)
+                      setDefaultAddress(address._id)
                     }
                   >
                     Set Default

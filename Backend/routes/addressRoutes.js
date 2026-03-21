@@ -50,7 +50,7 @@ router.get('/addresses', auth, addressController.getAddresses);
  */
 router.get(
   '/addresses/:id',
-  param('id').isInt().withMessage('Address ID must be integer'),
+  param('id').isMongoId().withMessage('Invalid ID'),
   validate,
   auth,
   addressController.getAddressById
@@ -154,7 +154,7 @@ router.post(
 router.put(
   '/addresses/:id',
 
-  param('id').isInt().withMessage('Address ID must be integer'),
+  param('id').isMongoId().withMessage('Invalid ID'),
 
   body('name')
     .optional()
@@ -204,7 +204,7 @@ router.put(
  */
 router.delete(
   '/addresses/:id',
-  param('id').isInt().withMessage('Address ID must be integer'),
+  param('id').isMongoId().withMessage('Invalid ID'),
   validate,
   auth,
   addressController.deleteAddress

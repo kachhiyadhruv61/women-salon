@@ -6,12 +6,12 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product, qty) => {
-    const existing = cart.find((item) => item._id === product._id);
+    const existing = cart.find((item) => item.id === product.id);
 
     if (existing) {
       setCart(
         cart.map((item) =>
-          item._id === product._id   // ✅ FIXED
+          item.id === product.id   // ✅ FIXED
             ? { ...item, qty: item.qty + qty }
             : item
         )
@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item._id !== id));  // ✅ FIXED
+    setCart(cart.filter((item) => item.id !== id));  // ✅ FIXED
   };
 
   return (

@@ -29,9 +29,9 @@ if (!token) {
 };
 console.log(localStorage.getItem("accessToken"));
 
- const subtotal = cart.reduce(
+const subtotal = cart.reduce(
   (sum, item) =>
-    sum + item.price * (quantities[item._id] || item.qty || 1),
+    sum + item.price * (quantities[item.id] || item.qty),
   0
 );
 
@@ -66,7 +66,7 @@ const applyCoupon = () => {
     <div className="col-lg-8 col-md-7">
 
       {cart.map((item) => (
-        <div key={item._id} className="d-flex border rounded p-3 mb-3 bg-white">
+        <div key={item.id} className="d-flex border rounded p-3 mb-3 bg-white">
 
           <img
             src={item.img}
@@ -87,8 +87,8 @@ const applyCoupon = () => {
       className="btn btn-sm btn-outline-secondary"
       onClick={() =>
         handleQtyChange(
-          item._id,
-          Math.max(1, (quantities[item._id] || 1) - 1)
+          item.id,
+          Math.max(1, (quantities[item.id] || 1) - 1)
         )
       }
     >
@@ -96,15 +96,15 @@ const applyCoupon = () => {
     </button>
 
     <span className="mx-3 fw-bold">
-      {quantities[item._id] || 1}
+      {quantities[item.id] || 1}
     </span>
 
     <button
       className="btn btn-sm btn-outline-secondary"
       onClick={() =>
         handleQtyChange(
-          item._id,
-          Math.min(10, (quantities[item._id] || 1) + 1)
+          item.id,
+          Math.min(10, ((quantities[item.id] || item.qty)) + 1)
         )
       }
     >
@@ -114,7 +114,7 @@ const applyCoupon = () => {
 </div>
             <button
               className="btn btn-sm btn-outline-danger"
-              onClick={() => removeFromCart(item._id)}
+              onClick={() => removeFromCart(item.id)}
             >
               Delete
             </button>

@@ -1,7 +1,9 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useCart } from "../Pages/CartContext";
 
 function UserHeader({ setRole }) {
   const navigate = useNavigate();
+  const { cart } = useCart(); // cart array
 
   const logout = () => {
     localStorage.removeItem("role");
@@ -81,6 +83,14 @@ function UserHeader({ setRole }) {
               }
             >
               🛒 Cart
+               {cart.length > 0 && (
+        <span
+          className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style={{ fontSize: "10px" }}
+        >
+          {cart.length}
+        </span>
+      )}
             </NavLink>
 
           </div>

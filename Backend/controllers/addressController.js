@@ -53,6 +53,7 @@ const createAddress = async (req, res, next) => {
       address: req.body.address,
       pincode: req.body.pincode,
       location: req.body.location,
+      isDefault: false, // ✅ important
       createdAt: new Date()
     };
 
@@ -61,13 +62,14 @@ const createAddress = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "Address created successfully",
-      insertedId: result.insertedId
+      data: { ...newAddress, _id: result.insertedId }
     });
 
   } catch (error) {
     next(error);
   }
 };
+
 
 // ✅ UPDATE ADDRESS
 const updateAddress = async (req, res, next) => {
