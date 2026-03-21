@@ -430,17 +430,19 @@ function Products() {
           </div>
         ))}
       </div>
-        <div
-  className="text-center mt-4"
-  style={{
-    border: "1px dashed #bf9456",
-    padding: "10px",
-    borderRadius: "10px",
-    color: "#555",
-    fontSize: "13px"
-  }}
->
-  ⚠️ Results may vary depending on skin type. Please do a patch test before use.
+       <div className="text-center mt-4">
+  <p
+    style={{
+      background: "#fff3cd",
+      color: "#856404",
+      padding: "10px 15px",
+      borderRadius: "10px",
+      display: "inline-block",
+      fontSize: "13px"
+    }}
+  >
+    ⚠️ Results may vary depending on skin type. Please do a patch test before use.
+  </p>
 </div>
     </div>
   );
