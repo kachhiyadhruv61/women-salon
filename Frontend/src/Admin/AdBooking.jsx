@@ -30,13 +30,25 @@ function AdBooking() {
   }, []);
 
   // ✅ UPDATE STATUS (Frontend only)
-  const updateStatus = (id, status) => {
-    setBookings(
-      bookings.map((b) =>
-        b._id === id ? { ...b, status } : b
-      )
-    );
-  };
+ const updateStatus = async (id, status) => {
+  try {
+    const res = await apiFetch(`/bookings/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ status }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      getBookings(); // 🔄 refresh table
+    } else {
+      alert("Failed to update status");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Server error");
+  }
+};
 
   const columns = [
     {

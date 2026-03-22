@@ -28,7 +28,7 @@ const { ObjectId } = require('mongodb');
 const getServices = async (req, res, next) => {
   try {
     const db = getDB();
-    const services = await db.collection("services").find().toArray();
+    const services = await db.collection("services").find().sort({ _id: -1 }).toArray();
 
     res.status(200).json({
       success: true,

@@ -34,9 +34,9 @@ function BookingSuccess() {
 
         <button
           className="btn btn-primary mt-3"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/userbookings")}
         >
-          Go Home
+         my appointments
         </button>
       </div>
     </div>

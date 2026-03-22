@@ -131,8 +131,6 @@ router.post(
   body('items')
     .isArray({ min: 1 }).withMessage('Items are required'),
 
-  body('items.*.productId')
-    .notEmpty().withMessage('Product ID required'),
 
   body('items.*.qty')
     .isInt({ min: 1 }).withMessage('Quantity must be at least 1'),

@@ -6,13 +6,22 @@ const { ObjectId } = require('mongodb');
 const getBookings = async (req, res, next) => {
   try {
     const db = getDB();
-
-    const bookings = await db.collection("bookings").find().toArray();
-
-    res.json({
+if(req.user.role == 'user'){
+        const bookings = await db.collection("bookings").find(
+          {
+            userId: req.user._id.toString()
+          }).sort({ _id: -1 }).toArray();
+         res.status(200).json({
       success: true,
       data: bookings
     });
+    }else{
+      const bookings = await db.collection("bookings").find().sort({ _id: -1 }).toArray();
+       res.status(200).json({
+      success: true,
+      data: bookings
+    });
+    }
 
   } catch (error) {
     next(error);

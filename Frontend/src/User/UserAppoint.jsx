@@ -15,11 +15,13 @@ function UserAppoint() {
               method: "GET",
             });
       
-      const data = await res.json();
+      const result = await res.json();
 
-      setBookings(data.data);
+      if (result.success) {
+        setBookings(result.data);
+      }
     } catch (error) {
-      console.error("Error fetching bookings:", error);
+      console.error("Error fetching orders:", error);
     }
   };
 
@@ -28,15 +30,44 @@ function UserAppoint() {
     getBookings();
   }, []);
 
-  // ❌ Cancel Booking (frontend state change)
-  const cancelBooking = (id) => {
-    setBookings(
-      bookings.map((b) =>
-        b._id === id ? { ...b, status: "Cancelled" } : b
-      )
-    );
-  };
+  const updateStatus = async (id, status) => {
+  try {
+    await apiFetch(`/bookings/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ status }),
+    });
 
+    getBookings(); // refresh data
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 🔁 Reschedule (simple version)
+const rescheduleBooking = async (booking) => {
+  const newDate = prompt("Enter new date (YYYY-MM-DD):", booking.date);
+  const newTime = prompt("Enter new time (HH:MM):", booking.time);
+
+  if (!newDate || !newTime) return;
+
+  try {
+    await apiFetch(`/bookings/${booking._id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        date: newDate,
+        time: newTime,
+        status: "Pending", // again approval needed
+      }),
+    });
+
+    getBookings();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  // ❌ Cancel Booking (frontend state change)
+ 
   const columns = [
     {
       id: "sr",
@@ -80,18 +111,56 @@ function UserAppoint() {
       },
     },
     {
-      id: "action",
-      header: "Action",
-      Cell: ({ row }) =>
-        row.original.status === "Pending" && (
+  id: "action",
+  header: "Action",
+  Cell: ({ row }) => {
+    const booking = row.original;
+
+    return (
+      <div className="d-flex gap-2 flex-wrap">
+
+        {/* ❌ Cancel */}
+        {booking.status !== "Cancelled" &&
+          booking.status !== "Completed" && (
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() =>
+                updateStatus(booking._id, "Cancelled")
+              }
+            >
+              Cancel
+            </button>
+          )}
+
+        {/* ✅ Complete */}
+        {booking.status === "Approved" && (
           <button
-            className="btn btn-danger btn-sm"
-            onClick={() => cancelBooking(row.original._id)}
+            className="btn btn-success btn-sm"
+            onClick={() =>
+              updateStatus(booking._id, "Completed")
+            }
           >
-            Cancel
+            Complete
           </button>
-        ),
-    },
+        )}
+
+        {/* 🔁 Reschedule */}
+        {booking.status !== "Cancelled" &&
+          booking.status !== "Completed" && (
+            <button
+              className="btn btn-warning btn-sm"
+              onClick={() =>
+                rescheduleBooking(booking)
+              }
+            >
+              Reschedule
+            </button>
+          )}
+
+      </div>
+    );
+  },
+}
   ];
 
   return (

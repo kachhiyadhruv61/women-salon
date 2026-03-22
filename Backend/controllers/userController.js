@@ -6,7 +6,7 @@ const { ObjectId } = require('mongodb');
 const getUsers = async (req, res, next) => {
   try {
     const db = getDB();
-    const users = await db.collection("users").find().toArray();
+    const users = await db.collection("users").find().sort({ _id: -1 }).toArray();
 
     res.json({
       success: true,
@@ -50,6 +50,7 @@ const getUserById = async (req, res, next) => {
 const createUser = async (req, res, next) => {
   try {
     const db = getDB();
+  console.log("Create user with data:",req.body);//log incoming data
 
     const newUser = {
       name: req.body.name,
@@ -64,7 +65,7 @@ const createUser = async (req, res, next) => {
       createdAt: new Date(),
       updatedAt: new Date()
     };
-
+    console.log("inserted payload:",);
     const result = await db.collection("users").insertOne(newUser);
 
     res.status(201).json({

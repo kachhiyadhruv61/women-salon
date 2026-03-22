@@ -5,7 +5,7 @@ const { ObjectId } = require('mongodb');
 const getStaff = async (req, res, next) => {
   try {
     const db = getDB();
-    const staff = await db.collection("staff").find().toArray();
+    const staff = await db.collection("staff").find().sort({ _id: -1 }).toArray();
 
     res.status(200).json({
       success: true,

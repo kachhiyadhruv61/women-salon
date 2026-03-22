@@ -5,12 +5,23 @@ const { ObjectId } = require('mongodb');
 const getOrders = async (req, res, next) => {
   try {
     const db = getDB();
-    const orders = await db.collection("orders").find().toArray();
+    if(req.user.role == 'user'){
+        const orders = await db.collection("orders").find(
+          {
+            userId: req.user._id.toString()
 
-    res.status(200).json({
+          }).sort({ _id: -1 }).toArray();
+         res.status(200).json({
       success: true,
       data: orders
     });
+    }else{
+      const orders = await db.collection("orders").find().sort({ _id: -1 }).toArray();
+       res.status(200).json({
+      success: true,
+      data: orders
+    });
+    }
 
   } catch (error) {
     next(error);
@@ -47,52 +58,53 @@ const getOrderById = async (req, res, next) => {
 const createOrder = async (req, res, next) => {
   try {
     const db = getDB();
-     const { items } = req.body;
+
+    //  const { items } = req.body;
 
     // 🔥 STEP 1: CHECK & REDUCE STOCK
-    for (const item of items) {
-      const product = await db.collection("products").findOne({
-        _id: new ObjectId(item.productId)
-      });
+    // for (const item of items) {
+    //   const product = await db.collection("products").findOne({
+    //     _id: new ObjectId(item.productId)
+    //   });
 
-      if (!product) {
-        return res.status(404).json({
-          success: false,
-          message: `Product not found`
-        });
-      }
+    //   if (!product) {
+    //     return res.status(404).json({
+    //       success: false,
+    //       message: `Product not found`
+    //     });
+    //   }
 
-      // ❌ Out of stock
-      if (product.stock < item.qty) {
-        return res.status(400).json({
-          success: false,
-          message: `${product.name} is out of stock`
-        });
-      }
+    //   // ❌ Out of stock
+    //   if (product.stock < item.qty) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: `${product.name} is out of stock`
+    //     });
+    //   }
 
-      // ✅ Reduce stock safely
-      const result = await db.collection("products").updateOne(
-        {
-          _id: new ObjectId(item.productId),
-          stock: { $gte: item.qty }
-        },
-        {
-          $inc: { stock: -item.qty }
-        }
-      );
+    //   // ✅ Reduce stock safely
+    //   const result = await db.collection("products").updateOne(
+    //     {
+    //       _id: new ObjectId(item.productId),
+    //       stock: { $gte: item.qty }
+    //     },
+    //     {
+    //       $inc: { stock: -item.qty }
+    //     }
+    //   );
 
-      // ⚠️ safety check
-      if (result.modifiedCount === 0) {
-        return res.status(400).json({
-          success: false,
-          message: "Stock update failed"
-        });
-      }
-    }
+    //   // ⚠️ safety check
+    //   if (result.modifiedCount === 0) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Stock update failed"
+    //     });
+    //   }
+    // }
 
 
     const newOrder = {
-      userId: req.body.userId ?? "12314", // optionally convert to ObjectId
+      userId: req.user._id.toString(), // optionally convert to ObjectId
       userName: req.body.userName,
       contact: req.body.contact,
       paymentMethod: req.body.paymentMethod,
@@ -103,9 +115,41 @@ const createOrder = async (req, res, next) => {
       createdAt: new Date(),
       updatedAt: new Date()
     };
+     const paymentData = {
+  orderId: result.insertedId.toString(),
+  userId: req.user._id.toString(),
+  userName: req.body.userName,
+  contact: req.body.contact,
+  items: req.body.items,
+  paymentMethod: req.body.paymentMethod, // UPI / COD / Card
+  paymentStatus: req.body.paymentStatus, // Paid / Pending / Failed
+
+  amount: req.body.totalAmount,
+
+  // 🔥 full payload (important)
+  paymentPayload: req.body.paymentPayload || {},
+
+  createdAt: new Date(),
+  updatedAt: new Date()
+};
+
 
     const result = await db.collection("orders").insertOne(newOrder);
-
+    // ✅ STORE PAYMENT DATA
+await db.collection("payments").insertOne({
+  orderId: result.insertedId.toString(),
+  userId: req.user._id.toString(),
+  userName: req.body.userName,
+  contact: req.body.contact,
+  items: req.body.items,
+  paymentMethod: req.body.paymentMethod,
+  paymentStatus: req.body.paymentStatus,
+  amount: req.body.totalAmount,
+  paymentPayload: req.body.paymentPayload || {},
+  createdAt: new Date(),
+  updatedAt: new Date()
+});
+   
     res.status(201).json({
       success: true,
       message: "Order created successfully",
@@ -121,7 +165,7 @@ const createOrder = async (req, res, next) => {
 const updateOrder = async (req, res, next) => {
   try {
     const db = getDB();
-
+    if(req.user.role !== 'user'){
     const result = await db.collection("orders").updateOne(
       { _id: new ObjectId(req.params.id) },
       {
@@ -147,6 +191,12 @@ const updateOrder = async (req, res, next) => {
       success: true,
       message: "Order updated successfully"
     });
+  }else{
+    res.status(401).json({
+      success: false,
+      message: "unauthorize access"
+    });
+  }
 
   } catch (error) {
     next(error);

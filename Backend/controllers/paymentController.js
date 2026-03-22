@@ -6,7 +6,11 @@ const { ObjectId } = require('mongodb');
 const getPayments = async (req, res, next) => {
   try {
     const db = getDB();
-    const payments = await db.collection("payments").find().toArray();
+    const payments = await db
+      .collection("payments")
+      .find()
+      .sort({ _id: -1 })
+      .toArray();
 
     res.status(200).json({
       success: true,

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import {apiFetch} from "../utils/apiFetch";
 
 function Checkout() {
   const { cart, clearCart } = useCart(); // clearCart optional
@@ -140,8 +141,8 @@ const today = new Date();
   };
 
   try {
-    const res = await fetch(
-      "http://localhost:5000/orders",
+    const res = await apiFetch(
+      "/orders",
       {
         method: "POST",
         headers: {

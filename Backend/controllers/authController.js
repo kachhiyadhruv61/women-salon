@@ -62,7 +62,7 @@ const createRegister = async (req, res, next) => {
   try {
 
     const db = getDB();
-
+console.log("Create user with data:",req.body);//log incoming data
     const {
       name,
       username,
