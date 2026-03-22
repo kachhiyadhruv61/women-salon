@@ -154,19 +154,68 @@ const today = new Date();
 
    const data = await res.json();
 
-if (!res.ok) {
-  console.error("Backend Error:", data);
-  throw new Error(data.message || "API failed");
-}
+   ///start payment gateway integration
 
-    alert("Order Placed Successfully ✅");
+    const razorpayOrder = data.razorpayOrder;
 
-    if (clearCart) clearCart();
+    const options = {
+      key: "rzp_test_SU9OILjNd5mGst",
+      amount: razorpayOrder.amount,
+      currency: "INR",
+      name: "Your Company",
+      description: "Test Payment",
+      order_id: razorpayOrder.id,
 
-    setShowBill(false);
+      handler: async function (response) {
+        // 2. Verify Payment
+        const verifyRes = await fetch(
+          "http://localhost:5000/verify-payment",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(response),
+          }
+        );
 
-    // ✅ Redirect AFTER success
-    navigate("/userorders");
+        const verifyData = await verifyRes.json();
+
+        if (verifyData.success) {
+          alert("Payment Successful ✅");
+        } else {
+          alert("Payment Failed ❌");
+        }
+      },
+
+      prefill: {
+        name: "Dipali",
+        email: "test@gmail.com",
+        contact: "9999999999",
+      },
+
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+
+// if (!res.ok) {
+//   console.error("Backend Error:", data);
+//   throw new Error(data.message || "API failed");
+// }
+
+//     alert("Order Placed Successfully ✅");
+
+//     if (clearCart) clearCart();
+
+//     setShowBill(false);
+const rzp = new window.Razorpay(options);
+    rzp.open();
+    ///end razorpay integration
+
+//     // ✅ Redirect AFTER success
+//     navigate("/userorders");
   } catch (err) {
   console.error("ERROR:", err);
   alert("Error: " + err.message);

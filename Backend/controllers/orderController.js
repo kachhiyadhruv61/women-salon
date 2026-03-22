@@ -1,5 +1,6 @@
 const { getDB } = require('../config/db');
 const { ObjectId } = require('mongodb');
+const razorpay = require('../middleware/razorpay');
 
 // ✅ GET ALL ORDERS
 const getOrders = async (req, res, next) => {
@@ -115,29 +116,21 @@ const createOrder = async (req, res, next) => {
       createdAt: new Date(),
       updatedAt: new Date()
     };
-     const paymentData = {
-  orderId: result.insertedId.toString(),
-  userId: req.user._id.toString(),
-  userName: req.body.userName,
-  contact: req.body.contact,
-  items: req.body.items,
-  paymentMethod: req.body.paymentMethod, // UPI / COD / Card
-  paymentStatus: req.body.paymentStatus, // Paid / Pending / Failed
-
-  amount: req.body.totalAmount,
-
-  // 🔥 full payload (important)
-  paymentPayload: req.body.paymentPayload || {},
-
-  createdAt: new Date(),
-  updatedAt: new Date()
-};
+    
 
 
     const result = await db.collection("orders").insertOne(newOrder);
-    // ✅ STORE PAYMENT DATA
-await db.collection("payments").insertOne({
+     
+    const options = {
+      amount: req.body.totalAmount * 100, // ₹ to paise
+      currency: "INR",
+      receipt: "receipt_" + Date.now(),
+    };
+//create order in payment gateway
+    const razorpayOrder = await razorpay.orders.create(options);
+    const paymentData = {
   orderId: result.insertedId.toString(),
+  razorpayOrderId: razorpayOrder.id,
   userId: req.user._id.toString(),
   userName: req.body.userName,
   contact: req.body.contact,
@@ -148,12 +141,15 @@ await db.collection("payments").insertOne({
   paymentPayload: req.body.paymentPayload || {},
   createdAt: new Date(),
   updatedAt: new Date()
-});
+};
+    // ✅ STORE PAYMENT DATA
+await db.collection("payments").insertOne(paymentData);
    
     res.status(201).json({
       success: true,
       message: "Order created successfully",
-      insertedId: result.insertedId
+      insertedId: result.insertedId,
+      razorpayOrder: razorpayOrder,
     });
 
   } catch (error) {
