@@ -1,7 +1,61 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import CommonTable from "./../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 function Adpayment() {
   const [payments, setPayments] = useState([]);
+    
+
+  // 🔥 Fetch payments from backend
+  useEffect(() => {
+    fetchPayments();
+  }, []);
+
+  const fetchPayments = async () => {
+    try {
+      const res = await apiFetch("/payments", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // अगर auth use करते हो तो token add करो
+          // Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // 👇 map backend data to table format
+        const formattedData = data.data.map((item) => ({
+          id: item._id,
+          paymentId: item.razorpayOrderId || "-",
+          transactionId: item.razorpayPaymentId || "-",
+          customer: item.userName || "N/A",
+          service: item.items?.map((i) => i.name).join(", ") || "Service",
+          amount: item.amount,
+          method: item.paymentMethod || "Razorpay",
+          status: item.paymentStatus,
+          date: new Date(item.createdAt).toLocaleDateString(),
+        }));
+
+        setPayments(formattedData);
+      }
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+    }
+//DELETE PAYMENT
+    const deletePayment = async (id) => {
+  try {
+    await fetch(`http://localhost:5000/payments/${id}`, {
+      method: "DELETE",
+    });
+
+    // Refresh data
+    fetchPayments();
+  } catch (err) {
+    console.error("Delete failed:", err);
+  }
+};
+  };
  const columns = [
   {
     id: "sr",
@@ -39,15 +93,22 @@ function Adpayment() {
     accessorKey: "method",
   },
   {
-    id: "status",
-    header: "Status",
-    Cell: ({ cell }) => (
-      <span className="badge bg-success">
-        {cell.getValue()}
-      </span>
-    ),
-    accessorKey: "status",
+  id: "status",
+  header: "Status",
+  accessorKey: "status",
+  Cell: ({ cell }) => {
+    const status = cell.getValue();
+
+    const color =
+      status === "success"
+        ? "bg-success"
+        : status === "pending"
+        ? "bg-warning"
+        : "bg-danger";
+
+    return <span className={`badge ${color}`}>{status}</span>;
   },
+},
   {
     id: "date",
     header: "Date",
