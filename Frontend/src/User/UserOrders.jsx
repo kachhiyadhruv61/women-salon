@@ -28,9 +28,14 @@ function UserOrders() {
 
   // ✅ CANCEL ORDER
   const cancelOrder = async (orderId) => {
+     const token = localStorage.getItem("token"); // ✅ add this
     try {
-      const res = await fetch(`http://localhost:5000/orders/cancel/${orderId}`, {
+      // const res = await fetch(`http://localhost:5000/orders/cancel/${_id}`, {
+       const res = await apiFetch(`/orders/cancel/${orderId}`, {
         method: "PUT",
+        headers: {
+      Authorization: `Bearer ${token}`,
+        },
       });
 
       const result = await res.json();
@@ -110,6 +115,7 @@ function UserOrders() {
       id: "cancel",
       header: "Cancel Order",
       Cell: ({ row }) => {
+         console.log("Row Data:", row.original); 
         const status = row.original.orderStatus;
 
         if (
@@ -123,7 +129,7 @@ function UserOrders() {
         return (
           <button
             className="btn btn-danger btn-sm"
-            onClick={() => cancelOrder(row.original.orderId)}
+            onClick={() => cancelOrder(row.original._id)}
           >
             Cancel
           </button>
@@ -138,7 +144,7 @@ function UserOrders() {
         <button
           className="btn btn-primary btn-sm"
           onClick={() =>
-            navigate(`/user/orders/${row.original.orderId}`)
+            navigate(`/user/orders/${row.original._id}`)
           }
         >
           View
