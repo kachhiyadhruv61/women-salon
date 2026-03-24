@@ -61,6 +61,49 @@ const verifyPaymentStatus = async (req, res, next) => {
       updatedAt: new Date()
     });
 
+    // verifyPayment ma success thay pachi
+
+await db.collection("bookingPayments").updateOne(
+  { razorpayOrderId: razorpay_order_id },
+  {
+    $set: {
+      razorpayPaymentId: razorpay_payment_id,
+      razorpaySignature: razorpay_signature,
+      paymentStatus: "Paid",
+      updatedAt: new Date()
+    }
+  }
+);
+
+// ===============================
+// ✅ 1. UPDATE BOOKINGS
+// ===============================
+// verifyPayment ma success thay pachi
+
+await db.collection("bookingPayments").updateOne(
+  { razorpayOrderId: razorpay_order_id },
+  {
+    $set: {
+      razorpayPaymentId: razorpay_payment_id,
+      razorpaySignature: razorpay_signature,
+      paymentStatus: "Paid",
+      updatedAt: new Date()
+    }
+  }
+);
+
+// ✅ UPDATE BOOKING STATUS
+await db.collection("bookings").updateOne(
+  { razorpayOrderId: razorpay_order_id },
+  {
+    $set: {
+      paymentStatus: "Paid",
+      bookingStatus: "Confirmed",
+      updatedAt: new Date()
+    }
+  }
+);
+
     // ===============================
     // ✅ SUCCESS RESPONSE
     // ===============================

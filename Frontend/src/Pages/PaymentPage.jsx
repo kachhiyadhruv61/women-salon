@@ -1,21 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
- import { apiFetch } from "../utils/apiFetch";
+import { apiFetch } from "../utils/apiFetch";
 
 function PaymentPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const bookingData = location.state;
 
-  const [paymentMethod, setPaymentMethod] = useState("upi");
+  const [paymentMethod, setPaymentMethod] = useState("razorpay");
   const [screenshot, setScreenshot] = useState(null);
-
-  const [cardDetails, setCardDetails] = useState({
-    number: "",
-    name: "",
-    expiry: "",
-    cvv: "",
-  });
 
   if (!bookingData) {
     return <h3>No Booking Data Found</h3>;
@@ -25,69 +18,104 @@ function PaymentPage() {
 
   const upiLink = `upi://pay?pa=${upiId}&pn=WomenOrganicSalon&am=${bookingData.advanceAmount}&cu=INR`;
 
-const handleConfirm = async () => {
 
-  let isVerified = false;
-
-  if (paymentMethod === "upi") {
-    if (!screenshot) {
-      alert("Upload screenshot");
-      return;
-    }
-    isVerified = true;
-  }
-
-  if (paymentMethod === "card") {
-    if (
-      !cardDetails.number ||
-      !cardDetails.name ||
-      !cardDetails.expiry ||
-      !cardDetails.cvv
-    ) {
-      alert("Fill card details");
-      return;
-    }
-    isVerified = true;
-  }
-
-  if (paymentMethod === "cash") {
-    isVerified = true;
-  }
-
-  const newBooking = {
-    ...bookingData,
-    paymentMethod,
-    paymentVerified: isVerified,
-    status: paymentMethod === "cash" ? "Confirmed" : "Pending",
-  };
-
+  const handleConfirm = async () => {
   try {
+
+    // ✅ STEP 1: DEFINE PAYLOAD FIRST
+    const payload = {
+      userName: bookingData.name,
+      service: bookingData.service,
+      date: bookingData.date,
+      time: bookingData.time,
+      amount: Number(bookingData.totalAmount),
+      advanceAmount: Number(bookingData.advanceAmount),
+      paymentMethod: paymentMethod,
+    };
+
+    console.log("FINAL PAYLOAD:", payload);
+
+    // ✅ STEP 2: CALL API ONCE
     const res = await apiFetch("/bookings", {
       method: "POST",
-       headers: {
-          "Content-Type": "application/json",
-        },
-      body: JSON.stringify(newBooking),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
     const data = await res.json();
 
-    if (data.success) {
-     if (data && data.success) {
-      alert("Booking Successful ✅");
-  navigate("/adbooking", {
-    state: data.data,
-  });
-} else {
-  console.log("API failed:", data);
-  alert("Booking failed");
-}
-}
+    // ❌ STOP IF FAIL
+    if (!data.success) {
+      console.log("API ERROR:", data);
+      alert("Booking failed");
+      return;
+    }
+
+    // 🟢 CASH
+    if (paymentMethod === "cash") {
+      alert("Booking Confirmed (Pay at Salon)");
+      navigate("/adbooking");
+    }
+
+    // 🟣 UPI
+    else if (paymentMethod === "upi") {
+      if (!screenshot) {
+        alert("Upload screenshot");
+        return;
+      }
+
+      alert("Booking Pending Verification");
+      navigate("/adbooking");
+    }
+
+    // 🔥 RAZORPAY
+    else if (paymentMethod === "razorpay") {
+
+      const order = data.razorpayOrder;
+
+      if (!order) {
+        alert("Order not created");
+        return;
+      }
+
+      const options = {
+        key: "rzp_test_SU9OILjNd5mGst",
+        order_id: order.id,
+        amount: order.amount,
+        currency: "INR",
+
+        handler: async function (response) {
+          const verifyRes = await apiFetch("/verify-payment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(response),
+          });
+
+          const verifyData = await verifyRes.json();
+
+          if (verifyData.success) {
+            alert("Payment Successful ✅");
+            navigate("/adbooking");
+          } else {
+            alert("Payment Failed ❌");
+          }
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    }
+
   } catch (error) {
     console.error(error);
     alert("Server error");
   }
 };
+
   return (
     <div className="container mt-4">
       <div className="card shadow p-4">
@@ -102,25 +130,23 @@ const handleConfirm = async () => {
           <strong>Advance:</strong> ₹{bookingData.advanceAmount}
         </div>
 
-        {/* 🔘 Payment Options */}
+        {/* Payment Options */}
         <h5>Select Payment Method</h5>
 
         <div className="mb-3">
           <input
             type="radio"
-            checked={paymentMethod === "upi"}
-            onChange={() => setPaymentMethod("upi")}
-          />{" "}
-          UPI
+            checked={paymentMethod === "razorpay"}
+            onChange={() => setPaymentMethod("razorpay")}
+          /> Razorpay (UPI/Card)
 
           <br />
 
           <input
             type="radio"
-            checked={paymentMethod === "card"}
-            onChange={() => setPaymentMethod("card")}
-          />{" "}
-          Card
+            checked={paymentMethod === "upi"}
+            onChange={() => setPaymentMethod("upi")}
+          /> UPI (Manual)
 
           <br />
 
@@ -128,11 +154,10 @@ const handleConfirm = async () => {
             type="radio"
             checked={paymentMethod === "cash"}
             onChange={() => setPaymentMethod("cash")}
-          />{" "}
-          Cash on Visit
+          /> Cash on Visit
         </div>
 
-        {/* 🟣 UPI SECTION */}
+        {/* UPI Manual */}
         {paymentMethod === "upi" && (
           <div className="border p-3 rounded mb-3">
             <h6>Pay using UPI</h6>
@@ -162,59 +187,14 @@ const handleConfirm = async () => {
           </div>
         )}
 
-        {/* 🔵 CARD SECTION */}
-        {paymentMethod === "card" && (
-          <div className="border p-3 rounded mb-3">
-            <h6>Enter Card Details</h6>
-
-            <input
-              type="text"
-              placeholder="Card Number"
-              className="form-control mb-2"
-              onChange={(e) =>
-                setCardDetails({ ...cardDetails, number: e.target.value })
-              }
-            />
-
-            <input
-              type="text"
-              placeholder="Card Holder Name"
-              className="form-control mb-2"
-              onChange={(e) =>
-                setCardDetails({ ...cardDetails, name: e.target.value })
-              }
-            />
-
-            <div className="d-flex gap-2">
-              <input
-                type="text"
-                placeholder="MM/YY"
-                className="form-control"
-                onChange={(e) =>
-                  setCardDetails({ ...cardDetails, expiry: e.target.value })
-                }
-              />
-
-              <input
-                type="password"
-                placeholder="CVV"
-                className="form-control"
-                onChange={(e) =>
-                  setCardDetails({ ...cardDetails, cvv: e.target.value })
-                }
-              />
-            </div>
-          </div>
-        )}
-
-        {/* 🟢 CASH SECTION */}
+        {/* Cash */}
         {paymentMethod === "cash" && (
           <div className="alert alert-warning">
             Pay remaining amount at salon during visit.
           </div>
         )}
 
-        {/* ✅ Confirm Button */}
+        {/* Confirm Button */}
         <button className="btn btn-success w-100" onClick={handleConfirm}>
           Confirm Booking
         </button>

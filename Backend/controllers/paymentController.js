@@ -50,33 +50,33 @@ const getPaymentById = async (req, res, next) => {
 };
 
 // ✅ CREATE PAYMENT
-const createPayment = async (req, res, next) => {
-  try {
-    const db = getDB();
+// const createPayment = async (req, res, next) => {
+//   try {
+//     const db = getDB();
 
-    const newPayment = {
-      transactionId: req.body.transactionId,
-      userId: req.body.userId, // optionally convert to ObjectId if needed
-      paymentMode: req.body.paymentMode,
-      amount: req.body.amount,
-      status: req.body.status,
-      date: req.body.date ? new Date(req.body.date) : new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+//     const newPayment = {
+//       transactionId: req.body.transactionId,
+//       userId: req.body.userId, // optionally convert to ObjectId if needed
+//       paymentMode: req.body.paymentMode,
+//       amount: req.body.amount,
+//       status: req.body.status,
+//       date: req.body.date ? new Date(req.body.date) : new Date(),
+//       createdAt: new Date(),
+//       updatedAt: new Date()
+//     };
 
-    const result = await db.collection("payments").insertOne(newPayment);
+//     const result = await db.collection("payments").insertOne(newPayment);
 
-    res.status(201).json({
-      success: true,
-      message: "Payment created successfully",
-      insertedId: result.insertedId
-    });
+//     res.status(201).json({
+//       success: true,
+//       message: "Payment created successfully",
+//       insertedId: result.insertedId
+//     });
 
-  } catch (error) {
-    next(error);
-  }
-};
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // ✅ UPDATE PAYMENT
 const updatePayment = async (req, res, next) => {
@@ -84,12 +84,11 @@ const updatePayment = async (req, res, next) => {
     const db = getDB();
 
     const result = await db.collection("payments").updateOne(
-      { _id: new ObjectId(req.params.id) },
+      { razorpayOrderId: razorpay_order_id }, // 🔥 important
       {
         $set: {
-          transactionId: req.body.transactionId,
-          userId: req.body.userId,
-          paymentMode: req.body.paymentMode,
+         razorpayPaymentId: razorpay_payment_id,
+          razorpaySignature: razorpay_signature,
           amount: req.body.amount,
           status: req.body.status,
           date: req.body.date ? new Date(req.body.date) : new Date(),
@@ -144,7 +143,7 @@ const deletePayment = async (req, res, next) => {
 module.exports = {
   getPayments,
   getPaymentById,
-  createPayment,
+  // createPayment,
   updatePayment,
   deletePayment
 };

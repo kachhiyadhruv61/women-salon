@@ -1,27 +1,30 @@
 const { getDB } = require('../config/db');
 const { ObjectId } = require('mongodb');
-
+const razorpay = require("../middleware/razorpay");
 
 // ✅ GET ALL BOOKINGS
 const getBookings = async (req, res, next) => {
   try {
     const db = getDB();
-if(req.user.role == 'user'){
-        const bookings = await db.collection("bookings").find(
-          {
-            userId: req.user._id.toString()
-          }).sort({ _id: -1 }).toArray();
-         res.status(200).json({
-      success: true,
-      data: bookings
-    });
-    }else{
-      const bookings = await db.collection("bookings").find().sort({ _id: -1 }).toArray();
-       res.status(200).json({
-      success: true,
-      data: bookings
-    });
+
+    let bookings;
+
+    if (req.user.role === 'user') {
+      bookings = await db.collection("bookings")
+        .find({ userId: req.user._id.toString() })
+        .sort({ _id: -1 })
+        .toArray();
+    } else {
+      bookings = await db.collection("bookings")
+        .find()
+        .sort({ _id: -1 })
+        .toArray();
     }
+
+    res.status(200).json({
+      success: true,
+      data: bookings
+    });
 
   } catch (error) {
     next(error);
@@ -56,26 +59,91 @@ const getBookingById = async (req, res, next) => {
 };
 
 
-// ✅ CREATE BOOKING
+// ✅ CREATE BOOKING + RAZORPAY
 const createBooking = async (req, res, next) => {
   try {
     const db = getDB();
 
+    const {
+      userName,
+      service,
+      date,
+      time,
+      amount,
+      advanceAmount,
+      paymentMethod
+    } = req.body;
+
+    // ✅ STEP 1: CREATE BOOKING
     const newBooking = {
-      name: req.body.name,
-      service: req.body.service,
-      date: req.body.date,
-      status: req.body.status || "Pending",
+      userId: req.user._id.toString(),
+      name: userName,
+      service,
+      date,
+      time,
+      totalAmount: amount,
+      advanceAmount,
+
+      paymentMethod,
+      paymentStatus: paymentMethod === "cash" ? "Pending" : "Created",
+      bookingStatus: paymentMethod === "cash" ? "Confirmed" : "Pending",
+
       createdAt: new Date(),
       updatedAt: new Date()
     };
 
     const result = await db.collection("bookings").insertOne(newBooking);
 
+    let razorpayOrder = null;
+
+    // ✅ STEP 2: RAZORPAY ORDER CREATE
+    if (paymentMethod === "razorpay") {
+      const options = {
+        amount: advanceAmount * 100,
+        currency: "INR",
+        receipt: "booking_" + result.insertedId,
+      };
+
+      razorpayOrder = await razorpay.orders.create(options);
+
+      // ✅ STEP 3: SAVE PAYMENT DATA
+      const paymentData = {
+        bookingId: result.insertedId.toString(),
+        razorpayOrderId: razorpayOrder.id,
+        userId: req.user._id.toString(),
+        name: userName,
+        service,
+        amount: advanceAmount,
+
+        paymentMethod: "razorpay",
+        paymentStatus: "Created",
+
+        paymentPayload: {
+          order: razorpayOrder
+        },
+
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      await db.collection("bookingPayments").insertOne(paymentData);
+
+      // ✅ UPDATE BOOKING WITH ORDER ID
+      await db.collection("bookings").updateOne(
+        { _id: result.insertedId },
+        {
+          $set: {
+            razorpayOrderId: razorpayOrder.id
+          }
+        }
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: "Booking created successfully",
-      insertedId: result.insertedId
+      bookingId: result.insertedId,
+      razorpayOrder
     });
 
   } catch (error) {
@@ -142,7 +210,6 @@ const deleteBooking = async (req, res, next) => {
     next(error);
   }
 };
-
 
 module.exports = {
   getBookings,

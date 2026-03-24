@@ -49,69 +49,97 @@ function Adpayment() {
         );
 
   // 📊 TABLE COLUMNS
-  const columns = [
-    {
-      id: "sr",
-      header: "#",
-      accessorFn: (_, index) => index + 1,
-    },
-    {
-      header: "Order ID",
-      accessorKey: "orderId",
-    },
-    {
-      header: "Transaction ID",
-      accessorFn: (row) => row.paymentPayload?.transactionId || "-",
-    },
-    {
-      header: "Customer",
-      accessorKey: "userName",
-    },
-    {
-      header: "Contact",
-      accessorKey: "contact",
-    },
-    {
-      header: "Amount (₹)",
-      accessorFn: (row) => `₹${row.amount}`,
-    },
-    {
-      header: "Method",
-      accessorKey: "paymentMethod",
-    },
-    {
-      header: "Status",
-      accessorKey: "paymentStatus",
-      Cell: ({ cell }) => {
-        const status = cell.getValue();
+const columns = [
+  {
+    id: "sr",
+    header: "#",
+    accessorFn: (_, index) => index + 1,
+  },
+  {
+    header: "Order ID",
+    accessorKey: "orderId",
+  },
+  {
+    header: "Razorpay Order",
+    accessorKey: "razorpayOrderId",
+  },
+  {
+    header: "Payment ID",
+    accessorFn: (row) =>
+      row.razorpayPaymentId ||
+      row.paymentPayload?.razorpay_payment_id ||
+      "-",
+  },
+  {
+    header: "Transaction ID",
+    accessorFn: (row) =>
+      row.paymentPayload?.transactionId || "-",
+  },
+  {
+    header: "Customer",
+    accessorKey: "userName",
+  },
+  {
+    header: "Contact",
+    accessorKey: "contact",
+  },
+  {
+    header: "Items",
+    accessorFn: (row) =>
+      row.items?.length
+        ? row.items.map((i) => i.name).join(", ")
+        : "-",
+  },
+  {
+    header: "Amount (₹)",
+    accessorFn: (row) => `₹${row.amount}`,
+  },
+  {
+    header: "Method",
+    accessorKey: "paymentMethod",
+  },
+  {
+    header: "Status",
+    accessorKey: "paymentStatus",
+    Cell: ({ cell }) => {
+      const status = cell.getValue()?.toLowerCase();
 
-        const color =
-          status === "Paid"
-            ? "bg-success"
-            : status === "Pending"
-            ? "bg-warning"
-            : "bg-danger";
+      const color =
+        status === "success" || status === "paid"
+          ? "bg-success"
+          : status === "pending"
+          ? "bg-warning"
+          : "bg-danger";
 
-        return <span className={`badge ${color}`}>{status}</span>;
-      },
+      return (
+        <span className={`badge ${color}`}>
+          {status?.toUpperCase()}
+        </span>
+      );
     },
-    {
-      header: "Date",
-      accessorFn: (row) =>
-        new Date(row.createdAt).toLocaleDateString(),
-    },
-    {
-      header: "Action",
-      Cell: ({ row }) => (
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={() => deletePayment(row.original._id)}
-        >
-          Delete
-        </button>
-      ),
-    },
-  ];
+  },
+  {
+    header: "Created",
+    accessorFn: (row) =>
+      new Date(row.createdAt).toLocaleString(),
+  },
+  {
+    header: "Updated",
+    accessorFn: (row) =>
+      new Date(row.updatedAt).toLocaleString(),
+  },
+  {
+    header: "Action",
+    Cell: ({ row }) => (
+      <button
+        className="btn btn-danger btn-sm"
+        onClick={() => deletePayment(row.original._id)}
+      >
+        Delete
+      </button>
+    ),
+  },
+];
 
   return (
     <div className="container mt-4">

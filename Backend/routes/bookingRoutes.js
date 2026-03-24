@@ -64,7 +64,7 @@ router.get('/bookings/:id',auth, bookingController.getBookingById);
  * @swagger
  * /bookings:
  *   post:
- *     summary: Create new booking
+ *     summary: Create booking with optional Razorpay payment
  *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
@@ -75,11 +75,15 @@ router.get('/bookings/:id',auth, bookingController.getBookingById);
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - userName
  *               - service
  *               - date
+ *               - time
+ *               - amount
+ *               - advanceAmount
+ *               - paymentMethod
  *             properties:
- *               name:
+ *               userName:
  *                 type: string
  *                 example: Aditi
  *               service:
@@ -88,21 +92,24 @@ router.get('/bookings/:id',auth, bookingController.getBookingById);
  *               date:
  *                 type: string
  *                 example: 2026-01-20
- *               status:
+ *               time:
  *                 type: string
- *                 example: Pending
- *     responses:
- *       201:
- *         description: Booking created
- *       400:
- *         description: Invalid request
- *       500:
- *         description: Internal server error
+ *                 example: 10:30 AM
+ *               amount:
+ *                 type: number
+ *                 example: 2000
+ *               advanceAmount:
+ *                 type: number
+ *                 example: 500
+ *               paymentMethod:
+ *                 type: string
+ *                 enum: [cash, razorpay, upi]
+ *                 example: razorpay
  */
 router.post(
   '/bookings',
 
-  body('name')
+  body('userName')
     .notEmpty().withMessage('Name is required'),
 
   body('service')
@@ -110,6 +117,17 @@ router.post(
 
   body('date')
     .notEmpty().withMessage('Date is required'),
+
+  body('time')
+  .notEmpty().withMessage('Time required'),
+
+  body('amount')
+  .isNumeric(),
+
+  body('advanceAmount')
+  .isNumeric(),
+
+  body('paymentMethod').notEmpty(),
 
   validate,auth,
   bookingController.createBooking
