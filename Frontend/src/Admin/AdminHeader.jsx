@@ -159,6 +159,9 @@ const AdminHeader = ({ setRole }) => {
                 <NavLink to="/settings" className="dropdown-item">
                   Settings
                 </NavLink>
+                <NavLink to="/bookingpay" className="dropdown-item">
+                  Bookingpayment
+                </NavLink>
               </div>
             </div>
 

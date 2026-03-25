@@ -54,6 +54,7 @@ import Profile from "./Admin/Profile";
 import Orders from "./Admin/Orders";
 import Contactdata from "./Admin/Contactdata";
 import ReportView from "./Admin/ReportView";
+import Bookingpay from "./Admin/Bookingpay";
 
 /* ===== User ===== */
 import UserHeader from "./User/UserHeader";
@@ -68,6 +69,7 @@ import UserAppoint from "./User/UserAppoint";
 import Addresses from "./User/Addresses";
 
 import StaffDashboard from "./Components/Staff/StaffDashboard";
+
 
 
 
@@ -120,7 +122,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
         <Route path="/gallery" element={<Gallery />} />
-        
+         <Route path="/bookingpay" element={<Bookingpay />} />
         <Route path="/products" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/cartsummary" element={<CartSummary />} />
@@ -218,6 +220,12 @@ function App() {
         <Route
           path="/profile"
           element={role === "admin" ? <Profile /> : <Navigate to="/login" />}
+        />
+
+         
+        <Route
+          path="/bookingpay"
+          element={role === "admin" ? <Bookingpay/> : <Navigate to="/login" />}
         />
 
         {/* ===== USER ROUTES ===== */}

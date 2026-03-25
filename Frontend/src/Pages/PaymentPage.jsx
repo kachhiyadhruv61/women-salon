@@ -8,7 +8,7 @@ function PaymentPage() {
   const bookingData = location.state;
 
   const [paymentMethod, setPaymentMethod] = useState("razorpay");
-  const [screenshot, setScreenshot] = useState(null);
+  const [setScreenshot] = useState(null);
 
   if (!bookingData) {
     return <h3>No Booking Data Found</h3>;
@@ -19,92 +19,92 @@ function PaymentPage() {
   const upiLink = `upi://pay?pa=${upiId}&pn=WomenOrganicSalon&am=${bookingData.advanceAmount}&cu=INR`;
 
 
-  const handleConfirm = async () => {
-  try {
-
-    // ✅ STEP 1: DEFINE PAYLOAD FIRST
-    const payload = {
-      userName: bookingData.name,
-      service: bookingData.service,
-      date: bookingData.date,
-      time: bookingData.time,
-      amount: Number(bookingData.totalAmount),
-      advanceAmount: Number(bookingData.advanceAmount),
-      paymentMethod: paymentMethod,
-    };
-
-    console.log("FINAL PAYLOAD:", payload);
-
-    // ✅ STEP 2: CALL API ONCE
-    const res = await apiFetch("/bookings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await res.json();
-
-    // ❌ STOP IF FAIL
-    if (!data.success) {
-      console.log("API ERROR:", data);
-      alert("Booking failed");
-      return;
-    }
-
-    // 🟢 CASH
-    if (paymentMethod === "cash") {
-      alert("Booking Confirmed (Pay at Salon)");
-      navigate("/adbooking");
-    }
-
-    // 🟣 UPI
-    else if (paymentMethod === "upi") {
-      if (!screenshot) {
-        alert("Upload screenshot");
-        return;
-      }
-
-      alert("Booking Pending Verification");
-      navigate("/adbooking");
-    }
-
-    // 🔥 RAZORPAY
-    else if (paymentMethod === "razorpay") {
-
-      const order = data.razorpayOrder;
-
-      if (!order) {
-        alert("Order not created");
-        return;
-      }
-
-      const options = {
-        key: "rzp_test_SU9OILjNd5mGst",
-        order_id: order.id,
-        amount: order.amount,
-        currency: "INR",
-
-        handler: async function (response) {
-          const verifyRes = await apiFetch("/verify-payment", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(response),
-          });
-
-          const verifyData = await verifyRes.json();
-
-          if (verifyData.success) {
-            alert("Payment Successful ✅");
-            navigate("/adbooking");
-          } else {
-            alert("Payment Failed ❌");
-          }
+const handleConfirm = async () => {
+    try {
+      // ✅ STEP 1: CREATE BOOKING
+      const bookingRes = await apiFetch("/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      };
+        body: JSON.stringify({
+          userName: bookingData.name,
+          service: bookingData.service,
+          date: bookingData.date,
+          time: bookingData.time,
+          amount: Number(bookingData.totalAmount),
+          advanceAmount: Number(bookingData.advanceAmount),
+          paymentMethod: paymentMethod,
+        }),
+      });
+
+      const bookingResult = await bookingRes.json();
+
+      if (!bookingResult.success) {
+        alert("Booking failed");
+        return;
+      }
+
+      const bookingId = bookingResult.bookingId;
+
+      // ✅ STEP 2: STORE BOOKING PAYMENT
+      await apiFetch("/bookingpay", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bookingId: bookingId,
+          userName: bookingData.name,
+          contact: bookingData.contact || "",
+          service: bookingData.service,
+          amount: bookingData.advanceAmount,
+          paymentMethod: paymentMethod,
+          paymentStatus:
+            paymentMethod === "cash" ? "Pending" : "Created",
+        }),
+      });
+
+      // 🟢 CASH
+      if (paymentMethod === "cash") {
+        alert("Booking Confirmed (Cash)");
+        navigate("/adbooking");
+      }
+
+      // 🔥 RAZORPAY
+      else if (paymentMethod === "razorpay") {
+        const bookpay = bookingResult.razorpayOrder;
+
+        if (!bookpay) {
+          alert("booking not created");
+          return;
+        }
+
+        const options = {
+          key: "rzp_test_SU9OILjNd5mGst",
+          bookpay_id: bookpay.id,
+          amount: bookpay.amount,
+          currency: "INR",
+
+          handler: async function (response) {
+            const verifyRes = await apiFetch("/verify-payment", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(response),
+            });
+
+            const verifyData = await verifyRes.json();
+
+            if (verifyData.success) {
+              alert("Payment Successful ✅");
+              navigate("/adbooking");
+            } else {
+              alert("Payment Failed ❌");
+            }
+          },
+        };
 
       const rzp = new window.Razorpay(options);
       rzp.open();

@@ -94,7 +94,7 @@ const createBooking = async (req, res, next) => {
 
     const result = await db.collection("bookings").insertOne(newBooking);
 
-    let razorpayOrder = null;
+    let razorpayBook = null;
 
     // ✅ STEP 2: RAZORPAY ORDER CREATE
     if (paymentMethod === "razorpay") {
@@ -104,36 +104,41 @@ const createBooking = async (req, res, next) => {
         receipt: "booking_" + result.insertedId,
       };
 
-      razorpayOrder = await razorpay.orders.create(options);
+      razorpayBook = await razorpay.bookingpay.create(options);
 
       // ✅ STEP 3: SAVE PAYMENT DATA
       const paymentData = {
-        bookingId: result.insertedId.toString(),
-        razorpayOrderId: razorpayOrder.id,
-        userId: req.user._id.toString(),
-        name: userName,
-        service,
-        amount: advanceAmount,
+  bookingId: result.insertedId.toString(),
 
-        paymentMethod: "razorpay",
-        paymentStatus: "Created",
+  userId: req.user._id.toString(),
+  userName: userName,              // ✅ FIX
+  contact: req.user.phone || "",   // ✅ ADD
 
-        paymentPayload: {
-          order: razorpayOrder
-        },
+  service: service,                // ✅ direct રાખી શકાય
 
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
+  amount: advanceAmount,
 
-      await db.collection("bookingPayments").insertOne(paymentData);
+  paymentMethod: "razorpay",
+  paymentStatus: "Created",
+
+  razorpayBookId: razorpayBook.id,
+  razorpayPaymentId: null,         // ✅ later update થશે
+
+  paymentPayload: {
+    order: razorpayBook
+  },
+
+  createdAt: new Date(),
+  updatedAt: new Date()
+};
+      await db.collection("bookingpay").insertOne(paymentData);
 
       // ✅ UPDATE BOOKING WITH ORDER ID
       await db.collection("bookings").updateOne(
         { _id: result.insertedId },
         {
           $set: {
-            razorpayOrderId: razorpayOrder.id
+            razorpayBookId: razorpayBook.id
           }
         }
       );
@@ -143,7 +148,7 @@ const createBooking = async (req, res, next) => {
       success: true,
       message: "Booking created successfully",
       bookingId: result.insertedId,
-      razorpayOrder
+      razorpayBook: razorpayBook
     });
 
   } catch (error) {

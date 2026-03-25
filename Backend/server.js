@@ -33,12 +33,15 @@ app.use('/', paymentRoutes);
 const bookingRoutes = require('./routes/bookingRoutes');
 app.use('/', bookingRoutes);
 
+const bookingpayRoutes = require('./routes/bookingpayRoutes');
+app.use('/', bookingpayRoutes);
+
 const serviceRoutes = require('./routes/serviceRoutes');
 app.use('/', serviceRoutes);
 
-
 const addressRoutes = require('./routes/addressRoutes');
 app.use('/', addressRoutes);
+
 
 const staffRoutes = require('./routes/staffRoutes');
 app.use('/', staffRoutes);
