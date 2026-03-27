@@ -36,7 +36,7 @@ function Settings() {
 
   return (
     <div className="container mt-4">
-      <h2>Admin Settings ⚙️</h2>
+      <h2>Settings ⚙️</h2>
 
       {message && <div className="alert alert-success">{message}</div>}
 

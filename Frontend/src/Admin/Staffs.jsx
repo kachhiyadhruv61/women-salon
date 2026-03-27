@@ -19,7 +19,6 @@ function Staffs() {
     try {
       const res = await apiFetch("/staff", {
         method: "GET",
-        
       });
 
       const data = await res.json();
@@ -41,19 +40,41 @@ function Staffs() {
 
     try {
       await apiFetch(`/staff/${id}`, {
-  method: "PUT",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    ...staff,
-    services: updatedServices,
-  }),
-});
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...staff,
+          services: updatedServices,
+        }),
+      });
 
       fetchStaff();
     } catch (error) {
       console.error("Error assigning service:", error);
+    }
+  };
+
+  /* ================= DELETE ================= */
+  const deleteStaff = async (id) => {
+    if (!window.confirm("Are you sure to delete this staff?")) return;
+
+    try {
+      const res = await apiFetch(`/staff/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Staff deleted ✅");
+        fetchStaff();
+      } else {
+        alert("Delete failed ❌");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
     }
   };
 
@@ -66,19 +87,41 @@ function Staffs() {
 
     try {
       await apiFetch(`/staff/${id}`, {
-  method: "PUT",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    ...staff,
-    status: updatedStatus,
-  }),
-});
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...staff,
+          status: updatedStatus,
+        }),
+      });
+
       fetchStaff();
     } catch (error) {
       console.error("Error updating status:", error);
     }
+  };
+
+  /* ================= NAME FORMAT ================= */
+  const formatName = (name) => {
+    if (!name) return "-";
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+
+  /* ================= SERVICES FORMAT ================= */
+  const formatServices = (services) => {
+    if (!services) return "-";
+
+    if (Array.isArray(services)) {
+      return services.length > 0 ? services.join(", ") : "-";
+    }
+
+    if (typeof services === "string") {
+      return services;
+    }
+
+    return "-";
   };
 
   /* ================= TABLE COLUMNS ================= */
@@ -87,21 +130,18 @@ function Staffs() {
       header: "#",
       accessorFn: (_, index) => index + 1,
     },
+
     {
       header: "Name",
-      accessorKey: "name",
+      accessorFn: (row) => formatName(row.name),
     },
+
+    // 🔥 ROLE NI JAGYAE SERVICES
     {
-      header: "Role",
-      accessorKey: "role",
+      header: "Services",
+      accessorFn: (row) => formatServices(row.services),
     },
-    {
-  header: "Services",
-  accessorFn: (row) =>
-    Array.isArray(row.services)
-      ? row.services.join(", ")
-      : row.services || "",
-},
+
     {
       header: "Phone",
       accessorKey: "phone",
@@ -110,6 +150,14 @@ function Staffs() {
       header: "Experience",
       accessorKey: "experience",
     },
+
+    {
+      header: "Salary",
+      accessorFn: (row) => (
+        <span className="fw-bold text-primary">₹{row.salary}</span>
+      ),
+    },
+
     {
       header: "Status",
       accessorFn: (row) => (
@@ -122,6 +170,7 @@ function Staffs() {
         </span>
       ),
     },
+
     {
       header: "Assign",
       accessorFn: (row) => (
@@ -131,13 +180,30 @@ function Staffs() {
         />
       ),
     },
+
     {
       header: "Action",
       accessorFn: (row) => (
-        <StaffStatusBtn
-          status={row.status}
-          onToggle={() => toggleStaffStatus(row._id)}
-        />
+        <div className="d-flex gap-2 justify-content-center">
+          <button
+            className="btn btn-sm btn-warning"
+            onClick={() => navigate(`/edit-staff/${row._id}`)}
+          >
+            Edit
+          </button>
+
+          <button
+            className="btn btn-sm btn-danger"
+            onClick={() => deleteStaff(row._id)}
+          >
+            Delete
+          </button>
+
+          <StaffStatusBtn
+            status={row.status}
+            onToggle={() => toggleStaffStatus(row._id)}
+          />
+        </div>
       ),
     },
   ];

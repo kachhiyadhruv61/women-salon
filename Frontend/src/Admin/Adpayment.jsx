@@ -50,15 +50,15 @@ function Adpayment() {
 
   // 📊 TABLE COLUMNS
 const columns = [
-  {
-    id: "sr",
-    header: "#",
-    accessorFn: (_, index) => index + 1,
-  },
-  {
-    header: "Order ID",
-    accessorKey: "orderId",
-  },
+  // {
+  //   id: "sr",
+  //   header: "#",
+  //   accessorFn: (_, index) => index + 1,
+  // },
+  // {
+  //   header: "Order ID",
+  //   accessorKey: "orderId",
+  // },
   {
     header: "Razorpay Order",
     accessorKey: "razorpayOrderId",
@@ -70,11 +70,11 @@ const columns = [
       row.paymentPayload?.razorpay_payment_id ||
       "-",
   },
-  {
-    header: "Transaction ID",
-    accessorFn: (row) =>
-      row.paymentPayload?.transactionId || "-",
-  },
+  // {
+  //   header: "Transaction ID",
+  //   accessorFn: (row) =>
+  //     row.paymentPayload?.transactionId || "-",
+  // },
   {
     header: "Customer",
     accessorKey: "userName",
@@ -144,7 +144,7 @@ const columns = [
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Admin Payment Management 💳</h2>
+        <h2> Payment Management 💳</h2>
       </div>
 
       {/* 🔥 FILTER BUTTONS */}

@@ -122,7 +122,7 @@ function AdBooking() {
   return (
     <div className="container py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Admin Booking Management 👩‍💼</h2>
+        <h2> Booking Management 👩‍💼</h2>
 
         <button
           className="btn btn-primary"

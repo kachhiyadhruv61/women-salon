@@ -101,7 +101,7 @@ function User() {
   return (
     <div className="container py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="mb-0">Admin User Management 👥</h2>
+        <h2 className="mb-0"> User Management 👥</h2>
       </div>
 
       <CommonTable

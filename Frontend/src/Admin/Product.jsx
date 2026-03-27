@@ -162,7 +162,7 @@ function Product() {
   return (
     <div className="container py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Admin Product Management 👩‍💼</h2>
+        <h2> Product Management 👩‍💼</h2>
 
         <button
           className="btn btn-primary"

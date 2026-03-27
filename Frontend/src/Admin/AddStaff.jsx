@@ -16,12 +16,23 @@ const AddStaff = () => {
     salary: "",
     joiningDate: "",
     status: "Active",
+    image: null
   });
-
+  const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setStaff({ ...staff, [e.target.name]: e.target.value });
+  };
+  // IMAGE PREVIEW
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setStaff({ ...staff, image: file });
+
+      // PREVIEW
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -29,10 +40,16 @@ const AddStaff = () => {
 
     try {
       setLoading(true);
+      // FORM DATA
+      const formData = new FormData();
+      Object.keys(staff).forEach((key) => {
+        formData.append(key, staff[key]);
+      });
+
 
       const res = await apiFetch("/staff", {
         method: "POST",
-        body: JSON.stringify(staff),
+        body: formData,   // 🔥 multer doesn't work with JSON, so we send formData directly
       });
 
       const data = await res.json();
@@ -58,7 +75,23 @@ const AddStaff = () => {
       <div className="card shadow p-4">
         <h3 className="mb-3 text-center">Add Staff</h3>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        {/* IMAGE INPUT */}
+        <input
+            type="file"
+            className="form-control mb-3"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+          {/* PREVIEW */}
+          {preview && (
+            <img src={preview} 
+            alt="Preview" 
+            width="100"
+            className="mb-3 rounded"
+            />
+          )}
+          
           <input
             type="text"
             className="form-control mb-3"
@@ -89,7 +122,7 @@ const AddStaff = () => {
             required
           />
 
-          <select
+          <select 
             className="form-control mb-3"
             name="gender"
             value={staff.gender}
@@ -102,12 +135,13 @@ const AddStaff = () => {
             <option>Other</option>
           </select>
 
+
           <input
             type="text"
             className="form-control mb-3"
-            name="role"
-            placeholder="Role"
-            value={staff.role}
+            name="services"
+            placeholder="Services"
+            value={staff.services}
             onChange={handleChange}
             required
           />

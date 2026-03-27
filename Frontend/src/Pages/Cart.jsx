@@ -39,21 +39,21 @@ const subtotal = cart.reduce(
 const gstAmount = subtotal * gstRate;
 const deliveryCharge = subtotal > 500 ? 0 : 50;
 
-const [coupon, setCoupon] = useState("");
+// const [coupon, setCoupon] = useState("");
 const [discount, setDiscount] = useState(0);
 
 const grandTotal = subtotal + gstAmount + deliveryCharge - discount;
 
-const applyCoupon = () => {
-  if (coupon === "SAVE10") {
-    setDiscount(subtotal * 0.10);
-  } else if (coupon === "FLAT50") {
-    setDiscount(50);
-  } else {
-    setDiscount(0);
-    alert("Invalid Coupon");
-  }
-};
+// const applyCoupon = () => {
+//   if (coupon === "SAVE10") {
+//     setDiscount(subtotal * 0.10);
+//   } else if (coupon === "FLAT50") {
+//     setDiscount(50);
+//   } else {
+//     setDiscount(0);
+//     alert("Invalid Coupon");
+//   }
+// };
 
   return (
     <div className="container py-5">
@@ -147,7 +147,7 @@ const applyCoupon = () => {
   <h5>Grand Total ({cart.length} items): ₹{grandTotal.toFixed(2)}</h5>
 
   {/* Coupon Input */}
-  <div className="mt-3">
+  {/* <div className="mt-3">
     <input
       type="text"
       placeholder="Enter Coupon Code"
@@ -161,7 +161,7 @@ const applyCoupon = () => {
     >
       Apply Coupon
     </button>
-  </div>
+  </div> */}
 
         <button
           className="btn btn-success w-100 mt-3"

@@ -433,7 +433,7 @@ const downloadBill = () => {
             value={form.payment}
             onChange={handleChange}
           >
-            {/* <option value="Cash">Cash</option> */}
+            <option value="Cash">Cash</option>
             <option value="UPI">UPI</option>
           </select>
 

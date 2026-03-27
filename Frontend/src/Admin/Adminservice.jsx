@@ -259,7 +259,7 @@ function Adminservice() {
 
     <div className="container py-5">
 
-      <h2 className="mb-4">Admin Service Management 🛠️</h2>
+      <h2 className="mb-4"> Service Management 🛠️</h2>
 
       {/* Tabs */}
 
