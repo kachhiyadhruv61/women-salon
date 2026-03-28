@@ -71,9 +71,18 @@ router.get('/staff/:id',auth, staffController.getStaffById);
  *               name:
  *                 type: string
  *                 example: Meena Joshi
- *               role:
+ *               email:
  *                 type: string
- *                 example: Beautician
+ *                 example: meena@gmail.com
+ *               gender:
+ *                 type: string
+ *                 example: Female
+ *               salary:
+ *                 type: number
+ *                 example: 25000
+ *               image:
+ *                 type: string
+ *                 example: image-url.jpg
  *               services:
  *                 type: string
  *                 example: Makeup, Facial
@@ -83,6 +92,12 @@ router.get('/staff/:id',auth, staffController.getStaffById);
  *               experience:
  *                 type: string
  *                 example: 4 Years
+ *               specialization:
+ *                 type: string
+ *                 example: Bridal Makeup
+ *               date:
+ *                 type: string
+ *                 example: 2024-06-01
  *               status:
  *                 type: string
  *                 example: Active
@@ -95,11 +110,30 @@ router.get('/staff/:id',auth, staffController.getStaffById);
  */
 router.post(
   '/staff',
+  body('image')
+    .optional()
+    .isURL().withMessage('Image must be a valid URL'),
+  body('email')
+    .optional()
+    .isEmail().withMessage('Email must be valid'),
+  body('gender')
+    .optional()
+    .isIn(['Female']). withMessage('Gender must be Female'),
+  body('salary')
+    .optional()
+    .isNumeric().withMessage('Salary must be a number'),
+  body('services')
+    .optional()
+    .isString().withMessage('Services must be a string'),
+  body('experience')
+    .optional()
+    .isString().withMessage('Experience must be a string'),
+  body('specialization')
+    .optional()
+    .isString().withMessage('Specialization must be a string'),
   body('name')
     .notEmpty().withMessage('Name is required')
     .isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
-  body('role')
-    .notEmpty().withMessage('Role is required'),
   body('phone')
     .notEmpty().withMessage('Phone number is required')
     .isLength({ min: 10, max: 10 }).withMessage('Phone must be 10 digits'),
@@ -130,14 +164,22 @@ router.post(
  *             properties:
  *               name:
  *                 type: string
- *               role:
+ *               email:
  *                 type: string
+ *               gender:
+ *                 type: string
+ *               salary:        
+ *                type: number
+ *               image:
+ *                type: string
  *               services:
  *                 type: string
  *               phone:
  *                 type: string
  *               experience:
  *                 type: string
+ *               specialization:
+ *                type: string
  *               status:
  *                 type: string
  *               action:
@@ -153,8 +195,6 @@ router.put(
   body('name')
     .notEmpty().withMessage('Name is required')
     .isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
-  body('role')
-    .notEmpty().withMessage('Role is required'),
   body('phone')
     .notEmpty().withMessage('Phone number is required')
     .isLength({ min: 10, max: 10 }).withMessage('Phone must be 10 digits'),

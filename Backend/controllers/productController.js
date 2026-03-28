@@ -51,6 +51,8 @@ const createProduct = async (req, res, next) => {
     const newProduct = {
       name: req.body.name,
       amount: req.body.amount,
+      suggestedFor: req.body.suggestedFor,
+      ingredients: req.body.ingredients,
       stock: req.body.stock,
       description: req.body.description,
       status: req.body.status,
@@ -83,6 +85,8 @@ const updateProduct = async (req, res, next) => {
         $set: {
           name: req.body.name,
           amount: req.body.amount,
+          suggestedFor: req.body.suggestedFor,
+          ingredients: req.body.ingredients,
           stock: req.body.stock,
           description: req.body.description,
           status: req.body.status,

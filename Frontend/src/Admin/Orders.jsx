@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
 import { apiFetch } from "../utils/apiFetch";
 
 function Orders() {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
 
   /* 🟢 FETCH ORDERS */
@@ -129,6 +131,13 @@ function Orders() {
 
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2> Orders Management 👩‍💼</h2>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/usershop")}
+        >
+          + Add Order
+        </button>
       </div>
 
       <CommonTable

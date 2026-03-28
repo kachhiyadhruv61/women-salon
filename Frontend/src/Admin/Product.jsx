@@ -56,9 +56,30 @@ function Product() {
         header: "Product Name",
       },
       {
+        accessorKey: "image",
+        header: "Product Image",
+        Cell: ({ cell }) => (
+          <img
+            src={cell.getValue()}
+            alt="Product"
+            width="50"
+            height="50"
+            className="img-fluid"
+          />
+        ),
+      },
+      {
         accessorKey: "amount",
         header: "Amount (₹)",
         Cell: ({ cell }) => `₹${cell.getValue()}`,
+      },
+      {
+        accessorKey: "suggestedFor",
+        header: "Suggested For",  
+      },
+      {
+        accessorKey: "ingredients",
+        header: "Ingredients",
       },
       {
         accessorKey: "stock",

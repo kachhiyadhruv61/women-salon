@@ -50,12 +50,17 @@ const createStaff = async (req, res, next) => {
 
     const newStaff = {
       name: req.body.name,
-      role: req.body.role,
+      email: req.body.email,
+      gender: req.body.gender,
+      salary: req.body.salary,
+      image: req.body.image,
       services: req.body.services,
       phone: req.body.phone,
       experience: req.body.experience,
+      specialization: req.body.specialization,
       status: req.body.status,
       action: req.body.action,
+      date: new Date(),
       createdAt: new Date()
     };
 
@@ -82,12 +87,17 @@ const updateStaff = async (req, res, next) => {
       { 
         $set: {
           name: req.body.name,
-          role: req.body.role,
+          email: req.body.email,
+          gender: req.body.gender,
+          salary: req.body.salary,
+          image: req.body.image,
           services: req.body.services,
           phone: req.body.phone,
           experience: req.body.experience,
+          specialization: req.body.specialization,
           status: req.body.status,
           action: req.body.action,
+          date: new Date(),
           updatedAt: new Date()
         }
       }
