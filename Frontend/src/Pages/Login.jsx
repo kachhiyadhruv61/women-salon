@@ -40,19 +40,26 @@ const Login = ({ setRole }) => {
 
       const data = await res.json();
 
-           // ❌ login failed
+      // ❌ login failed
       if (!data.success) {
         setError(data.message || "Invalid username or password");
         return;
       }
 
-      // ✅ save user
-      localStorage.setItem("user", data.user);
-      localStorage.setItem("accessToken",data.accessToken);
+      // ✅ FIXED USER SAVE (IMPORTANT)
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          name: data.user?.name || username   // 👈 MAIN FIX
+        })
+      );
+
+      // tokens
+      localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
 
       // role
-      const role = data.user.role || "user";
+      const role = data.user?.role || "user";
       localStorage.setItem("role", role);
 
       setRole(role);
@@ -69,16 +76,12 @@ const Login = ({ setRole }) => {
       }
 
     } catch (err) {
-        console.log(err);
-
+      console.log(err);
       setError("Server error. Please try again.");
-
     }
-
   };
 
   return (
-
     <div className="login-container">
 
       <form className="login-card" onSubmit={handleLogin}>
@@ -98,7 +101,6 @@ const Login = ({ setRole }) => {
             placeholder="Enter username"
             autoComplete="off"
           />
-
         </div>
 
         <div className="form-group">
@@ -112,7 +114,6 @@ const Login = ({ setRole }) => {
             placeholder="Enter password"
             autoComplete="new-password"
           />
-
         </div>
 
         <button type="submit" className="btn btn-primary w-100">

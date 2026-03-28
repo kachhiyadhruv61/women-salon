@@ -3,11 +3,29 @@ import { useEffect, useState } from "react";
 
 function UserDashboard() {
   const [bookings, setBookings] = useState([]);
+  const [userName, setUserName] = useState("User");
 
   useEffect(() => {
+    // ✅ BOOKINGS
     const savedBookings =
       JSON.parse(localStorage.getItem("userBookings")) || [];
     setBookings(savedBookings);
+
+    // ✅ USER NAME SAFE FETCH
+    try {
+      const userData = localStorage.getItem("user");
+
+      if (userData && userData !== "undefined") {
+        const user = JSON.parse(userData);
+
+        if (user && user.name) {
+          setUserName(user.name);
+        }
+      }
+    } catch (error) {
+      console.error("JSON Parse Error:", error);
+      setUserName("User");
+    }
   }, []);
 
   const upcomingBookings = bookings.filter(
@@ -16,7 +34,8 @@ function UserDashboard() {
 
   return (
     <div className="container py-4">
-      <h2 className="mb-4">Welcome, User 👋</h2>
+      {/* ✅ FIXED NAME */}
+      <h2 className="mb-4">Welcome, {userName} 👋</h2>
 
       <div className="row mb-4">
         <div className="col-md-3">
