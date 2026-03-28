@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs");
 const { getDB } = require('../config/db');
 const { generateAccessToken, generateRefreshToken } = require("../utils/jwt");
 const jwt = require('jsonwebtoken');
+const generateOTP = require("../utils/otp");
+ const sendEmail = require("../utils/sendEmail");
 const { ObjectId } = require('mongodb');
 
 const loginUser = async (req, res, next) => {
@@ -72,7 +74,7 @@ console.log("Create user with data:",req.body);//log incoming data
       gender,
       emailOtp,
       address,
-      pincode
+      pincode,
     } = req.body;
 
     // 🔎 Check if username already exists
@@ -86,7 +88,7 @@ console.log("Create user with data:",req.body);//log incoming data
     }
 
     // 🔎 Check if email already exists
-    const existingEmail = await db.collection("users").findOne({ email });
+    const existingEmail = await db.collection("users").findOne({ email,status:'Active'});
 
     if (existingEmail) {
       return res.status(400).json({
@@ -97,7 +99,7 @@ console.log("Create user with data:",req.body);//log incoming data
 
     // 🔐 Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    const otp = generateOTP();
     const newRegister = {
       name,
       username,
@@ -106,16 +108,47 @@ console.log("Create user with data:",req.body);//log incoming data
       role: "user",
       phone,
       gender,
-      emailOtp: emailOtp || null,
+      emailOtp: otp,
       address,
       pincode,
-      status: "Active",
+      status: "Inactive",
       createdAt: new Date(),
       updatedAt: new Date()
     };
 
     await db.collection("users").insertOne(newRegister);
 
+await sendEmail(
+ email,
+  "Verify Your Email 🔐",
+  `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+      <h2>Email Verification</h2>
+
+      <p>Hello ${name},</p>
+
+      <p>Your OTP for verification is:</p>
+
+      <h1 style="
+        letter-spacing: 5px;
+        color: #2c3e50;
+        background: #f4f4f4;
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 8px;
+      ">
+        ${otp}
+      </h1>
+
+      <p>This OTP is valid for <b>5 minutes</b>.</p>
+
+      <p>If you did not request this, please ignore this email.</p>
+
+      <br/>
+      <p>Thanks,<br/>Your Team</p>
+    </div>
+  `
+);
     res.status(201).json({
       success: true,
       message: "User registered successfully"
@@ -125,8 +158,29 @@ console.log("Create user with data:",req.body);//log incoming data
     next(error);
   }
 };
+// ✅ VERIFY OTP
+const verifyOTP = async (req, res) => {
+  try {
+    const db = getDB();
+    const { email, otp } = req.body;
+
+    const user = await findUserByEmail(db, email);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (user.otp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+      await db.collection("users").updateOne({ email }, { $set: { status: 'Active', emailOtp: '' } });
 
 
+    res.json({ success: true, message: "Email verified successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error verifying OTP" });
+  }
+};
+
+// ✅ REFRESH TOKEN
 const refreshToken = async (req, res) => {
   try {
 
@@ -172,5 +226,6 @@ const refreshToken = async (req, res) => {
 module.exports = {
   createRegister,
   loginUser,
+  verifyOTP,
   refreshToken
 };

@@ -174,4 +174,57 @@ router.post(
   authController.refreshToken
 );
 
+/**
+ * @swagger
+ * /verify-otp:
+ *   post:
+ *     summary: Verify user email using OTP
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: user@gmail.com
+ *               otp:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               message: Email verified successfully
+ *       400:
+ *         description: Invalid or expired OTP
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Invalid OTP
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: User not found
+ *       500:
+ *         description: Server error
+ */
+router.post("/verify-otp",
+  body('email')
+    .notEmpty().withMessage('Email is required')
+    .isEmail().withMessage('Valid email required'),
+
+  body('otp')
+    .notEmpty().withMessage('OTP is required'),
+authController.verifyOTP);
 module.exports = router;
