@@ -9,8 +9,8 @@ const AddStaff = () => {
     name: "",
     email: "",
     phone: "",
-    gender: "",
-    role: "",
+    gender: "Female", // default female
+    services: [],   // multiple services will be stored as comma separated string
     experience: "",
     specialization: "",
     salary: "",
@@ -20,6 +20,30 @@ const AddStaff = () => {
   });
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const serviceOptions = [
+  "Hair Cut",
+  "Hair Spa",
+  "Basic Bridal Package",
+  "Premium Bridal Package",
+  "Luxury Organic Bridal Package",
+  "Classic Manicure",
+  "Spa Pedicure",
+  "Classic Pedicure",
+  "Fish Therapy",
+  "Organic Cleanup/Facial",
+  "Gold Facial",
+  "Full Hand Wax",
+  "Full Leg Wax",
+  "Half Hand Wax",
+  "Half Leg Wax",
+  "Underarms Wax",
+  "Eyebrow Threading",
+  "Upperlip Threading",
+  "Basic Mehendi",
+  "Arabic Mehendi",
+  "Bridal Mehendi"
+];
 
   const handleChange = (e) => {
     setStaff({ ...staff, [e.target.name]: e.target.value });
@@ -42,9 +66,14 @@ const AddStaff = () => {
       setLoading(true);
       // FORM DATA
       const formData = new FormData();
-      Object.keys(staff).forEach((key) => {
-        formData.append(key, staff[key]);
-      });
+
+Object.keys(staff).forEach((key) => {
+  if (key === "services") {
+    formData.append("services", staff.services.join(",")); // ✅ string
+  } else {
+    formData.append(key, staff[key]);
+  }
+});
 
 
       const res = await apiFetch("/staff", {
@@ -122,29 +151,66 @@ const AddStaff = () => {
             required
           />
 
-          <select 
-            className="form-control mb-3"
-            name="gender"
-            value={staff.gender}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Gender</option>
-            <option>Female</option>
-            <option>Male</option>
-            <option>Other</option>
-          </select>
+          <div className="mb-3">
+  <label className="me-3">Gender:</label>
+  <input
+    type="radio"
+    name="gender"
+    value="Female"
+    checked={staff.gender === "Female"}
+    onChange={handleChange}
+  /> Female
+</div>
 
+ <div className="mb-3">
+  <label className="form-label">Select Services</label>
 
+  <div className="row">
+    {serviceOptions.map((service, index) => (
+      <div className="col-md-4" key={index}>
+        <div className="form-check">
           <input
-            type="text"
-            className="form-control mb-3"
-            name="services"
-            placeholder="Services"
-            value={staff.services}
-            onChange={handleChange}
-            required
+            type="checkbox"
+            className="form-check-input"
+            id={`service-${index}`}
+            value={service}
+            checked={staff.services.includes(service)}
+            onChange={(e) => {
+              let updatedServices = [...staff.services];
+
+              if (e.target.checked) {
+                updatedServices.push(service);
+              } else {
+                updatedServices = updatedServices.filter(
+                  (s) => s !== service
+                );
+              }
+
+              setStaff({
+                ...staff,
+                services: updatedServices
+              });
+            }}
           />
+          <label
+            className="form-check-label"
+            htmlFor={`service-${index}`}
+          >
+            {service}
+          </label>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<input
+  type="text"
+  className="form-control mb-3"
+  value={staff.services.join(", ")}
+  readOnly
+  placeholder="Selected services"
+/>
 
           <input
             type="number"

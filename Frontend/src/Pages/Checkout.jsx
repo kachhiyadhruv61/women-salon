@@ -14,7 +14,7 @@ function Checkout() {
     name: "",
     phone: "",
     address: "",
-    payment: "Cash",
+    payment: "",
   });
 
   const [savedAddresses, setSavedAddresses] = useState([]);
@@ -528,13 +528,6 @@ const downloadBill = () => {
     <hr />
     <h5 style={{color:"#bf9456"}}>
       Grand Total: ₹{grandTotal.toFixed(2)}
-    </h5>
-  </div>
-
-  <div className="d-flex justify-content-between align-items-center">
-    <h5>Total Amount</h5>
-    <h5 style={{color:"#bf9456", fontWeight:"700"}}>
-      ₹{total}
     </h5>
   </div>
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./CartContext";
+import { useCart } from "../Pages/CartContext";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {apiFetch} from "../utils/apiFetch";

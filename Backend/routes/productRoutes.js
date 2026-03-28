@@ -91,6 +91,12 @@ router.get(
  *               amount:
  *                 type: number
  *                 example: 199
+ *               suggestedFor:
+ *                type: string
+ *                example: Skin hydration and soothing
+ *               ingredients:
+ *                type: string
+ *                example: Aloe vera extract, glycerin, water
  *               stock:
  *                 type: integer
  *                 example: 50
@@ -124,6 +130,14 @@ router.post(
   body('amount')
     .notEmpty().withMessage('Amount is required')
     .isFloat({ gt: 0 }).withMessage('Amount must be greater than 0'),
+
+  body('suggestedFor')
+    .optional()
+    .isLength({ min: 3 }).withMessage('Suggested For must be at least 3 characters'),
+
+  body('ingredients')
+    .optional()
+    .isLength({ min: 3 }).withMessage('Ingredients must be at least 3 characters'),
 
   body('stock')
     .notEmpty().withMessage('Stock is required')
@@ -170,6 +184,10 @@ router.post(
  *                 type: string
  *               amount:
  *                 type: number
+ *               suggestedFor:
+ *                 type: string
+ *               ingredients:
+ *                type: string
  *               stock:
  *                 type: integer
  *               description:
@@ -201,6 +219,14 @@ router.put(
   body('amount')
     .optional()
     .isFloat({ gt: 0 }).withMessage('Amount must be greater than 0'),
+
+  body('suggestedFor')
+    .optional()
+    .isLength({ min: 3 }).withMessage('Suggested For must be at least 3 characters'),
+
+  body('ingredients')
+    .optional()
+    .isLength({ min: 3 }).withMessage('Ingredients must be at least 3 characters'),
 
   body('stock')
     .optional()

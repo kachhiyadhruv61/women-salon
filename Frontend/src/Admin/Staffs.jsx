@@ -135,22 +135,49 @@ function Staffs() {
       header: "Name",
       accessorFn: (row) => formatName(row.name),
     },
+    {
+        accessorKey: "image",
+        header: "Staff Image",
+        Cell: ({ cell }) => (
+          <img
+            src={cell.getValue()}
+            alt="Staff"
+            width="50"
+            height="50"
+            className="img-fluid"
+          />
+        ),
+      },
 
     // 🔥 ROLE NI JAGYAE SERVICES
     {
       header: "Services",
       accessorFn: (row) => formatServices(row.services),
     },
-
+    {      header: "Email",
+      accessorKey: "email",
+    },
     {
       header: "Phone",
       accessorKey: "phone",
     },
     {
+      header: "Gender",
+      accessorKey: "gender",
+    },
+    {
       header: "Experience",
       accessorKey: "experience",
     },
-
+    {
+      header: "Specialization",
+      accessorKey: "specialization",
+    },
+    { 
+      header: "Joining Date",
+      accessorFn: (row) =>
+        new Date(row.joiningDate).toLocaleDateString("en-GB"),
+    },
     {
       header: "Salary",
       accessorFn: (row) => (

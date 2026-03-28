@@ -52,6 +52,7 @@ import Settings from "./Admin/Settings";
 import User from "./Admin/User";
 import Profile from "./Admin/Profile";
 import Orders from "./Admin/Orders";
+import Adorder from "./Admin/Adorder";
 import Contactdata from "./Admin/Contactdata";
 import ReportView from "./Admin/ReportView";
 import Bookingpay from "./Admin/Bookingpay";
@@ -183,6 +184,10 @@ function App() {
         <Route
           path="/orders"
           element={role === "admin" ? <Orders /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/adorder"
+          element={role === "admin" ? <Adorder /> : <Navigate to="/login" />}
         />
         <Route
           path="/product"
