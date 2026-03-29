@@ -58,6 +58,9 @@ app.use('/', notificationRoutes);
 const verifyPaymentRoutes = require('./routes/verifyPaymentRoutes');
 app.use('/', verifyPaymentRoutes);
 
+const GalleryRoutes = require('./routes/galleryRoutes');
+app.use('/', GalleryRoutes);
+
 const errorHandler = require('./middleware/errorMiddleware');
 app.use(errorHandler);
 

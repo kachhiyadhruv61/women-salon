@@ -57,6 +57,7 @@ import Adorder from "./Admin/Adorder";
 import Contactdata from "./Admin/Contactdata";
 import ReportView from "./Admin/ReportView";
 import Bookingpay from "./Admin/Bookingpay";
+import Adgallery from "./Admin/Adgallery";
 
 /* ===== User ===== */
 import UserHeader from "./User/UserHeader";
@@ -229,10 +230,13 @@ function App() {
           element={role === "admin" ? <Profile /> : <Navigate to="/login" />}
         />
 
-         
-        <Route
+         <Route
           path="/bookingpay"
           element={role === "admin" ? <Bookingpay/> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/adgallery"
+          element={role === "admin" ? <Adgallery/> : <Navigate to="/login" />}
         />
 
         {/* ===== USER ROUTES ===== */}
