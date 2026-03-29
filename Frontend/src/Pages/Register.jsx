@@ -111,7 +111,7 @@ const Register = () => {
         });
 
         setTimeout(() => {
-          navigate("/login");
+          navigate("/verifyotp", { state: { email: form.email } });
         }, 1000);
 
       } else {

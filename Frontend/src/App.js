@@ -15,6 +15,7 @@ import Login from "./Pages/Login";
 import Gallery from "./Pages/Gallery";
 import Servicedetails from "./Pages/Servicedetails";
 import Register from "./Pages/Register";
+import VerifyOTP from "./Pages/VerifyOTP";
 import Products from "./Pages/Products";
 import Checkout from "./Pages/Checkout";
 import Cart from "./Pages/Cart";
@@ -121,6 +122,7 @@ function App() {
         <Route path="/bookingsuccess" element={<BookingSuccess />} />
         <Route path="/paymentpage" element={<PaymentPage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verifyotp" element={<VerifyOTP />} />
         <Route path="/login" element={<Login setRole={setRole} />} />
         <Route path="/gallery" element={<Gallery />} />
          <Route path="/bookingpay" element={<Bookingpay />} />

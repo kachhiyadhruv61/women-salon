@@ -72,7 +72,6 @@ console.log("Create user with data:",req.body);//log incoming data
       password,
       phone,
       gender,
-      emailOtp,
       address,
       pincode,
     } = req.body;
@@ -89,13 +88,14 @@ console.log("Create user with data:",req.body);//log incoming data
 
     // 🔎 Check if email already exists
     const existingEmail = await db.collection("users").findOne({ email,status:'Active'});
-
+    
     if (existingEmail) {
       return res.status(400).json({
         success: false,
         message: "Email already registered"
       });
     }
+     await db.collection("users").deleteMany({ email,status:'Inactive'});
 
     // 🔐 Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -164,18 +164,34 @@ const verifyOTP = async (req, res) => {
     const db = getDB();
     const { email, otp } = req.body;
 
-    const user = await findUserByEmail(db, email);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await db.collection("users").findOne({ email });
 
-    if (user.otp !== otp) {
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // ✅ FIX: correct field name + safe compare
+    if (String(user.emailOtp) !== String(otp)) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
 
-      await db.collection("users").updateOne({ email }, { $set: { status: 'Active', emailOtp: '' } });
+    // ✅ Update user after success
+    await db.collection("users").updateOne(
+      { email },
+      {
+        $set: { status: "Active" },
+        $unset: { emailOtp: "" } // better than empty string
+      }
+    );
+console.log("Entered OTP:", otp);
+console.log("DB OTP:", user.emailOtp);
+    res.json({
+      success: true,
+      message: "Email verified successfully"
+    });
 
-
-    res.json({ success: true, message: "Email verified successfully" });
   } catch (err) {
+    console.error("VERIFY OTP ERROR:", err);
     res.status(500).json({ message: "Error verifying OTP" });
   }
 };
