@@ -307,18 +307,19 @@ function Products() {
     });
   };
 
- const handleAddToCart = (product) => {
+const handleAddToCart = (product) => {
   const qty = quantities[product._id] || 1;
-  addToCart({
-  _id: product._id,          // 👈 MUST
-  name: product.name,
-  price: product.amount,
-  img: product.img,
-  qty: qty
-});
-  navigate("/cartsummary");   // 🔥 login nahi, cart page
-};
 
+  addToCart({
+    _id: product._id,
+    name: product.name,
+    price: Number(product.amount), // ✅ number fix
+    img: product.img,
+    quantity: qty   // ✅ FIX (qty → quantity)
+  });
+
+  navigate("/cartsummary");
+};
   const buyNow = (product) => {
   const qty = quantities[product._id] || 1;
   addToCart(product, qty);
