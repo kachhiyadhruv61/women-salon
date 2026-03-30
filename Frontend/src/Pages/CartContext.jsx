@@ -2,27 +2,42 @@ import { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
 
+export const useCart = () => useContext(CartContext);
+
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product, qty) => {
-    const existing = cart.find((item) => item.id === product.id);
+  const addToCart = (product, qty = 1) => {
+  const productId = product._id || product.id; // ✅ FIX
 
-    if (existing) {
-      setCart(
-        cart.map((item) =>
-          item.id === product.id   // ✅ FIXED
-            ? { ...item, qty: item.qty + qty }
-            : item
-        )
+  setCart((prev) => {
+    const exist = prev.find((item) => item._id === productId);
+
+    if (exist) {
+      return prev.map((item) =>
+        item._id === productId
+          ? { ...item, quantity: item.quantity + qty }
+          : item
       );
-    } else {
-      setCart([...cart, { ...product, qty }]);
     }
-  };
+
+    return [
+      ...prev,
+      {
+        _id: productId,
+        name: product.name,
+        price: Number(product.price || 0),
+        img: product.img || product.image || "",
+        quantity: qty, // ✅ FIX
+      },
+    ];
+  });
+};
 
   const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item.id !== id));  // ✅ FIXED
+    setCart((prev) =>
+      prev.filter((item) => item._id !== id && item.id !== id)
+    );
   };
 
   return (
@@ -31,6 +46,3 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
-
-export const useCart = () => useContext(CartContext);
-

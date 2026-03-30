@@ -307,11 +307,11 @@ function UserShop() {
   };
 
 const handleAddToCart = (product) => {
-  const qty = quantities[product.id] || 1;   // ✅ FIX
+  const qty = quantities[product.id] || 1;
   addToCart(product, qty);
-  alert("Product added to cart ✅");
-};
 
+  navigate("/cart"); // ✅ ADD THIS
+};
 const buyNow = (product) => {
   const qty = quantities[product.id] || 1;   // ✅ FIX
   addToCart(product, qty);
