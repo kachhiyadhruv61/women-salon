@@ -28,7 +28,7 @@ export const CartProvider = ({ children }) => {
         name: product.name,
         price: Number(product.price || 0),
         img: product.img || product.image || "",
-        quantity: qty, // ✅ FIX
+        qty: qty, // ✅ FIX
       },
     ];
   });

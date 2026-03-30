@@ -313,11 +313,10 @@ const handleAddToCart = (product) => {
   addToCart({
     _id: product._id,
     name: product.name,
-    price: Number(product.amount), // ✅ number fix
+    price: product.amount, // ✅ number fix
     img: product.img,
-    quantity: qty   // ✅ FIX (qty → quantity)
+    qty: qty   // ✅ FIX (qty → quantity)
   });
-
   navigate("/cartsummary");
 };
   const buyNow = (product) => {
