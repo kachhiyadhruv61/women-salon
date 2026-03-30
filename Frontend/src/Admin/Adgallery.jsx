@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "../utils/apiFetch";
 import CommonTable from "../Components/CommonTable";
+import { useNavigate } from "react-router-dom";
 
 function Adgallery() {
+  const navigate = useNavigate();
   const [gallery, setGallery] = useState([]);
-
-  const [form, setForm] = useState({
-    title: "",
-    category: "Salon",
-    description: "",
-    image: null,
-  });
-
-  const [preview, setPreview] = useState(null);
-  const [editId, setEditId] = useState(null);
 
   /* ================= FETCH ================= */
   useEffect(() => {
@@ -52,82 +44,7 @@ function Adgallery() {
     }
   };
 
-  /* ================= EDIT ================= */
-  const handleEdit = (item) => {
-    setEditId(item._id);
-
-    setForm({
-      title: item.title,
-      category: item.category,
-      description: item.description,
-      image: null,
-    });
-
-    setPreview(`http://localhost:5000/uploads/${item.image}`);
-  };
-
-  /* ================= INPUT ================= */
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    setForm({ ...form, image: file });
-    setPreview(URL.createObjectURL(file));
-  };
-
-  /* ================= SUBMIT ================= */
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const data = new FormData();
-      Object.keys(form).forEach((key) => {
-        if (form[key]) data.append(key, form[key]);
-      });
-
-      let res;
-
-      if (editId) {
-        // UPDATE
-        res = await apiFetch(`/gallery/${editId}`, {
-          method: "PUT",
-          body: data,
-        });
-      } else {
-        // ADD
-        res = await apiFetch(`/gallery`, {
-          method: "POST",
-          body: data,
-        });
-      }
-
-      const result = await res.json();
-
-      if (result.success) {
-        alert(editId ? "Updated ✅" : "Added ✅");
-
-        // RESET
-        setForm({
-          title: "",
-          category: "Salon",
-          description: "",
-          image: null,
-        });
-
-        setPreview(null);
-        setEditId(null);
-
-        fetchGallery();
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Error ❌");
-    }
-  };
-
-  /* ================= TABLE ================= */
+  /* ================= TABLE COLUMNS ================= */
   const columns = [
     {
       header: "#",
@@ -140,32 +57,33 @@ function Adgallery() {
           src={`http://localhost:5000/uploads/${row.image}`}
           width="60"
           height="60"
-          style={{ cursor: "pointer", borderRadius: "6px" }}
-          onClick={() => handleEdit(row)} // 🔥 CLICK → EDIT
+          style={{ borderRadius: "6px", cursor: "pointer" }}
+          onClick={() => navigate(`/edit-gallery/${row._id}`)}
         />
       ),
-    },
-    {
-      header: "Title",
-      accessorKey: "title",
     },
     {
       header: "Category",
       accessorKey: "category",
     },
     {
-      header: "Description",
-      accessorFn: (row) => row.description || "-",
-    },
-    {
       header: "Action",
-      Cell: ({ row }) => (
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={() => deleteImage(row.original._id)}
-        >
-          Delete
-        </button>
+      accessorFn: (row) => (
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-sm btn-warning"
+            onClick={() => navigate(`/edit-gallery/${row._id}`)}
+          >
+            Edit
+          </button>
+
+          <button
+            className="btn btn-sm btn-danger"
+            onClick={() => deleteImage(row._id)}
+          >
+            Delete
+          </button>
+        </div>
       ),
     },
   ];
@@ -173,54 +91,16 @@ function Adgallery() {
   return (
     <div className="container mt-4">
 
-      {/* ================= FORM ================= */}
-      <div className="card p-4 shadow mb-4">
-        <h4 className="text-center mb-3">
-          {editId ? "Edit Image" : "Add Image"}
-        </h4>
+      {/* ================= HEADER ================= */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gallery Management 🖼️</h2>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            className="form-control mb-2"
-            value={form.title}
-            onChange={handleChange}
-          />
-
-          <select
-            name="category"
-            className="form-control mb-2"
-            value={form.category}
-            onChange={handleChange}
-          >
-            <option>Salon</option>
-            <option>Farmhouse</option>
-          </select>
-
-          <textarea
-            name="description"
-            placeholder="Description"
-            className="form-control mb-2"
-            value={form.description}
-            onChange={handleChange}
-          />
-
-          <input
-            type="file"
-            className="form-control mb-2"
-            onChange={handleImage}
-          />
-
-          {preview && (
-            <img src={preview} width="100" className="mb-2 rounded" />
-          )}
-
-          <button className="btn btn-primary w-100">
-            {editId ? "Update Image" : "Add Image"}
-          </button>
-        </form>
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/addphotos")}
+        >
+          + Add Image
+        </button>
       </div>
 
       {/* ================= TABLE ================= */}

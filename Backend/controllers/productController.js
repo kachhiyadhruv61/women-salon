@@ -69,6 +69,9 @@ const createProduct = async (req, res, next) => {
       insertedId: result.insertedId
     });
 
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
   } catch (error) {
     next(error);
   }

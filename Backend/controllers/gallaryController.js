@@ -6,6 +6,11 @@ const addGallery = async (req, res) => {
   try {
     const db = getDB();
 
+    if (file.size > 5 * 1024 * 1024) {
+  alert("Image too large! Max 5MB allowed.");
+  return;
+}
+
     if (!req.file) {
       return res.status(400).json({
         success: false,

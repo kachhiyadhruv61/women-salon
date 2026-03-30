@@ -1,6 +1,10 @@
 const express = require('express');
 const { body } = require('express-validator');
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+const { getDB } = require('../config/db');
+const { ObjectId } = require('mongodb');
 const staffController = require('../controllers/staffController');
 const validate = require('../middleware/validationMiddleware');
 const auth = require("../middleware/authMiddleware");
@@ -11,6 +15,21 @@ const auth = require("../middleware/authMiddleware");
  *   name: Staff
  *   description: Staff CRUD API
  */
+// 📦 STORAGE
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});   
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 🔥 5MB limit
+  },
+});
 
 /**
  * @swagger
@@ -109,10 +128,34 @@ router.get('/staff/:id',auth, staffController.getStaffById);
  *         description: Staff created
  */
 router.post(
-  '/staff',
-  body('image')
-    .optional()
-    .isURL().withMessage('Image must be a valid URL'),
+  '/staff',upload.single("image"),async (req, res, next) => {
+    try {
+      const db = getDB();
+
+      const newStaff = {
+        name: req.body.name,
+        email: req.body.email,
+        gender: req.body.gender,
+        salary: req.body.salary,
+        image: req.file ? req.file.filename : null,
+        services: req.body.services,
+        phone: req.body.phone,
+        experience: req.body.experience,
+        specialization: req.body.specialization,
+        date: new Date(),
+        status: req.body.status,
+        action: req.body.action,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      await db.collection("staff").insertOne(newStaff);
+      res.status(201).json({
+        success: true,
+        message: "Staff created successfully",
+      });
+    } catch (error) {      next(error);
+    }
+  },
   body('email')
     .optional()
     .isEmail().withMessage('Email must be valid'),

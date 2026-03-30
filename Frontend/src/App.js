@@ -58,6 +58,7 @@ import Contactdata from "./Admin/Contactdata";
 import ReportView from "./Admin/ReportView";
 import Bookingpay from "./Admin/Bookingpay";
 import Adgallery from "./Admin/Adgallery";
+import Addphotos from "./Admin/Addphotos";
 
 /* ===== User ===== */
 import UserHeader from "./User/UserHeader";
@@ -237,6 +238,10 @@ function App() {
         <Route
           path="/adgallery"
           element={role === "admin" ? <Adgallery/> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/addphotos"
+          element={role === "admin" ? <Addphotos/> : <Navigate to="/login" />}
         />
 
         {/* ===== USER ROUTES ===== */}

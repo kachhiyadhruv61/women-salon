@@ -14,19 +14,27 @@ const { ObjectId } = require("mongodb");
 
 // 📦 STORAGE
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 🔥 5MB limit
+  },
+});
 
 /**
  * @swagger
  * /gallery:
  *   post:
- *     summary: Upload new gallery image
+ *     summary: Upload gallery image
+ *     description: Upload a new image with category (Salon / Natural Place)
  *     tags: [Gallery]
  *     requestBody:
  *       required: true
@@ -35,40 +43,40 @@ const upload = multer({ storage });
  *           schema:
  *             type: object
  *             required:
- *               - title
  *               - category
  *               - image
  *             properties:
- *               title:
- *                 type: string
- *                 example: Bridal Makeup
  *               category:
  *                 type: string
  *                 example: Salon
- *               description:
- *                 type: string
- *                 example: Premium bridal look
  *               image:
  *                 type: string
  *                 format: binary
  *     responses:
  *       200:
  *         description: Image uploaded successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               message: Image uploaded successfully
+ *       400:
+ *         description: Bad request
+ *       413:
+ *         description: File too large
+ *       500:
+ *         description: Server error
  */
 router.post("/gallery", upload.single("image"), async (req, res) => {
   try {
     const db = getDB();
-
+  
     const newImage = {
-      title: req.body.title,
       category: req.body.category,
-      description: req.body.description,
       image: req.file.filename,
       createdAt: new Date(),
-    };
-
+    };  
     await db.collection("gallery").insertOne(newImage);
-
     res.json({
       success: true,
       message: "Image uploaded successfully",

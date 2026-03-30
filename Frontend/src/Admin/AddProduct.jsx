@@ -7,10 +7,10 @@ function AddProduct() {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [suggestedFor, setSuggestedFor] = useState("");
-const [ingredients, setIngredients] = useState("");
+  const [ingredients, setIngredients] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("Active");
+  const [status, setStatus] = useState("Available");
   const [image, setImage] = useState(null); // ✅ image state
   const [preview, setPreview] = useState(null);
 
@@ -31,10 +31,10 @@ const [ingredients, setIngredients] = useState("");
       // ✅ FormData inside submit
       const formData = new FormData();
       formData.append("name", name);
-      formData.append("amount", amount);
+      formData.append("amount", Number(amount));
       formData.append("suggestedFor", suggestedFor);
       formData.append("ingredients", ingredients);
-      formData.append("stock", stock);
+      formData.append("stock", Number(stock));
       formData.append("description", description);
       formData.append("status", status);
       formData.append("image", image);
@@ -57,7 +57,7 @@ const [ingredients, setIngredients] = useState("");
         setIngredients("");
         setStock("");
         setDescription("");
-        setStatus("Active");
+        setStatus("Available");
         setImage(null);
         setPreview(null);
 
@@ -147,8 +147,9 @@ const [ingredients, setIngredients] = useState("");
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
+            <option value="Available">Available</option>
+            <option value="Out of Stock">Out of Stock</option>
+            <option value="Discontinued">Discontinued</option>
           </select>
 
           <button type="submit" className="btn btn-primary w-100">

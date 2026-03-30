@@ -1,44 +1,155 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../utils/apiFetch";
+import imageCompression from "browser-image-compression";
 
-function Addphotos() {
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    image: null,
+const Addphotos = () => {
+  const navigate = useNavigate();
+
+  const [gallery, setGallery] = useState({
+    category: "Salon",
+    image: null
   });
 
+  const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  /* ================= INPUT ================= */
   const handleChange = (e) => {
-    if (e.target.name === "image") {
-      setForm({ ...form, image: e.target.files[0] });
-    } else {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    }
+    setGallery({ ...gallery, [e.target.name]: e.target.value });
   };
 
+  /* ================= IMAGE ================= */
+  const handleImageChange = async (e) => {
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  // 🔒 Validation (5MB max before compression)
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Image too large! Max 5MB allowed.");
+    return;
+  }
+
+  const options = {
+    maxSizeMB: 2,          // final ~2MB
+    maxWidthOrHeight: 800,
+    useWebWorker: true,
+  };
+  
+
+  try {
+    const compressedFile = await imageCompression(file, options);
+
+    // ✅ FIXED: use gallery state
+    setGallery((prev) => ({
+      ...prev,
+      image: compressedFile,
+    }));
+    console.log(gallery.image?.size);
+
+    // ✅ Preview
+    setPreview(URL.createObjectURL(compressedFile));
+
+  } catch (error) {
+    console.error("Compression error:", error);
+  }
+};
+
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-    data.append("title", form.title);
-    data.append("description", form.description);
-    data.append("image", form.image);
+     // ✅ FIRST validation
+  if (!gallery.image) {
+    alert("Please select image");
+    return;
+  }
 
-    await fetch("http://localhost:5000/gallery/add", {
-      method: "POST",
-      body: data,
-    });
 
-    alert("Uploaded!");
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("category", gallery.category);
+      formData.append("image", gallery.image);
+
+      const res = await apiFetch("/gallery", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Image Added Successfully ✅");
+
+        // redirect
+        navigate("/adgallery");
+
+      } else {
+        alert("Failed to add image ❌");
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Server Error ❌");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="title" placeholder="Title" onChange={handleChange} />
-      <input name="description" placeholder="Description" onChange={handleChange} />
-      <input type="file" name="image" onChange={handleChange} />
-      <button type="submit">Upload</button>
-    </form>
+    <div className="container mt-4">
+      <div className="card shadow p-4">
+
+        <h3 className="text-center mb-3">Add Gallery Image</h3>
+
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+
+          {/* CATEGORY */}
+          <select
+            name="category"
+            className="form-control mb-3"
+            value={gallery.category}
+            onChange={handleChange}
+          >
+            <option>Salon</option>
+            <option>Natural Place</option>
+          </select>
+
+          {/* IMAGE */}
+          <input
+            type="file"
+            className="form-control mb-3"
+            accept="image/*"
+            onChange={handleImageChange}
+            required
+          />
+
+          {/* PREVIEW */}
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              width="120"
+              className="mb-3 rounded"
+            />
+          )}
+
+          {/* SUBMIT */}
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={loading}
+          >
+            {loading ? "Uploading..." : "Add Image"}
+          </button>
+
+        </form>
+      </div>
+    </div>
   );
-}
+};
 
 export default Addphotos;

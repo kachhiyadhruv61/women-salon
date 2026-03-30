@@ -14,6 +14,9 @@ app.use(
   })
 );
 
+// ❗ IMPORTANT: routes pehla json parse na karo for multipart
+app.use("/uploads", express.static("uploads"));
+
 // Import Routes
 const userRoutes = require('./routes/userRoutes');
 app.use('/users', userRoutes);
@@ -63,6 +66,10 @@ app.use('/', GalleryRoutes);
 
 const errorHandler = require('./middleware/errorMiddleware');
 app.use(errorHandler);
+
+// ✅ JSON (routes pachi mukvo better for safety)
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
 
 // Swagger Setup
 const options = {

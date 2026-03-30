@@ -4,8 +4,11 @@ export const apiFetch = async (url, options = {}) => {
   let accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
 
+  // ✅ CHECK: FormData che ke nai
+  const isFormData = options.body instanceof FormData;
+
   const headers = {
-    "Content-Type": "application/json",
+    ...(isFormData ? {} : { "Content-Type": "application/json" }),
     ...(options.headers || {})
   };
 
@@ -18,7 +21,7 @@ export const apiFetch = async (url, options = {}) => {
     headers
   });
 
-  // If token expired
+  // 🔄 Token refresh logic same
   if (response.status === 401 && refreshToken) {
     try {
       const refreshRes = await fetch(`${API_BASE}/refresh-token`, {
@@ -34,13 +37,11 @@ export const apiFetch = async (url, options = {}) => {
       if (refreshData.success) {
         const newAccessToken = refreshData.accessToken;
 
-        // Save new token
         localStorage.setItem("accessToken", newAccessToken);
 
-        // Retry original request
-        headers["Authorization"] =`Bearer ${newAccessToken}`;
+        headers["Authorization"] = `Bearer ${newAccessToken}`;
 
-        response = await fetch(`${API_BASE}${url}`,{
+        response = await fetch(`${API_BASE}${url}`, {
           ...options,
           headers
         });
@@ -49,11 +50,10 @@ export const apiFetch = async (url, options = {}) => {
       }
     } catch (err) {
       localStorage.clear();
-        window.location.href = "/login";
-        return;
+      window.location.href = "/login";
+      return;
     }
 
-    // If refresh token invalid → logout
     localStorage.clear();
     window.location.href = "/login";
     return;
