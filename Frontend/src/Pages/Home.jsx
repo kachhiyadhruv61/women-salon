@@ -42,7 +42,7 @@ function Home() {
                     </div>
                     <div className="px-3">
                       <h5 className="text-primary mb-0">Mail Us</h5>
-                      <p className="fs-5 text-dark mb-0">womenogsalon@gmail.com</p>
+                      <p className="fs-5 text-dark mb-0">kachhiyadhruv61@gmail.com</p>
                     </div>
                   </div>
                 </div>

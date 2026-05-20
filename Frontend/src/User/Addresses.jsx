@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./Addresses.css";
 
 function Addresses() {
 
@@ -121,13 +122,13 @@ const fetchAddresses = async () => {
   };
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 addresses-page">
 
       {/* HEADER */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3>My Addresses</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3 addresses-header">
+        <h3 className="addresses-title">My Addresses</h3>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary addresses-add-btn"
           onClick={() => setShowForm(true)}
         >
           + Add Address
@@ -136,12 +137,12 @@ const fetchAddresses = async () => {
 
       {/* FORM */}
       {showForm && (
-        <form className="card p-3 mb-4" onSubmit={addOrUpdateAddress}>
+        <form className="card p-3 mb-4 addresses-form-card" onSubmit={addOrUpdateAddress}>
           <div className="row g-2">
 
             <div className="col-md-6">
               <input
-                className="form-control"
+                className="form-control addresses-input"
                 placeholder="Full Name"
                 value={form.name}
                 onChange={(e) =>
@@ -153,7 +154,7 @@ const fetchAddresses = async () => {
 
             <div className="col-md-6">
               <input
-  className="form-control"
+  className="form-control addresses-input"
   placeholder="Mobile Number"
   value={form.mobile}
   onChange={(e) =>
@@ -165,7 +166,7 @@ const fetchAddresses = async () => {
 
             <div className="col-12">
               <textarea
-  className="form-control"
+  className="form-control addresses-input addresses-textarea"
   placeholder="Full Address"
   value={form.address}
   onChange={(e) =>
@@ -180,7 +181,7 @@ const fetchAddresses = async () => {
 
             <div className="col-md-4">
               <select
-  className="form-select"
+  className="form-select addresses-input"
   value={form.location}
   onChange={(e) =>
     setForm({ ...form, location: e.target.value })
@@ -193,7 +194,7 @@ const fetchAddresses = async () => {
             </div>
           </div>
 
-          <div className="mt-3 d-flex gap-2">
+          <div className="mt-3 d-flex gap-2 addresses-form-actions">
             <button className="btn btn-success" type="submit">
               {editingAddress ? "Update Address" : "Save Address"}
             </button>
@@ -212,7 +213,7 @@ const fetchAddresses = async () => {
       <div className="row">
 
         {addresses.length === 0 && (
-          <p className="text-muted">
+          <p className="text-muted addresses-empty">
             No addresses added yet.
           </p>
         )}
@@ -220,7 +221,7 @@ const fetchAddresses = async () => {
         {addresses.map((address) => (
           <div className="col-md-6 mb-3" key={address._id}>
             <div
-              className={`card p-3 ${
+              className={`card p-3 addresses-item-card ${
                 address.isDefault ? "border-success" : ""
               }`}
             >
@@ -237,7 +238,7 @@ const fetchAddresses = async () => {
 <p>{address.address}</p>
 <p className="text-muted">{address.location}</p>
 
-              <div className="d-flex gap-2">
+              <div className="d-flex gap-2 addresses-item-actions">
                 <button
                   className="btn btn-sm btn-outline-primary"
                   onClick={() => editAddress(address)}

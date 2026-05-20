@@ -1,0 +1,128 @@
+.user-profile-page {
+  --profile-text: #1f2937;
+  --profile-muted: #6b7280;
+  --profile-accent: #0b5d8b;
+  --profile-accent-deep: #084c72;
+  --profile-surface: #ffffff;
+  --profile-border: #dce4ef;
+  color: var(--profile-text);
+  max-width: 880px;
+}
+
+.user-profile-title {
+  margin-bottom: 1.25rem !important;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #0f172a;
+}
+
+.user-profile-card {
+  border: 1px solid var(--profile-border) !important;
+  border-radius: 18px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(11, 93, 139, 0.08), transparent 38%),
+    linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.user-profile-page strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: #0f172a;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.user-profile-page p {
+  margin-bottom: 0;
+  color: var(--profile-text);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.user-profile-page .row.mb-3 {
+  padding: 0.85rem 0.9rem;
+  border: 1px solid #e8edf4;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.user-profile-page .form-label {
+  margin-bottom: 0.45rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.user-profile-page .form-control,
+.user-profile-page .form-select {
+  min-height: 46px;
+  border: 1px solid #d7e0ec !important;
+  border-radius: 12px !important;
+  font-size: 0.95rem;
+  color: var(--profile-text);
+  background: var(--profile-surface);
+}
+
+.user-profile-page .form-control:focus,
+.user-profile-page .form-select:focus {
+  border-color: #0b5d8b !important;
+  box-shadow: 0 0 0 0.2rem rgba(11, 93, 139, 0.16) !important;
+}
+
+.user-profile-page .btn {
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 0.52rem 0.95rem;
+}
+
+.user-profile-page .btn-primary {
+  background: linear-gradient(135deg, var(--profile-accent), var(--profile-accent-deep));
+  border: 0;
+  box-shadow: 0 8px 18px rgba(8, 76, 114, 0.28);
+}
+
+.user-profile-page .btn-primary:hover,
+.user-profile-page .btn-primary:focus {
+  background: linear-gradient(135deg, #0a537d, #074264);
+}
+
+.user-profile-page .btn-success {
+  background: linear-gradient(135deg, #1c9d58, #15803d);
+  border: 0;
+}
+
+.user-profile-page .btn-secondary {
+  background: #6b7280;
+  border: 0;
+}
+
+@media (max-width: 767px) {
+  .user-profile-page {
+    padding-top: 1.2rem !important;
+    padding-bottom: 1.2rem !important;
+  }
+
+  .user-profile-card {
+    border-radius: 14px !important;
+    padding: 1rem !important;
+  }
+
+  .user-profile-title {
+    margin-bottom: 1rem !important;
+    font-size: 1.45rem;
+  }
+
+  .user-profile-page .row.mb-3 {
+    padding: 0.75rem;
+  }
+
+  .user-profile-actions {
+    flex-wrap: wrap;
+  }
+
+  .user-profile-actions .btn {
+    flex: 1 1 100%;
+  }
+}

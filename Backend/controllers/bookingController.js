@@ -104,7 +104,7 @@ const createBooking = async (req, res, next) => {
         receipt: "booking_" + result.insertedId,
       };
 
-      razorpayBook = await razorpay.bookingpay.create(options);
+      razorpayBook = await razorpay.orders.create(options);
 
       // ✅ STEP 3: SAVE PAYMENT DATA
       const paymentData = {

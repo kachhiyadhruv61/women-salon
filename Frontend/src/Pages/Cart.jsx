@@ -1,6 +1,7 @@
 import { useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import "./Cart.css";
 
 function Cart() {
   const { cart, removeFromCart } = useCart();
@@ -17,12 +18,17 @@ function Cart() {
 
   const handleProceedToBuy = () => {
     const token = localStorage.getItem("accessToken");
+    console.log("Token in cart:", token); // 🔍 Debug
 
     if (!token) {
+      console.log("No token - blocking navigation"); // 🔍 Debug
+      alert("❌ Please login first!");
       navigate("/login", { state: { from: "/checkout" } });
-    } else {
-      navigate("/checkout");
+      return; // 🔥 Stop execution
     }
+    
+    console.log("Token found - proceeding to checkout"); // 🔍 Debug
+    navigate("/checkout");
   };
 
   // ✅ FIXED SUBTOTAL
@@ -32,45 +38,46 @@ function Cart() {
     return sum + price * qty;
   }, 0);
 
-  const gstRate = 0.13;
+  const gstRate = 0.05; // 5% GST = 0.05, 10% GST = 0.1, etc.
   const gstAmount = subtotal * gstRate;
   const deliveryCharge = subtotal > 500 ? 0 : 50;
 
-  const [discount] = useState(0);
+  const discountPercent = 10;
+  const discountAmount = (subtotal * discountPercent) / 100;
 
-  const grandTotal = subtotal + gstAmount + deliveryCharge - discount;
+  const grandTotal = subtotal + gstAmount + deliveryCharge - discountAmount;
 
   return (
-    <div className="container py-5">
+    <div className="container py-5 cart-page">
       <div className="row align-items-start">
 
-        <div className="text-center mb-5">
+        <div className="text-center mb-5 cart-header">
           <h1 className="text-primary">Shopping Cart</h1>
         </div>
 
         {/* LEFT SIDE */}
-        <div className="col-lg-8 col-md-7">
+        <div className="col-lg-8 col-md-7 cart-items-col">
 
           {cart.map((item) => (
-            <div key={item._id} className="d-flex border rounded p-3 mb-3 bg-white">
+            <div key={item._id} className="d-flex border rounded p-3 mb-3 bg-white cart-item-card">
 
               <img
                 src={item.img}
                 alt={item.name}
-                style={{ width: "120px", height: "120px", objectFit: "contain" }}
+                className="cart-item-image"
               />
 
-              <div className="ms-3 flex-grow-1">
-                <h5>{item.name}</h5>
+              <div className="ms-3 flex-grow-1 cart-item-content">
+                <h5 className="cart-item-title">{item.name}</h5>
 
                 {/* ✅ PRICE FIX */}
-                <p>₹{Number(item.price) || 0}</p>
+                <p className="cart-item-price">₹{Number(item.price) || 0}</p>
 
                 {/* 🔢 Quantity */}
-                <div className="d-flex align-items-center mb-3">
+                <div className="d-flex align-items-center mb-3 cart-qty-row">
                   <span className="fw-semibold me-3">Quantity:</span>
 
-                  <div className="d-flex align-items-center border rounded px-2 py-1">
+                  <div className="d-flex align-items-center border rounded px-2 py-1 cart-qty-controls">
                     <button
                       className="btn btn-sm btn-outline-secondary"
                       onClick={() =>
@@ -102,7 +109,7 @@ function Cart() {
                 </div>
 
                 <button
-                  className="btn btn-sm btn-outline-danger"
+                  className="btn btn-sm btn-outline-danger cart-delete-btn"
                   onClick={() => removeFromCart(item._id)}
                 >
                   Delete
@@ -116,13 +123,20 @@ function Cart() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="col-lg-4 col-md-5 mt-4 mt-lg-5">
-          <div className="border rounded p-4 bg-light shadow">
+        <div className="col-lg-4 col-md-5 mt-4 mt-lg-5 cart-summary-col">
+          <div className="border rounded p-4 bg-light shadow cart-summary-card">
 
-            <p>Subtotal: ₹{subtotal.toFixed(2)}</p>
-            <p>GST (13%): ₹{gstAmount.toFixed(2)}</p>
-            <p>Delivery: ₹{deliveryCharge}</p>
-            <p>Discount: -₹{discount.toFixed(2)}</p>
+            <p className="cart-summary-row">Subtotal: ₹{subtotal.toFixed(2)}</p>
+            <p className="cart-summary-row">GST (5%): ₹{gstAmount.toFixed(2)}</p>
+            <p className="cart-summary-row">Delivery: ₹{deliveryCharge}</p>
+            
+            {/* 🎟️ DISCOUNT SECTION */}
+            <div className="mb-3 p-3 border rounded bg-white cart-discount-box">
+              <label className="fw-bold mb-2 d-block">Discount:</label>
+              <small className="text-success d-block mt-2">
+                ✅ 10%  Applied: ₹{discountAmount.toFixed(2)}
+              </small>
+            </div>
 
             <hr />
 
@@ -131,7 +145,7 @@ function Cart() {
             </h5>
 
             <button
-              className="btn btn-success w-100 mt-3"
+              className="btn btn-success w-100 mt-3 cart-proceed-btn"
               onClick={handleProceedToBuy}
             >
               Proceed to Buy

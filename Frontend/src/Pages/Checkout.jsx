@@ -4,28 +4,52 @@ import { useCart } from "./CartContext";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {apiFetch} from "../utils/apiFetch";
+import "./Checkout.css";
 
 function Checkout() {
-  const { cart, clearCart } = useCart(); // clearCart optional
-
+  const { cart, clearCart } = useCart();
   const navigate = useNavigate();
+
+  /* ✅ DEFINE ALL HOOKS FIRST (unconditionally) */
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
     phone: "",
     address: "",
-    payment: "",
+    payment: "UPI",
   });
 
   const [savedAddresses, setSavedAddresses] = useState([]);
   const [showAddresses, setShowAddresses] = useState(false);
   const [showBill, setShowBill] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [invoiceNumber] = useState(
+    "INV" + Math.floor(Math.random() * 100000)
+  );
 
   const total = cart.reduce(
     (sum, item) => sum + item.price * item.qty,
     0
   );
+
+  /* ================= CHECK TOKEN IN USEEFFECT ================= */
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    console.log("Checkout component loaded - Token:", token ? "✅ Found" : "❌ Not found");
+
+    if (!token) {
+      console.log("No token - redirecting to login");
+      alert("❌ Please login first!");
+      navigate("/login", { state: { from: "/checkout" } });
+      setAuthChecked(true);
+    } else {
+      console.log("Token found - allowing access");
+      setIsAuthenticated(true);
+      setAuthChecked(true);
+    }
+  }, [navigate]);
 
   /* ================= LOAD ADDRESSES ================= */
   useEffect(() => {
@@ -48,6 +72,22 @@ function Checkout() {
       }
     }
   }, []);
+
+  /* ✅ EARLY RETURN AFTER ALL HOOKS */
+  if (authChecked && !isAuthenticated) {
+    return (
+      <div className="container py-5 text-center">
+        <div className="alert alert-danger mt-5">
+          <h4>❌ Access Denied</h4>
+          <p>Please login first to proceed with checkout.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!authChecked) {
+    return <div className="container py-5 text-center"><p>Verifying login...</p></div>;
+  }
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -111,118 +151,166 @@ const taxAmount = (taxableAmount * taxPercent) / 100;
 const grandTotal = taxableAmount + taxAmount;
 
 //order preview bill logic
-const [invoiceNumber] = useState(
-  "INV" + Math.floor(Math.random() * 100000)
-);
 const today = new Date();
 
 
   /* ================= PLACE ORDER ================= */
   const placeOrder = async () => {
-  if (!form.name || !form.phone || !form.address) {
-    alert("Please fill all details");
-    return;
-  }
+    // ✅ VALIDATE FORM
+    if (!form.name || !form.name.trim()) {
+      alert("❌ Please enter your name");
+      return;
+    }
+    if (!form.phone || !form.phone.trim() || form.phone.length < 10) {
+      alert("❌ Please enter a valid phone number");
+      return;
+    }
+    if (!form.address || !form.address.trim()) {
+      alert("❌ Please enter your address");
+      return;
+    }
+    if (!form.payment) {
+      alert("❌ Please select a payment method");
+      return;
+    }
 
-  setLoading(true);
+    setLoading(true);
 
-  const orderData = {
-    orderId: "ORD-" + Date.now(),
-    userName: form.name,
-   contact: Number(form.phone),
-    address: form.address,
-    items: cart,
-    totalAmount: total,
-    paymentMethod: form.payment,
-    paymentStatus:
-      form.payment === "Cash" ? "Pending" : "Paid",
-    orderStatus: "Pending",
-    createdAt: new Date(),
-  };
+    const orderData = {
+      userName: form.name,
+      contact: Number(form.phone),
+      address: form.address,
+      items: cart,
+      totalAmount: total,
+      paymentMethod: form.payment,
+      paymentStatus: form.payment === "Cash" ? "Pending" : "Pending",
+      orderStatus: "Pending",
+      createdAt: new Date(),
+    };
 
-  try {
-    const res = await apiFetch(
-      "/orders",
-      {
+    try {
+      console.log("📦 Creating order...", orderData);
+
+      const res = await apiFetch("/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(orderData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("❌ Backend Error:", errorData);
+        throw new Error(errorData.message || "Failed to create order");
       }
-    );
 
-   const data = await res.json();
+      const data = await res.json();
+      console.log("✅ Order created:", data);
 
-   ///start payment gateway integration
+      // ✅ EXTRACT ORDER ID AND RAZORPAY ORDER
+      const orderId = data.insertedId;
+      const razorpayOrder = data.razorpayOrder;
 
-    const razorpayOrder = data.razorpayOrder;
+      if (!razorpayOrder || !razorpayOrder.id) {
+        throw new Error("Razorpay order creation failed");
+      }
 
-    const options = {
-      key: "rzp_test_SU9OILjNd5mGst",
-      amount: razorpayOrder.amount,
-      currency: "INR",
-      name: "Your Company",
-      description: "Test Payment",
-      order_id: razorpayOrder.id,
+      console.log("💳 Opening Razorpay with Order ID:", orderId);
 
-      handler: async function (response) {
-        // 2. Verify Payment
-        const verifyRes = await fetch(
-          "http://localhost:5000/verify-payment",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(response),
+      // ✅ RAZORPAY OPTIONS
+      const options = {
+        key: "rzp_test_SU9OILjNd5mGst",
+        amount: razorpayOrder.amount,
+        currency: "INR",
+        name: "A² Women Organic Salon",
+        description: `Order for ${form.name}`,
+        order_id: razorpayOrder.id,
+
+        handler: async function (response) {
+          console.log("💰 Payment Response:", response);
+
+          // ✅ PREPARE VERIFICATION DATA
+          const verificationData = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            orderId: orderId,
+            amount: total,
+          };
+
+          console.log("🔐 Verifying payment...");
+
+          try {
+            const verifyRes = await fetch(
+              "http://localhost:5000/verify-payment",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(verificationData),
+              }
+            );
+
+            const verifyData = await verifyRes.json();
+            console.log("✅ Verification Response:", verifyData);
+
+            if (verifyData.success) {
+              alert("✅ Payment Successful! Your order has been confirmed.");
+              
+              // ✅ CLEAR CART AND REDIRECT
+              if (clearCart) clearCart();
+              setShowBill(false);
+              setForm({
+                name: "",
+                phone: "",
+                address: "",
+                payment: "UPI",
+              });
+              
+              // ✅ REDIRECT TO ORDERS PAGE
+              setTimeout(() => {
+                navigate("/userorders");
+              }, 2000);
+            } else {
+              alert("❌ Payment verification failed: " + (verifyData.message || "Unknown error"));
+            }
+          } catch (verifyErr) {
+            console.error("❌ Verification Error:", verifyErr);
+            alert("❌ Error verifying payment: " + verifyErr.message);
           }
-        );
+        },
 
-        const verifyData = await verifyRes.json();
+        prefill: {
+          name: form.name,
+          email: localStorage.getItem("userEmail") || "kachhiyadhruv61@gmail.com",
+          contact: form.phone,
+        },
 
-        if (verifyData.success) {
-          alert("Payment Successful ✅");
-        } else {
-          alert("Payment Failed ❌");
-        }
-      },
+        theme: {
+          color: "#bf9456",
+        },
 
-      prefill: {
-        name: "Dipali",
-        email: "test@gmail.com",
-        contact: "9999999999",
-      },
+        modal: {
+          ondismiss: function () {
+            console.log("⚠️ Payment modal dismissed");
+            alert("⚠️ Payment cancelled by user");
+          },
+        },
+      };
 
-      theme: {
-        color: "#3399cc",
-      },
-    };
+      // ✅ OPEN RAZORPAY CHECKOUT
+      const rzp = new window.Razorpay(options);
+      rzp.open();
 
-
-// if (!res.ok) {
-//   console.error("Backend Error:", data);
-//   throw new Error(data.message || "API failed");
-// }
-
-//     alert("Order Placed Successfully ✅");
-
-//     if (clearCart) clearCart();
-
-//     setShowBill(false);
-const rzp = new window.Razorpay(options);
-    rzp.open();
-    ///end razorpay integration
-
-//     // ✅ Redirect AFTER success
-//     navigate("/userorders");
-  } catch (err) {
-  console.error("ERROR:", err);
-  alert("Error: " + err.message);
-}
-
-  setLoading(false);
-};
+    } catch (err) {
+      console.error("❌ ERROR:", err);
+      alert("❌ Error: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   /* ================= DOWNLOAD BILL ================= */
 const downloadBill = () => {
@@ -364,21 +452,19 @@ const downloadBill = () => {
   doc.save("A2-Women-Salon-Invoice.pdf");
 };
 
-
-
   return (
-    <div className="container py-5">
-      <h3 className="mb-0">Checkout & Payment</h3>
+    <div className="container py-5 checkout-page">
+      <h3 className="mb-0 checkout-title">Checkout & Payment</h3>
 
 
       {!showBill && (
-        <div className="card p-4 mb-4">
+        <div className="card p-4 mb-4 checkout-form-card">
 
           <input
             type="text"
             name="name"
             placeholder="Full Name"
-            className="form-control mb-2"
+            className="form-control mb-2 checkout-input"
             value={form.name}
             onChange={handleChange}
           />
@@ -387,7 +473,7 @@ const downloadBill = () => {
             type="text"
             name="phone"
             placeholder="Phone Number"
-            className="form-control mb-2"
+            className="form-control mb-2 checkout-input"
             value={form.phone}
             onChange={handleChange}
           />
@@ -396,7 +482,7 @@ const downloadBill = () => {
           <textarea
             name="address"
             placeholder="Click to select saved address or enter new"
-            className="form-control mb-2"
+            className="form-control mb-2 checkout-input checkout-textarea"
             value={form.address}
             onClick={() =>
               setShowAddresses(!showAddresses)
@@ -406,8 +492,8 @@ const downloadBill = () => {
 
           {/* 🔥 SAVED ADDRESS RADIO */}
           {showAddresses && savedAddresses.length > 0 && (
-            <div className="border p-3 mb-3 rounded bg-light">
-              <h6>Select Saved Address</h6>
+            <div className="border p-3 mb-3 rounded bg-light checkout-address-list">
+              <h6 className="checkout-address-heading">Select Saved Address</h6>
 
               {savedAddresses.map((addr) => (
                 <div key={addr.id} className="mb-2">
@@ -429,7 +515,7 @@ const downloadBill = () => {
 
           <select
             name="payment"
-            className="form-control mb-3"
+            className="form-control mb-3 checkout-input"
             value={form.payment}
             onChange={handleChange}
           >
@@ -438,14 +524,14 @@ const downloadBill = () => {
           </select>
 
           {form.payment === "UPI" && (
-            <div className="mb-3">
-              <p>Scan & Pay ₹{total}</p>
-              <img src="/img/qr.png" width="150" alt="QR" />
+            <div className="mb-3 checkout-upi-block">
+              <p className="checkout-upi-text">Scan & Pay ₹{total}</p>
+              <img src="/img/qr.png" className="checkout-qr" alt="QR" />
             </div>
           )}
 
          <button
-  className="btn btn-primary"
+  className="btn btn-primary checkout-preview-btn"
   onClick={() => {
      saveAddressToAddressPage();  // 🔥 New address save
     setShowBill(true);
@@ -459,14 +545,9 @@ const downloadBill = () => {
 
 {/* ================= BILL PREVIEW ================= */}
 {showBill && (
-  <div className="d-flex justify-content-center">
+  <div className="d-flex justify-content-center checkout-bill-wrap">
  <div 
-    className="card shadow-lg border-0 p-4"
-    style={{
-      borderRadius: "15px",
-      width: "100%",
-      maxWidth: "500px"   // 👈 card size control here
-    }}
+    className="card shadow-lg border-0 p-4 checkout-invoice-card"
   >
   
   <div className="text-center mb-4">
@@ -475,15 +556,10 @@ const downloadBill = () => {
   <img
     src="/img/logo.png"   // 👈 your logo path
     alt="Salon Logo"
-    style={{
-      width: "80px",
-      height: "80px",
-      objectFit: "contain",
-      marginBottom: "10px"
-    }}
+    className="checkout-logo"
   />
 
-    <h4 style={{color:"#bf9456", fontWeight:"700"}}>
+    <h4 className="checkout-brand">
       A² Women Organic Salon
     </h4>
     <small>Professional Service Invoice</small>
@@ -500,8 +576,8 @@ const downloadBill = () => {
     <p className="mb-0"><b>Payment Mode:</b> {form.payment}</p>
   </div>
 
-  <table className="table">
-    <thead style={{background:"#bf9456", color:"white"}}>
+  <table className="table checkout-table">
+    <thead className="checkout-table-head">
       <tr>
         <th>Service</th>
         <th>Qty</th>
@@ -526,14 +602,14 @@ const downloadBill = () => {
     <p><b>Discount ({discountPercent}%):</b> - ₹{discountAmount.toFixed(2)}</p>
     <p><b>GST ({taxPercent}%):</b> ₹{taxAmount.toFixed(2)}</p>
     <hr />
-    <h5 style={{color:"#bf9456"}}>
+    <h5 className="checkout-grand-total">
       Grand Total: ₹{grandTotal.toFixed(2)}
     </h5>
   </div>
 
 
 
-    <div className="d-flex gap-2 mt-3 flex-nowrap">
+    <div className="d-flex gap-2 mt-3 flex-nowrap checkout-actions">
       <button
         className="btn btn-success btn-sm"
         onClick={placeOrder}

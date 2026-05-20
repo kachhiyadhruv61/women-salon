@@ -34,10 +34,10 @@ function Footer() {
               <i className="fa fa-phone-alt me-2"></i>9998662408
             </p>
             <p>
-              <i className="fa fa-envelope me-2"></i>beenakachhiya@gmail.com
+              <i className="fa fa-envelope me-2"></i>kachhiyadhruv61@gmail.com
             </p>
             <p>
-              <i className="fa fa-envelope me-2"></i>patelaxita75@gmail.com
+              <i className="fa fa-envelope me-2"></i>kachhiyadhruv61@gmail.com
             </p>
 
             {/* Social Icons */}

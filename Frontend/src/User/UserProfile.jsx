@@ -1,11 +1,12 @@
 import { useState } from "react";
+import "./UserProfile.css";
 
 function UserProfile() {
   const [isEditing, setIsEditing] = useState(false);
 
   const [profile, setProfile] = useState({
     name: "Aditi Patel",
-    email: "aditi@gmail.com",
+    email: "kachhiyadhruv61@gmail.com",
     phone: "9876543210",
     gender: "Female",
     dob: "2002-06-15",
@@ -33,10 +34,10 @@ function UserProfile() {
   };
 
   return (
-    <div className="container py-4">
-      <h3 className="mb-4">My Profile</h3>
+    <div className="container py-4 user-profile-page">
+      <h3 className="mb-4 user-profile-title">My Profile</h3>
 
-      <div className="card p-4">
+      <div className="card p-4 user-profile-card">
         {!isEditing ? (
           <>
             {/* VIEW MODE */}
@@ -143,7 +144,7 @@ function UserProfile() {
                 </div>
               </div>
 
-              <div className="mt-4 d-flex gap-2">
+              <div className="mt-4 d-flex gap-2 user-profile-actions">
                 <button type="submit" className="btn btn-success">
                   Save Changes
                 </button>

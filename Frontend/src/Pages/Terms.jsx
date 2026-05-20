@@ -98,7 +98,7 @@ function Terms() {
       </p>
       <p>
         📞 Phone: +91 XXXXX XXXXX <br />
-        📧 Email: womenogsalon@email.com
+        📧 Email: kachhiyadhruv61@gmail.com
       </p>
 
     </div>

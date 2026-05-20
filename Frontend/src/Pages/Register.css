@@ -1,31 +1,191 @@
+:root {
+  --register-accent: #cc7a14;
+  --register-accent-deep: #9e5807;
+  --register-text: #2d1c10;
+  --register-muted: #796250;
+  --register-card-bg: rgba(255, 255, 255, 0.92);
+}
+
 .register-container {
-  min-height: 90vh;
+  min-height: 100vh;
+  width: 100%;
+  padding: 26px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f8f9fa;
+  background:
+    radial-gradient(circle at 8% 14%, rgba(255, 219, 174, 0.8), transparent 38%),
+    radial-gradient(circle at 86% 84%, rgba(255, 179, 128, 0.5), transparent 42%),
+    linear-gradient(140deg, #fff9f0 0%, #ffe8cb 54%, #ffd8ad 100%);
 }
 
 .register-card {
-  width: 420px;
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  padding: 32px 30px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: var(--register-card-bg);
+  box-shadow: 0 22px 48px rgba(90, 45, 0, 0.17);
+  backdrop-filter: blur(10px);
+  animation: registerPop 0.55s ease-out;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.register-card h3 {
+  margin: 0 0 20px;
+  font-size: 1.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--register-text);
 }
 
-.error {
-  color: red;
-  font-size: 12px;
+.register-card .form-group {
+  margin-bottom: 14px;
 }
 
-.note {
-  font-size: 13px;
-  margin-top: 10px;
-  color: #666;
+.register-card .form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #442d1b;
+}
+
+.register-card .form-control {
+  border: 1px solid #e7c8a8;
+  border-radius: 12px;
+  min-height: 46px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  color: #2e2116;
+  background: rgba(255, 255, 255, 0.97);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.register-card textarea.form-control {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.register-card .form-control:focus {
+  border-color: var(--register-accent);
+  box-shadow: 0 0 0 0.23rem rgba(204, 122, 20, 0.2);
+  transform: translateY(-1px);
+}
+
+.register-card input[type="radio"] {
+  margin-right: 8px;
+  accent-color: var(--register-accent);
+}
+
+.register-card .form-check {
+  margin-top: 8px;
+  padding-left: 1.7em;
+}
+
+.register-card .form-check-input {
+  border-color: #cfaf8f;
+  box-shadow: none;
+}
+
+.register-card .form-check-input:checked {
+  background-color: var(--register-accent);
+  border-color: var(--register-accent);
+}
+
+.register-card .form-check-label {
+  font-size: 0.9rem;
+  color: #5a432f;
+  line-height: 1.45;
+}
+
+.register-card .form-check-label a,
+.register-card .note a {
+  color: var(--register-accent-deep);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.register-card .form-check-label a:hover,
+.register-card .note a:hover {
+  text-decoration: underline;
+}
+
+.register-card .btn.btn-primary {
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.98rem;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: linear-gradient(120deg, #db8f27 0%, #b96a11 100%);
+  box-shadow: 0 11px 22px rgba(185, 106, 17, 0.32);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.register-card .btn.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 26px rgba(185, 106, 17, 0.36);
+  filter: saturate(1.05);
+}
+
+.register-card .btn.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.register-card .btn.btn-primary:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.register-card .error {
+  display: block;
+  margin-top: 6px;
+  margin-left: 1px;
+  min-height: 14px;
+  color: #b41919;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.register-card .note {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-size: 0.88rem;
+  color: var(--register-muted);
   text-align: center;
+}
+
+@keyframes registerPop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 576px) {
+  .register-container {
+    padding: 16px;
+  }
+
+  .register-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .register-card h3 {
+    font-size: 1.65rem;
+    margin-bottom: 16px;
+  }
+
+  .register-card .form-control,
+  .register-card .btn.btn-primary {
+    min-height: 44px;
+  }
 }

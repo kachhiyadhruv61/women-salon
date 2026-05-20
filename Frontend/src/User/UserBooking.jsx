@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BookingForm from "../Pages/BookingForm";
+import "./UserBooking.css";
 
 function UserBooking() {
   const [bookings, setBookings] = useState([]);
@@ -15,7 +16,7 @@ function UserBooking() {
   };
 
   return (
-    <div className="container py-5">
+    <div className="container py-5 user-booking-page">
       <BookingForm onBookingSubmit={addBooking} />
     </div>
   );

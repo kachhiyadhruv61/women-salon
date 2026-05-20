@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function UserProfile() {
   const [user, setUser] = useState({
     name: "Aditi Patel",
-    email: "aditi@gmail.com",
+    email: "kachhiyadhruv61@gmail.com",
     phone: "9876543210",
     address: "Ahmedabad, Gujarat",
   });

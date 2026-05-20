@@ -179,9 +179,96 @@
   width: auto;
 }
 
+.user-header {
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(30, 30, 30, 0.12);
+}
+
+.user-header .user-navbar {
+  min-height: 96px;
+  padding: 0 22px !important;
+}
+
+.user-header .logo-img {
+  height: 84px;
+  width: auto;
+  object-fit: contain;
+}
+
+.user-header .user-navbar-collapse {
+  align-items: center;
+  padding: 0.5rem 0 !important;
+}
+
+.user-header .user-nav-menu {
+  align-items: center;
+}
+
+.user-header .user-nav-link {
+  margin: 0 10px !important;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.user-header .user-cart-link {
+  padding-right: 1.2rem !important;
+}
+
+.user-header .user-cart-badge {
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.user-header .user-account-btn {
+  min-height: 50px;
+  padding: 0.55rem 1rem;
+  border-color: #8d8d8d;
+  color: #1f2c45;
+  font-weight: 500;
+}
+
+.user-header .user-account-btn:hover,
+.user-header .user-account-btn:focus {
+  color: #1f2c45;
+  border-color: #bf9456;
+  background: #ffffff;
+}
+
 @media (max-width: 768px) {
   .logo-img {
     height: 70px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .user-header .user-navbar {
+    min-height: 78px;
+    padding: 0 12px !important;
+  }
+
+  .user-header .logo-img {
+    height: 64px;
+  }
+
+  .user-header .user-navbar-collapse {
+    padding: 0.75rem 0 !important;
+  }
+
+  .user-header .user-nav-menu {
+    align-items: flex-start;
+  }
+
+  .user-header .user-nav-link {
+    margin: 0 !important;
+    padding: 0.55rem 0 !important;
+  }
+
+  .user-header .user-account-dropdown {
+    margin-top: 0.5rem;
   }
 }
 
@@ -860,4 +947,903 @@ button:disabled {
 /* Arrow hover effect */
 .footer .btn.btn-link:hover::before {
     color: #ffffff;              
+}
+
+/* Contact page makeover (scoped by section structure) */
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) {
+  position: relative;
+  margin-top: 18px;
+  margin-bottom: 32px;
+  padding-top: 42px !important;
+  padding-bottom: 42px !important;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  background:
+    radial-gradient(900px 320px at 0% 0%, rgba(191, 148, 86, 0.18), transparent 62%),
+    radial-gradient(700px 280px at 100% 100%, rgba(226, 186, 125, 0.22), transparent 60%),
+    linear-gradient(145deg, #fff9f2, #fff2e2 50%, #ffe8ce);
+  z-index: -2;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary)::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(160, 113, 42, 0.16);
+  z-index: -1;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .text-center.mb-5 {
+  margin-bottom: 2.2rem !important;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .text-center.mb-5 h2 {
+  color: #a66b21 !important;
+  font-size: clamp(2rem, 4.6vw, 3.2rem);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .text-center.mb-5 h1 {
+  margin: 0;
+  color: #1f2633;
+  font-family: "Playfair Display", serif;
+  letter-spacing: 0.8px;
+  font-size: clamp(1.6rem, 2.6vw, 2.45rem);
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .row.align-items-stretch {
+  --contact-shadow: 0 18px 42px rgba(74, 43, 7, 0.14);
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-5 > .p-4.rounded.shadow-sm.h-100 {
+  background: linear-gradient(170deg, #fff8ef, #fff0db) !important;
+  border: 1px solid rgba(191, 148, 86, 0.32);
+  border-radius: 20px !important;
+  box-shadow: var(--contact-shadow);
+  padding: 1.9rem !important;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-5 p {
+  color: #2e2e2e;
+  line-height: 1.7;
+  margin-bottom: 1.05rem;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-5 a[href*="google.com/maps"] {
+  color: #8a5317 !important;
+  text-decoration-color: rgba(138, 83, 23, 0.5) !important;
+  text-underline-offset: 3px;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-5 .btn.btn-success {
+  border: none;
+  border-radius: 12px;
+  padding: 0.7rem 1.2rem !important;
+  font-weight: 600;
+  background: linear-gradient(135deg, #1e9b5d, #0f7744);
+  box-shadow: 0 10px 22px rgba(11, 115, 66, 0.34);
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-5 .btn.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(11, 115, 66, 0.4);
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-7 > .bg-light.p-4.rounded.shadow.h-100 {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid rgba(188, 138, 64, 0.24);
+  border-radius: 20px !important;
+  box-shadow: var(--contact-shadow);
+  padding: 2rem !important;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-7 h3 {
+  color: #1f2633;
+  font-size: 1.5rem;
+  margin-bottom: 1.45rem !important;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .form-control {
+  border: 1px solid #e2c9a8;
+  border-radius: 12px;
+  min-height: 50px;
+  background: #fffdf9;
+  box-shadow: none;
+  transition: border-color 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) textarea.form-control {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .form-control::placeholder {
+  color: #93714b;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .form-control:focus {
+  border-color: #bf9456;
+  background: #ffffff;
+  box-shadow: 0 0 0 0.25rem rgba(191, 148, 86, 0.2);
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .btn.btn-primary {
+  border: none;
+  margin: 0 !important;
+  border-radius: 999px;
+  min-height: 50px;
+  padding: 0.68rem 1.85rem !important;
+  font-size: 0.98rem;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #c8934f, #a86e2f 55%, #8d5721);
+  box-shadow: 0 14px 28px rgba(140, 87, 33, 0.34);
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .btn.btn-primary::before,
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .btn.btn-primary::after {
+  display: none;
+}
+
+.container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .btn.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(140, 87, 33, 0.4);
+}
+
+@media (max-width: 991.98px) {
+  .container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) {
+    margin-top: 10px;
+    border-radius: 22px;
+    padding: 28px 14px !important;
+  }
+
+  .container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary)::before {
+    border-radius: 22px;
+  }
+
+  .container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary)::after {
+    inset: 10px;
+    border-radius: 16px;
+  }
+
+  .container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-5 > .p-4.rounded.shadow-sm.h-100,
+  .container.py-5:has(> .text-center.mb-5 > .font-dancing-script.text-primary) .col-lg-7 > .bg-light.p-4.rounded.shadow.h-100 {
+    padding: 1.25rem !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* ===== Booking Form Premium UI (CSS-only, scoped) ===== */
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) {
+  position: relative;
+  margin-top: 2rem !important;
+  margin-bottom: 2rem;
+  padding: 2rem 1rem;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 10% 12%, rgba(246, 206, 164, 0.25), transparent 48%),
+    radial-gradient(circle at 92% 86%, rgba(191, 148, 86, 0.18), transparent 52%),
+    linear-gradient(145deg, #fffaf4 0%, #fff 45%, #fff8ef 100%);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) > .card.shadow.p-4 {
+  border: 1px solid rgba(191, 148, 86, 0.25);
+  border-radius: 22px !important;
+  box-shadow: 0 20px 44px rgba(40, 28, 12, 0.12) !important;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: bookingCardRise 0.55s ease both;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) h3.text-center {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.5rem, 2.7vw, 2rem);
+  letter-spacing: 0.4px;
+  color: #2f2215;
+  margin-bottom: 1.2rem !important;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) .form-control {
+  border: 1px solid #dfd3c4;
+  border-radius: 12px;
+  min-height: 48px;
+  padding: 0.7rem 0.95rem;
+  font-size: 0.96rem;
+  background: #fffdfa;
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) textarea.form-control {
+  min-height: 108px;
+  resize: vertical;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) .form-control:focus {
+  border-color: #bf9456;
+  box-shadow: 0 0 0 0.22rem rgba(191, 148, 86, 0.18);
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) .alert.alert-info {
+  border: 1px solid rgba(191, 148, 86, 0.4);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fff3df, #fffbf3);
+  color: #4a341f;
+  margin-top: 0.35rem;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) .btn.btn-primary.w-100 {
+  margin: 0.35rem 0 0 !important;
+  min-height: 50px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #fff;
+  background: linear-gradient(135deg, #bf9456 0%, #9e753f 100%);
+  box-shadow: 0 14px 26px rgba(159, 113, 54, 0.32);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h3.text-center) .btn.btn-primary.w-100:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(137, 95, 44, 0.34);
+}
+
+/* ===== User Dashboard Premium UI (CSS-only, scoped) ===== */
+.container.py-4:has(> h2.mb-4 + .row.mb-4) {
+  position: relative;
+  margin-top: 1.2rem;
+  margin-bottom: 2rem;
+  padding: 1.9rem 1rem 2.1rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(246, 206, 164, 0.24), transparent 45%),
+    radial-gradient(circle at 92% 20%, rgba(191, 148, 86, 0.16), transparent 46%),
+    linear-gradient(155deg, #fffaf3 0%, #fff 46%, #fff7ed 100%);
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) > h2.mb-4 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.45rem, 2.6vw, 2.05rem);
+  color: #2d2215;
+  margin-bottom: 1.35rem !important;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) .row.mb-4 .card.text-center.p-3.shadow-sm {
+  border: 1px solid rgba(191, 148, 86, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 28px rgba(38, 25, 8, 0.09) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) .row.mb-4 .card.text-center.p-3.shadow-sm:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 34px rgba(38, 25, 8, 0.13) !important;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) .row.mb-4 h5 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.65px;
+  margin-bottom: 0.35rem;
+  color: #6f5840;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) .row.mb-4 h3 {
+  margin: 0;
+  color: #22180f;
+  font-family: "Playfair Display", serif;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) > h4.mb-3,
+.container.py-4:has(> h2.mb-4 + .row.mb-4) > .card.p-3.mb-4.shadow-sm {
+  max-width: 760px;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) > h4.mb-3 {
+  color: #3d2a17;
+  font-family: "Playfair Display", serif;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) > .card.p-3.mb-4.shadow-sm {
+  border: 1px solid rgba(191, 148, 86, 0.24);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 242, 0.93));
+  box-shadow: 0 14px 28px rgba(40, 25, 8, 0.1) !important;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) .badge.bg-warning.text-dark {
+  border-radius: 30px;
+  padding: 0.35rem 0.7rem;
+  font-weight: 700;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) .text-center.mt-4 .btn.btn-primary {
+  margin: 0 !important;
+  border: none;
+  border-radius: 12px;
+  padding: 0.72rem 1.45rem !important;
+  background: linear-gradient(135deg, #bf9456 0%, #9e753f 100%);
+  box-shadow: 0 14px 28px rgba(159, 113, 54, 0.3);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.container.py-4:has(> h2.mb-4 + .row.mb-4) .text-center.mt-4 .btn.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(129, 88, 42, 0.34);
+}
+
+@keyframes bookingCardRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .container.mt-4:has(> .card.shadow.p-4 > h3.text-center),
+  .container.py-4:has(> h2.mb-4 + .row.mb-4) {
+    border-radius: 18px;
+    padding: 1.2rem 0.55rem 1.4rem;
+  }
+
+  .container.py-4:has(> h2.mb-4 + .row.mb-4) .row.mb-4 > [class*="col-"] {
+    margin-bottom: 0.9rem;
+  }
+
+  .container.mt-4:has(> .card.shadow.p-4 > h3.text-center) > .card.shadow.p-4,
+  .container.py-4:has(> h2.mb-4 + .row.mb-4) > .card.p-3.mb-4.shadow-sm {
+    border-radius: 14px !important;
+  }
+}
+
+/* ===== User Appointments + Orders Premium UI (CSS-only, scoped) ===== */
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) {
+  position: relative;
+  margin-top: 1.1rem;
+  margin-bottom: 2.1rem;
+  padding: 1.55rem 1rem 1.7rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 10% 12%, rgba(246, 206, 164, 0.2), transparent 46%),
+    radial-gradient(circle at 92% 84%, rgba(191, 148, 86, 0.16), transparent 48%),
+    linear-gradient(150deg, #fffaf3 0%, #fff 48%, #fff8ef 100%);
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) > .d-flex.justify-content-between.align-items-center.mb-4 {
+  margin-bottom: 1.15rem !important;
+  gap: 0.75rem;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) h3.mb-0 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.4rem, 2.45vw, 1.95rem);
+  letter-spacing: 0.25px;
+  color: #2d2215;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) > .d-flex.justify-content-between.align-items-center.mb-4 .btn {
+  margin: 0 !important;
+  border: none;
+  border-radius: 12px;
+  min-height: 46px;
+  padding: 0.64rem 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) > .d-flex.justify-content-between.align-items-center.mb-4 .btn.btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #bf9456 0%, #9e753f 100%);
+  box-shadow: 0 12px 24px rgba(159, 113, 54, 0.28);
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) > .d-flex.justify-content-between.align-items-center.mb-4 .btn.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(139, 97, 47, 0.33);
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(191, 148, 86, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 30px rgba(40, 25, 8, 0.1);
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) table thead th {
+  border: none !important;
+  padding: 0.86rem 0.8rem !important;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.65px;
+  color: #6f5840;
+  background: linear-gradient(135deg, #fff2df 0%, #fde6c9 100%);
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) table tbody tr {
+  border-bottom: 1px solid rgba(191, 148, 86, 0.12);
+  transition: background-color 0.2s ease;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) table tbody tr:nth-child(odd) {
+  background: rgba(255, 249, 240, 0.38);
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) table tbody tr:hover {
+  background: rgba(246, 224, 192, 0.27);
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) table tbody td {
+  border: none !important;
+  padding: 0.8rem 0.75rem !important;
+  color: #342516;
+  font-size: 0.93rem;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .badge.bg-success,
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .badge.bg-warning,
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .badge.bg-danger {
+  border-radius: 999px;
+  padding: 0.32rem 0.62rem;
+  font-weight: 700;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .btn.btn-sm {
+  margin: 0 !important;
+  border: none;
+  border-radius: 10px;
+  min-height: 34px;
+  padding: 0.34rem 0.74rem;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .btn.btn-danger.btn-sm {
+  background: linear-gradient(135deg, #df5a66, #c93f4f);
+  color: #fff;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .btn.btn-success.btn-sm {
+  background: linear-gradient(135deg, #2ea56f, #218e5c);
+  color: #fff;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .btn.btn-warning.btn-sm {
+  background: linear-gradient(135deg, #efbe55, #db9f2e);
+  color: #372500;
+}
+
+.container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) .btn.btn-primary.btn-sm {
+  background: linear-gradient(135deg, #bf9456, #9e753f);
+  color: #fff;
+}
+
+@media (max-width: 991.98px) {
+  .container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) {
+    border-radius: 18px;
+    padding: 1.1rem 0.45rem 1.25rem;
+  }
+
+  .container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) > .d-flex.justify-content-between.align-items-center.mb-4 {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) > .d-flex.justify-content-between.align-items-center.mb-4 .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .container.py-5:has(> .d-flex.justify-content-between.align-items-center.mb-4 > h3.mb-0) table {
+    border-radius: 12px;
+    font-size: 0.88rem;
+  }
+}
+
+/* ===== Admin Dashboard + Reports + Settings + Bookingpay Premium UI ===== */
+.container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark) {
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(246, 206, 164, 0.22), transparent 44%),
+    radial-gradient(circle at 92% 12%, rgba(191, 148, 86, 0.18), transparent 46%),
+    linear-gradient(150deg, #fffaf3 0%, #fff 48%, #fff8ef 100%) !important;
+}
+
+.container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark) > h2.mb-4.fw-bold.text-dark {
+  font-family: "Playfair Display", serif;
+  color: #2d2215 !important;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  letter-spacing: 0.4px;
+}
+
+.container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark) .row.g-4 .card.shadow.border-0.text-center {
+  border: 1px solid rgba(191, 148, 86, 0.2) !important;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 30px rgba(40, 25, 8, 0.1) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark) .row.g-4 .card.shadow.border-0.text-center:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 36px rgba(40, 25, 8, 0.14) !important;
+}
+
+.container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark) .card.shadow.border-0.mt-5 {
+  border: 1px solid rgba(191, 148, 86, 0.24) !important;
+  border-radius: 16px;
+  box-shadow: 0 16px 30px rgba(40, 25, 8, 0.1) !important;
+  overflow: hidden;
+}
+
+.container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark) .card.shadow.border-0.mt-5 .card-header.bg-dark.text-white {
+  background: linear-gradient(135deg, #c8934f, #9e753f 58%, #875f2f) !important;
+  border: 0;
+}
+
+.container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark) .list-group .list-group-item {
+  border-color: rgba(191, 148, 86, 0.18);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.container.mt-4:has(> h2.mb-4 + .row > .col-md-3 > .card.text-center.shadow) {
+  position: relative;
+  margin-top: 1.2rem !important;
+  margin-bottom: 2rem;
+  padding: 1.55rem 1rem 1.8rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(246, 206, 164, 0.2), transparent 45%),
+    radial-gradient(circle at 92% 85%, rgba(191, 148, 86, 0.16), transparent 46%),
+    linear-gradient(155deg, #fffaf3 0%, #fff 48%, #fff7ed 100%);
+}
+
+.container.mt-4:has(> h2.mb-4 + .row > .col-md-3 > .card.text-center.shadow) > h2.mb-4 {
+  font-family: "Playfair Display", serif;
+  color: #2d2215;
+  font-size: clamp(1.45rem, 2.7vw, 2.05rem);
+}
+
+.container.mt-4:has(> h2.mb-4 + .row > .col-md-3 > .card.text-center.shadow) .row > .col-md-3 .card.text-center.shadow {
+  border: 1px solid rgba(191, 148, 86, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 28px rgba(38, 25, 8, 0.09) !important;
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.container.mt-4:has(> h2.mb-4 + .row > .col-md-3 > .card.text-center.shadow) .row > .col-md-3 .card.text-center.shadow:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 34px rgba(38, 25, 8, 0.13) !important;
+}
+
+.container.mt-4:has(> h2.mb-4 + .row > .col-md-3 > .card.text-center.shadow) .card.mt-4.shadow {
+  border: 1px solid rgba(191, 148, 86, 0.22);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 250, 242, 0.92));
+  box-shadow: 0 16px 30px rgba(40, 25, 8, 0.1) !important;
+}
+
+.container.mt-4:has(> h2.mb-4 + .row > .col-md-3 > .card.text-center.shadow) .btn.btn-sm.btn-primary {
+  margin: 0 !important;
+  border: none;
+  border-radius: 10px;
+  padding: 0.36rem 0.82rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #bf9456, #9e753f);
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) {
+  position: relative;
+  max-width: 860px;
+  margin-top: 1.25rem !important;
+  margin-bottom: 2rem;
+  padding: 1.7rem 1.2rem 1.9rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 11% 11%, rgba(246, 206, 164, 0.2), transparent 44%),
+    radial-gradient(circle at 91% 87%, rgba(191, 148, 86, 0.14), transparent 45%),
+    linear-gradient(155deg, #fffaf3 0%, #fff 48%, #fff8ef 100%);
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) > h2 {
+  font-family: "Playfair Display", serif;
+  color: #2d2215;
+  margin-bottom: 1rem;
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) .alert.alert-success {
+  border: 1px solid rgba(46, 144, 97, 0.3);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eaf8f0, #f5fff8);
+  color: #1d6a46;
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) form {
+  padding: 1.35rem;
+  border: 1px solid rgba(191, 148, 86, 0.24);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 30px rgba(40, 25, 8, 0.1);
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) form h4 {
+  color: #3d2a17;
+  font-family: "Playfair Display", serif;
+  margin-top: 1rem !important;
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) .form-control,
+.container.mt-4:has(> h2 + form > h4.mt-3) .form-select {
+  border: 1px solid #e2c9a8;
+  border-radius: 12px;
+  min-height: 48px;
+  background: #fffdf9;
+  box-shadow: none;
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) .form-control:focus,
+.container.mt-4:has(> h2 + form > h4.mt-3) .form-select:focus {
+  border-color: #bf9456;
+  box-shadow: 0 0 0 0.22rem rgba(191, 148, 86, 0.2);
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) .btn.btn-primary.w-100 {
+  margin: 0.4rem 0 0 !important;
+  border: none;
+  border-radius: 12px;
+  min-height: 50px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #bf9456 0%, #9e753f 100%);
+  box-shadow: 0 14px 28px rgba(159, 113, 54, 0.3);
+}
+
+.container.mt-4:has(> h2 + form > h4.mt-3) .btn.btn-primary.w-100:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(129, 88, 42, 0.34);
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) {
+  position: relative;
+  margin-top: 1.2rem !important;
+  margin-bottom: 2rem;
+  padding: 1.6rem 1rem 1.85rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(246, 206, 164, 0.2), transparent 45%),
+    radial-gradient(circle at 92% 84%, rgba(191, 148, 86, 0.16), transparent 47%),
+    linear-gradient(150deg, #fffaf3 0%, #fff 48%, #fff8ef 100%);
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) > h2 {
+  font-family: "Playfair Display", serif;
+  color: #2d2215;
+  margin-bottom: 1rem;
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) > .mb-3.d-flex.gap-2 {
+  flex-wrap: wrap;
+  margin-bottom: 1.1rem !important;
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) > .mb-3.d-flex.gap-2 .btn {
+  margin: 0 !important;
+  border-radius: 12px;
+  min-height: 42px;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  border-width: 1px;
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) > .mb-3.d-flex.gap-2 .btn.btn-dark {
+  border: none;
+  color: #fff;
+  background: linear-gradient(135deg, #bf9456 0%, #9e753f 100%);
+  box-shadow: 0 10px 22px rgba(159, 113, 54, 0.26);
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) > .mb-3.d-flex.gap-2 .btn.btn-outline-dark {
+  color: #6f5840;
+  border-color: rgba(191, 148, 86, 0.45);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) .mrt-table-container,
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) .mantine-Paper-root {
+  border-radius: 16px !important;
+  overflow: hidden;
+  box-shadow: 0 16px 30px rgba(40, 25, 8, 0.1) !important;
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) .mantine-Table-root thead th {
+  background: linear-gradient(135deg, #fff2df 0%, #fde6c9 100%);
+  color: #6f5840;
+}
+
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) .badge.bg-success,
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) .badge.bg-warning,
+.container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) .badge.bg-danger {
+  border-radius: 999px;
+  padding: 0.32rem 0.62rem;
+  font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+  .container-fluid.p-4.bg-light.min-vh-100:has(> h2.mb-4.fw-bold.text-dark),
+  .container.mt-4:has(> h2.mb-4 + .row > .col-md-3 > .card.text-center.shadow),
+  .container.mt-4:has(> h2 + form > h4.mt-3),
+  .container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) {
+    border-radius: 18px;
+    padding: 1.2rem 0.55rem 1.35rem;
+  }
+
+  .container.mt-4:has(> h2 + form > h4.mt-3) form {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .container.mt-4:has(> h2 + .mb-3.d-flex.gap-2 > .btn) > .mb-3.d-flex.gap-2 .btn {
+    flex: 1 1 120px;
+  }
+}
+
+/* ===== Admin Service/Product Forms Premium UI ===== */
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4),
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center),
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) {
+  position: relative;
+  max-width: 920px;
+  margin-top: 1.2rem !important;
+  margin-bottom: 2rem;
+  padding: 1.5rem 1rem 1.8rem;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 9% 11%, rgba(246, 206, 164, 0.22), transparent 44%),
+    radial-gradient(circle at 92% 84%, rgba(191, 148, 86, 0.16), transparent 46%),
+    linear-gradient(155deg, #fffaf3 0%, #fff 48%, #fff8ef 100%);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) > .card.shadow.p-4,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) > .card.shadow.p-4,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) > .card.shadow.p-4 {
+  border: 1px solid rgba(191, 148, 86, 0.24);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 242, 0.92));
+  box-shadow: 0 18px 34px rgba(40, 25, 8, 0.11) !important;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .card.shadow.p-4 h4,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .card.shadow.p-4 h4,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .card.shadow.p-4 h4 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.4rem, 2.4vw, 1.95rem);
+  color: #2d2215;
+  letter-spacing: 0.2px;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .form-control,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .form-select,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .form-control,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .form-select,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .form-control,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .form-select {
+  min-height: 48px;
+  border: 1px solid #e2c9a8;
+  border-radius: 12px;
+  background: #fffdf9;
+  color: #2f2113;
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) textarea.form-control,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) textarea.form-control,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) textarea.form-control {
+  min-height: 112px;
+  resize: vertical;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .form-control:focus,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .form-select:focus,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .form-control:focus,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .form-select:focus,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .form-control:focus,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .form-select:focus {
+  border-color: #bf9456;
+  background: #ffffff;
+  box-shadow: 0 0 0 0.22rem rgba(191, 148, 86, 0.2);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .form-check,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .form-check,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .form-check {
+  border: 1px solid rgba(191, 148, 86, 0.2);
+  border-radius: 12px;
+  padding: 0.65rem 0.9rem 0.65rem 2rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .form-check-input,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .form-check-input,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .form-check-input {
+  border-color: #bf9456;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .text-danger,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .text-danger,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .text-danger {
+  display: block;
+  margin-top: -0.1rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.78rem;
+  color: #c43f58 !important;
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .btn.btn-primary.w-100,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .btn.btn-primary.w-100,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .btn.btn-primary.w-100 {
+  margin: 0.35rem 0 0 !important;
+  border: none;
+  border-radius: 12px;
+  min-height: 50px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  background: linear-gradient(135deg, #bf9456 0%, #9e753f 100%);
+  box-shadow: 0 14px 28px rgba(159, 113, 54, 0.3);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) .btn.btn-primary.w-100:hover,
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) .btn.btn-primary.w-100:hover,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) .btn.btn-primary.w-100:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px rgba(129, 88, 42, 0.35);
+}
+
+.container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) img.rounded,
+.container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) img.rounded {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 14px !important;
+  border: 2px solid rgba(191, 148, 86, 0.35);
+  box-shadow: 0 12px 22px rgba(41, 27, 9, 0.16);
+}
+
+@media (max-width: 991.98px) {
+  .container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4),
+  .container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center),
+  .container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) {
+    border-radius: 18px;
+    padding: 1.15rem 0.55rem 1.3rem;
+  }
+
+  .container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-4) > .card.shadow.p-4,
+  .container.mt-4:has(> .card.shadow.p-4 > h4.mb-3.text-center) > .card.shadow.p-4,
+  .container.mt-4:has(> .card.shadow.p-4 > h4.text-center.mb-3) > .card.shadow.p-4 {
+    border-radius: 14px;
+    padding: 1rem !important;
+  }
 }
