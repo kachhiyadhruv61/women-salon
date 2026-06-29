@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../utils/apiFetch";
 
 const AddService = () => {
 
@@ -21,9 +22,9 @@ const AddService = () => {
   // FETCH CATEGORIES
   // ===============================
   useEffect(() => {
-    fetch("http://localhost:5000/api/serviceCategories")
+    apiFetch("/api/serviceCategories")
       .then((res) => res.json())
-      .then((data) => setCategories(data))
+      .then((data) => setCategories(data.data || []))
       .catch((err) => console.log(err));
   }, []);
 
@@ -85,7 +86,7 @@ const AddService = () => {
 
     try {
 
-      const res = await fetch("http://localhost:5000/services", {
+      const res = await apiFetch("/services", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

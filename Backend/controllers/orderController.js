@@ -162,18 +162,14 @@ const updateOrder = async (req, res, next) => {
   try {
     const db = getDB();
     if(req.user.role !== 'user'){
+    const updatedData = {
+      ...req.body,
+      updatedAt: new Date()
+    };
+
     const result = await db.collection("orders").updateOne(
       { _id: new ObjectId(req.params.id) },
-      {
-        $set: {
-          userId: req.body.userId,
-          paymentMode: req.body.paymentMode,
-          paymentStatus: req.body.paymentStatus,
-          amount: req.body.amount,
-          orderStatus: req.body.orderStatus,
-          updatedAt: new Date()
-        }
-      }
+      { $set: updatedData }
     );
 
     if (result.matchedCount === 0) {

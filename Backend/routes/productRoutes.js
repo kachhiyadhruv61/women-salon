@@ -4,6 +4,9 @@ const router = express.Router();
 const productController = require('../controllers/productController');
 const validate = require('../middleware/validationMiddleware');
 const auth = require("../middleware/authMiddleware");
+const multer = require("multer");
+
+const upload = multer({ dest: "uploads/" });
 
 /**
  * @swagger
@@ -32,7 +35,7 @@ const auth = require("../middleware/authMiddleware");
  *       500:
  *         description: Internal server error
  */
-router.get('/products',auth, productController.getProducts);
+router.get('/products', productController.getProducts);
 
 /**
  * @swagger
@@ -61,8 +64,8 @@ router.get('/products',auth, productController.getProducts);
  */
 router.get(
   '/products/:id/:name',
-  param('id').isInt().withMessage('Product ID must be integer'),
-  validate,auth,
+  param('id').isMongoId().withMessage('Invalid Product ID'),
+  validate,
   productController.getProductById
 );
 
@@ -123,6 +126,8 @@ router.get(
  */
 router.post(
   '/products',
+  auth,
+  upload.single("image"),
   body('name')
     .notEmpty().withMessage('Name is required')
     .isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
@@ -157,7 +162,7 @@ router.post(
     .isIn(['Active', 'Inactive'])
     .withMessage('Action must be Active or Inactive'),
 
-  validate,auth,
+  validate,
   productController.createProduct
 );
 
@@ -210,7 +215,9 @@ router.post(
  */
 router.put(
   '/products/:id',
-  param('id').isInt().withMessage('Product ID must be integer'),
+  auth,
+  upload.single("image"),
+  param('id').isMongoId().withMessage('Invalid Product ID'),
 
   body('name')
     .optional()
@@ -246,7 +253,7 @@ router.put(
     .isIn(['Active', 'Inactive'])
     .withMessage('Action must be Active or Inactive'),
 
-  validate,auth,
+  validate,
   productController.updateProduct
 );
 
@@ -276,7 +283,7 @@ router.put(
  */
 router.delete(
   '/products/:id',
-  param('id').isInt().withMessage('Product ID must be integer'),
+  param('id').isMongoId().withMessage('Invalid Product ID'),
   validate,auth,
   productController.deleteProduct
 );

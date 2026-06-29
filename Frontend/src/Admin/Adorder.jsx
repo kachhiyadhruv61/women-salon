@@ -168,8 +168,8 @@ const today = new Date();
 
       handler: async function (response) {
         // 2. Verify Payment
-        const verifyRes = await fetch(
-          "http://localhost:5000/verify-payment",
+        const verifyRes = await apiFetch(
+          "/verify-payment",
           {
             method: "POST",
             headers: {

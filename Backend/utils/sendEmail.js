@@ -3,7 +3,7 @@ const transporter = require("../config/mail");
 const sendEmail = async (to, subject, html) => {
   try {
     await transporter.sendMail({
-      from: `"WomenOGSalon" <${'axitap2044@mail.com'}>`,
+      from: process.env.MAIL_FROM || `"WomenOGSalon" <${process.env.MAIL_USER}>`,
       to,
       subject,
       html,

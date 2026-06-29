@@ -22,7 +22,6 @@ const handleSubmit = async (e) => {
 
   try {
 
-    // const res = await fetch("http://localhost:5000/contacts", 
     const res = await apiFetch("/contacts",{
       method: "POST",
       headers: {

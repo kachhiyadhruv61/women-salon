@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiFetch } from "../utils/apiFetch";
+import { apiFetch, apiUrl } from "../utils/apiFetch";
 import CommonTable from "../Components/CommonTable";
 import { useNavigate } from "react-router-dom";
 
@@ -54,7 +54,7 @@ function Adgallery() {
       header: "Image",
       accessorFn: (row) => (
         <img
-          src={`http://localhost:5000/uploads/${row.image}`}
+          src={apiUrl(`/uploads/${row.image}`)}
           width="60"
           height="60"
           style={{ borderRadius: "6px", cursor: "pointer" }}

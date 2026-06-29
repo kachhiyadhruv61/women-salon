@@ -187,20 +187,20 @@ router.put(
   param('id').isMongoId().withMessage('Invalid Order ID'),
 
   body('userId')
-    .notEmpty().withMessage('User ID is required'),
+    .optional(),
 
   body('paymentMethod')
-    .notEmpty().withMessage('Payment mode is required'),
+    .optional(),
 
   body('paymentStatus')
-    .notEmpty().withMessage('Payment status is required'),
+    .optional(),
 
   body('totalAmount')
-    .notEmpty().withMessage('totalAmount is required')
+    .optional()
     .isNumeric().withMessage('totalAmount must be a number'),
 
   body('orderStatus')
-    .notEmpty().withMessage('Order status is required'),
+    .optional(),
 
   validate,
   auth,

@@ -6,13 +6,32 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL || "https://women-salon-pi.vercel.app"
+];
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
+
+app.use("/uploads", express.static("uploads"));
+
+app.get("/health", (req, res) => {
+  res.json({ success: true, status: "ok" });
+});
 
 // Import Routes
 const userRoutes = require('./routes/userRoutes');
@@ -75,7 +94,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000"
+        url: process.env.BACKEND_URL || "https://women-salon.onrender.com"
       }
     ],
 
@@ -98,8 +117,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 const startServer = async () => {
   await connectDB();
 
-  app.listen(5000, () => {
-    console.log("Server running at http://localhost:5000");
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
   });
 };
 

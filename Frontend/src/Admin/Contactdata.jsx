@@ -11,7 +11,6 @@ function Contactdata() {
   // ✅ GET CONTACTS FROM BACKEND
   const getContacts = async () => {
     try {
-      // const res = await fetch("http://localhost:5000/contacts");
       const res = await apiFetch("/contacts", {
               method: "GET",
             });
@@ -35,7 +34,7 @@ function Contactdata() {
 
   try {
 
-    const res = await fetch(`http://localhost:5000/contacts/${id}`, {
+    const res = await apiFetch(`/contacts/${id}`, {
       method: "DELETE"
     });
 

@@ -71,7 +71,12 @@ const createService = async (req, res, next) => {
     const db = getDB();
 
     const newService = {
+      categoryId: req.body.categoryId,
       name: req.body.name,
+      description: req.body.description,
+      shapes: req.body.shapes || [],
+      includes: req.body.includes || [],
+      isActive: req.body.isActive ?? true,
       duration: req.body.duration,
       amount: req.body.amount,
       fishtankStatus: req.body.fishtankStatus,
@@ -102,7 +107,12 @@ const updateService = async (req, res, next) => {
       { _id: new ObjectId(req.params.id) },
       {
         $set: {
+          categoryId: req.body.categoryId,
           name: req.body.name,
+          description: req.body.description,
+          shapes: req.body.shapes || [],
+          includes: req.body.includes || [],
+          isActive: req.body.isActive ?? true,
           duration: req.body.duration,
           amount: req.body.amount,
           fishtankStatus: req.body.fishtankStatus,
@@ -155,10 +165,103 @@ const deleteService = async (req, res, next) => {
   }
 };
 
+const getCollection = (name) => async (req, res, next) => {
+  try {
+    const db = getDB();
+    const data = await db.collection(name).find().sort({ _id: -1 }).toArray();
+    res.json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const createCollectionItem = (name) => async (req, res, next) => {
+  try {
+    const db = getDB();
+    const result = await db.collection(name).insertOne({
+      ...req.body,
+      createdAt: req.body.createdAt ? new Date(req.body.createdAt) : new Date(),
+      updatedAt: new Date()
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Created successfully",
+      insertedId: result.insertedId
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateCollectionItem = (name) => async (req, res, next) => {
+  try {
+    const db = getDB();
+    const result = await db.collection(name).updateOne(
+      { _id: new ObjectId(req.params.id) },
+      {
+        $set: {
+          ...req.body,
+          updatedAt: new Date()
+        }
+      }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Updated successfully"
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteCollectionItem = (name) => async (req, res, next) => {
+  try {
+    const db = getDB();
+    const result = await db.collection(name).deleteOne({
+      _id: new ObjectId(req.params.id)
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Deleted successfully"
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getServices,
   getServiceById,
   createService,
   updateService,
-  deleteService
+  deleteService,
+  getServiceCategories: getCollection("serviceCategories"),
+  createServiceCategory: createCollectionItem("serviceCategories"),
+  updateServiceCategory: updateCollectionItem("serviceCategories"),
+  deleteServiceCategory: deleteCollectionItem("serviceCategories"),
+  getServiceVariants: getCollection("serviceVariants"),
+  createServiceVariant: createCollectionItem("serviceVariants"),
+  updateServiceVariant: updateCollectionItem("serviceVariants"),
+  deleteServiceVariant: deleteCollectionItem("serviceVariants"),
+  getServicePackages: getCollection("servicePackages"),
+  createServicePackage: createCollectionItem("servicePackages"),
+  updateServicePackage: updateCollectionItem("servicePackages"),
+  deleteServicePackage: deleteCollectionItem("servicePackages")
 };

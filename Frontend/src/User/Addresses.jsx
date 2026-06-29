@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Addresses.css";
+import { apiFetch } from "../utils/apiFetch";
 
 function Addresses() {
 
@@ -22,11 +23,7 @@ function Addresses() {
 
 const fetchAddresses = async () => {
   try {
-    const res = await fetch("http://localhost:5000/addresses", {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-      }
-    });
+    const res = await apiFetch("/addresses");
 
     const result = await res.json();
 
@@ -52,20 +49,18 @@ const fetchAddresses = async () => {
       pincode: form.pincode || "388001"
     };
     if (editingAddress) {
-      await fetch(`http://localhost:5000/addresses/${editingAddress._id}`, {
+      await apiFetch(`/addresses/${editingAddress._id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+          "Content-Type": "application/json"
         },
        body: JSON.stringify(payload)
       });
     } else {
-      await fetch("http://localhost:5000/addresses", {
+      await apiFetch("/addresses", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
       });
@@ -81,12 +76,7 @@ const fetchAddresses = async () => {
 
   /* ================= DELETE ================= */
  const deleteAddress = async (_id) => {
-  await fetch(`http://localhost:5000/addresses/${_id}`, {
-    method: "DELETE",
-    headers: {
-      "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-    }
-  });
+  await apiFetch(`/addresses/${_id}`, { method: "DELETE" });
 
   fetchAddresses();
 };

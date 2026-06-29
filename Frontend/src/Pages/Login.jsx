@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
+import { apiFetch } from "../utils/apiFetch";
 
 const Login = ({ setRole }) => {
 
@@ -27,7 +28,7 @@ const Login = ({ setRole }) => {
 
     try {
 
-      const res = await fetch("http://localhost:5000/login", {
+      const res = await apiFetch("/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -41,7 +42,7 @@ const Login = ({ setRole }) => {
       const data = await res.json();
 
       // ❌ login failed
-      if (!data.success) {
+      if (!res.ok || !data.success) {
         setError(data.message || "Invalid username or password");
         return;
       }

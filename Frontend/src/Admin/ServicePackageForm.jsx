@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../utils/apiFetch";
 
 const ServicePackageForm = () => {
 
@@ -27,7 +28,7 @@ const ServicePackageForm = () => {
   // ===============================
   useEffect(() => {
 
-    fetch("http://localhost:5000/services")
+    apiFetch("/services")
       .then(res => res.json())
       .then(data => setServices(data.data || []))
       .catch(err => console.log(err));
@@ -39,7 +40,7 @@ const ServicePackageForm = () => {
   // ===============================
   useEffect(() => {
 
-    fetch("http://localhost:5000/serviceVariants")
+    apiFetch("/serviceVariants")
       .then(res => res.json())
       .then(data => setVariants(data.data || []))
       .catch(err => console.log(err));
@@ -184,7 +185,7 @@ const ServicePackageForm = () => {
 
     try {
 
-      const res = await fetch("http://localhost:5000/servicePackages", {
+      const res = await apiFetch("/servicePackages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

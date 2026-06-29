@@ -11,8 +11,7 @@ function UserOrders() {
   // ✅ GET ORDERS FROM BACKEND
   const getOrders = async () => {
     try {
-      // const res = await fetch("http://localhost:5000/orders");
-       const res = await apiFetch("/orders", {
+      const res = await apiFetch("/orders", {
                 method: "GET",
               });
         
@@ -30,8 +29,7 @@ function UserOrders() {
   const cancelOrder = async (orderId) => {
      const token = localStorage.getItem("token"); // ✅ add this
     try {
-      // const res = await fetch(`http://localhost:5000/orders/cancel/${_id}`, {
-       const res = await apiFetch(`/orders/cancel/${orderId}`, {
+      const res = await apiFetch(`/orders/cancel/${orderId}`, {
         method: "PUT",
         headers: {
       Authorization: `Bearer ${token}`,

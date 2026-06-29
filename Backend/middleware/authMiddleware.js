@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { getDB } = require('../config/db');
 const { ObjectId } = require('mongodb');
+const { getJwtSecret } = require('../utils/jwt');
 
 const auth = async (req, res, next) => {
   try {
@@ -16,7 +17,17 @@ const auth = async (req, res, next) => {
 
     const token = authHeader.substring(7);
 
-    const decoded = jwt.verify(token, "qweuansdasdg200410");
+    const decoded = jwt.verify(token, getJwtSecret());
+
+    if (decoded.role === "admin" && decoded.id === "admin") {
+      req.user = {
+        _id: "admin",
+        username: "admin",
+        role: "admin",
+        status: "Active"
+      };
+      return next();
+    }
 
     const db = getDB();
 

@@ -1,11 +1,27 @@
-const API_BASE = "http://localhost:5000";
+export const API_BASE =
+  process.env.REACT_APP_API_URL || "https://women-salon.onrender.com";
+
+export const apiUrl = (url = "") => {
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${API_BASE}${url.startsWith("/") ? url : `/${url}`}`;
+};
+
+export const getApiErrorMessage = async (response, fallback = "Request failed") => {
+  try {
+    const data = await response.json();
+    return data.message || data.error || fallback;
+  } catch {
+    return fallback;
+  }
+};
 
 export const apiFetch = async (url, options = {}) => {
   let accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
 
+  const isFormData = options.body instanceof FormData;
   const headers = {
-    "Content-Type": "application/json",
+    ...(isFormData ? {} : { "Content-Type": "application/json" }),
     ...(options.headers || {})
   };
 
@@ -13,19 +29,21 @@ export const apiFetch = async (url, options = {}) => {
     headers["Authorization"] = `Bearer ${accessToken}`;
   }
 
-  let response = await fetch(`${API_BASE}${url}`, {
+  let response = await fetch(apiUrl(url), {
     ...options,
-    headers
+    headers,
+    credentials: "include"
   });
 
   // If token expired
   if (response.status === 401 && refreshToken) {
     try {
-      const refreshRes = await fetch(`${API_BASE}/refresh-token`, {
+      const refreshRes = await fetch(apiUrl("/refresh-token"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
+        credentials: "include",
         body: JSON.stringify({ refreshToken })
       });
 
@@ -40,9 +58,10 @@ export const apiFetch = async (url, options = {}) => {
         // Retry original request
         headers["Authorization"] =`Bearer ${newAccessToken}`;
 
-        response = await fetch(`${API_BASE}${url}`,{
+        response = await fetch(apiUrl(url),{
           ...options,
-          headers
+          headers,
+          credentials: "include"
         });
 
         return response;

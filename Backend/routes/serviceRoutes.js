@@ -32,7 +32,7 @@ const auth = require("../middleware/authMiddleware");
  *       500:
  *         description: Internal server error
  */
-router.get('/services',auth, serviceController.getServices);
+router.get('/services', serviceController.getServices);
 
 /**
  * @swagger
@@ -59,7 +59,7 @@ router.get('/services',auth, serviceController.getServices);
  *       500:
  *         description: Internal server error
  */
-router.get('/services/:id/:name',auth, serviceController.getServiceById);
+router.get('/services/:id/:name', serviceController.getServiceById);
 
 /**
  * @swagger
@@ -117,17 +117,17 @@ router.post(
     .isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
 
   body('duration')
-    .notEmpty().withMessage('Duration is required'),
+    .optional(),
 
   body('amount')
-    .notEmpty().withMessage('Amount is required')
+    .optional()
     .isNumeric().withMessage('Amount must be a number'),
 
   body('fishtankStatus')
-    .notEmpty().withMessage('Fishtank status is required'),
+    .optional(),
 
   body('serviceStatus')
-    .notEmpty().withMessage('Service status is required'),
+    .optional(),
 
   validate,auth,
   serviceController.createService
@@ -182,17 +182,17 @@ router.put(
     .isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
 
   body('duration')
-    .notEmpty().withMessage('Duration is required'),
+    .optional(),
 
   body('amount')
-    .notEmpty().withMessage('Amount is required')
+    .optional()
     .isNumeric().withMessage('Amount must be a number'),
 
   body('fishtankStatus')
-    .notEmpty().withMessage('Fishtank status is required'),
+    .optional(),
 
   body('serviceStatus')
-    .notEmpty().withMessage('Service status is required'),
+    .optional(),
 
   validate,auth,
   serviceController.updateService
@@ -223,5 +223,32 @@ router.put(
  *         description: Internal server error
  */
 router.delete('/services/:id',auth, serviceController.deleteService);
+
+router.get('/serviceCategories', auth, serviceController.getServiceCategories);
+router.get('/api/serviceCategories', auth, serviceController.getServiceCategories);
+router.post('/serviceCategories', auth, serviceController.createServiceCategory);
+router.post('/api/serviceCategories', auth, serviceController.createServiceCategory);
+router.put('/serviceCategories/:id', auth, serviceController.updateServiceCategory);
+router.put('/api/serviceCategories/:id', auth, serviceController.updateServiceCategory);
+router.delete('/serviceCategories/:id', auth, serviceController.deleteServiceCategory);
+router.delete('/api/serviceCategories/:id', auth, serviceController.deleteServiceCategory);
+
+router.get('/serviceVariants', auth, serviceController.getServiceVariants);
+router.get('/api/serviceVariants', auth, serviceController.getServiceVariants);
+router.post('/serviceVariants', auth, serviceController.createServiceVariant);
+router.post('/api/serviceVariants', auth, serviceController.createServiceVariant);
+router.put('/serviceVariants/:id', auth, serviceController.updateServiceVariant);
+router.put('/api/serviceVariants/:id', auth, serviceController.updateServiceVariant);
+router.delete('/serviceVariants/:id', auth, serviceController.deleteServiceVariant);
+router.delete('/api/serviceVariants/:id', auth, serviceController.deleteServiceVariant);
+
+router.get('/servicePackages', auth, serviceController.getServicePackages);
+router.get('/api/servicePackages', auth, serviceController.getServicePackages);
+router.post('/servicePackages', auth, serviceController.createServicePackage);
+router.post('/api/servicePackages', auth, serviceController.createServicePackage);
+router.put('/servicePackages/:id', auth, serviceController.updateServicePackage);
+router.put('/api/servicePackages/:id', auth, serviceController.updateServicePackage);
+router.delete('/servicePackages/:id', auth, serviceController.deleteServicePackage);
+router.delete('/api/servicePackages/:id', auth, serviceController.deleteServicePackage);
 
 module.exports = router;

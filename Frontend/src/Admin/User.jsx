@@ -11,7 +11,6 @@ function User() {
   
   const fetchUsers = async () => {
     try {
-      // const res = await fetch("http://localhost:5000/users");
       const res = await apiFetch("/users", {
         method: "GET",
       });
@@ -37,7 +36,7 @@ function User() {
     if (!confirmDelete) return;
 
     try {
-      await fetch(`http://localhost:5000/users/${id}`, {
+      await apiFetch(`/users/${id}`, {
         method: "DELETE",
       });
 

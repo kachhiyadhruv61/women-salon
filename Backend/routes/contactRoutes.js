@@ -61,7 +61,7 @@ router.get('/contacts',auth, contactController.getContacts);
  */
 router.get(
   '/contacts/:id',
-  param('id').isInt().withMessage('Contact ID must be integer'),
+  param('id').isMongoId().withMessage('Invalid Contact ID'),
   validate,auth,
   contactController.getContactById
 );
@@ -145,7 +145,7 @@ router.post(
     .isIn(['Open', 'Closed'])
     .withMessage('Action must be Open or Closed'),
 
-  validate,auth,
+  validate,
   contactController.createContact
 );
 
@@ -194,7 +194,7 @@ router.post(
  */
 router.put(
   '/contacts/:id',
-  param('id').isInt().withMessage('Contact ID must be integer'),
+  param('id').isMongoId().withMessage('Invalid Contact ID'),
 
   body('name')
     .optional()
@@ -251,7 +251,7 @@ router.put(
  */
 router.delete(
   '/contacts/:id',
-  param('id').isInt().withMessage('Contact ID must be integer'),
+  param('id').isMongoId().withMessage('Invalid Contact ID'),
   validate,auth,
   contactController.deleteContact
 );

@@ -10,8 +10,7 @@ function AdBooking() {
   // ✅ GET BOOKINGS FROM BACKEND
   const getBookings = async () => {
     try {
-      // const res = await fetch("http://localhost:5000/bookings");
-       const res = await apiFetch("/bookings", {
+      const res = await apiFetch("/bookings", {
               method: "GET",
             });
       const result = await res.json();

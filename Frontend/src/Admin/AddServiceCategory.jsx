@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { apiFetch } from "../utils/apiFetch";
 
 const AddServiceCategory = () => {
 
@@ -60,7 +61,7 @@ const AddServiceCategory = () => {
 
     try {
 
-      const res = await fetch("http://localhost:5000/serviceCategories", {
+      const res = await apiFetch("/serviceCategories", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

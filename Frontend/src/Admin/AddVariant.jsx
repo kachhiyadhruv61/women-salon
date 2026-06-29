@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../utils/apiFetch";
 
 const AddVariant = () => {
 
@@ -20,7 +21,7 @@ const AddVariant = () => {
   // ===============================
   useEffect(() => {
 
-    fetch("http://localhost:5000/services")
+    apiFetch("/services")
       .then(res => res.json())
       .then(data => setServices(data.data))
       .catch(err => console.log(err));
@@ -86,7 +87,7 @@ const AddVariant = () => {
 
     try {
 
-      const res = await fetch("http://localhost:5000/serviceVariants", {
+      const res = await apiFetch("/serviceVariants", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

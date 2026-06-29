@@ -242,8 +242,8 @@ const today = new Date();
           console.log("🔐 Verifying payment...");
 
           try {
-            const verifyRes = await fetch(
-              "http://localhost:5000/verify-payment",
+            const verifyRes = await apiFetch(
+              "/verify-payment",
               {
                 method: "POST",
                 headers: {

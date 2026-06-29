@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonTable from "../Components/CommonTable";
+import { apiFetch } from "../utils/apiFetch";
 
 function Adminservice() {
 
@@ -20,21 +21,21 @@ function Adminservice() {
 
     try {
 
-      const serviceRes = await fetch("http://localhost:5000/services");
+      const serviceRes = await apiFetch("/services");
       const serviceData = await serviceRes.json();
       setServices(serviceData.data || []);
 
-      const catRes = await fetch("http://localhost:5000/api/serviceCategories");
+      const catRes = await apiFetch("/api/serviceCategories");
       const catData = await catRes.json();
-      setCategories(catData || []);
+      setCategories(catData.data || []);
 
-      const variantRes = await fetch("http://localhost:5000/api/serviceVariants");
+      const variantRes = await apiFetch("/api/serviceVariants");
       const variantData = await variantRes.json();
-      setVariants(variantData || []);
+      setVariants(variantData.data || []);
 
-      const packageRes = await fetch("http://localhost:5000/api/servicePackages");
+      const packageRes = await apiFetch("/api/servicePackages");
       const packageData = await packageRes.json();
-      setPackages(packageData || []);
+      setPackages(packageData.data || []);
 
     } catch (error) {
       console.log(error);
@@ -55,7 +56,7 @@ function Adminservice() {
 
     if (!confirmDelete) return;
 
-    await fetch(`${url}/${id}`, {
+    await apiFetch(`${url}/${id}`, {
       method: "DELETE"
     });
 
@@ -108,7 +109,7 @@ function Adminservice() {
             className="btn btn-danger btn-sm"
             onClick={() =>
               deleteItem(
-                "http://localhost:5000/services",
+                "/services",
                 row.original._id,
                 setServices
               )
@@ -145,7 +146,7 @@ function Adminservice() {
           className="btn btn-danger btn-sm"
           onClick={() =>
             deleteItem(
-              "http://localhost:5000/api/serviceCategories",
+              "/api/serviceCategories",
               row.original._id,
               setCategories
             )
@@ -191,7 +192,7 @@ function Adminservice() {
           className="btn btn-danger btn-sm"
           onClick={() =>
             deleteItem(
-              "http://localhost:5000/api/serviceVariants",
+              "/api/serviceVariants",
               row.original._id,
               setVariants
             )
@@ -242,7 +243,7 @@ function Adminservice() {
           className="btn btn-danger btn-sm"
           onClick={() =>
             deleteItem(
-              "http://localhost:5000/api/servicePackages",
+              "/api/servicePackages",
               row.original._id,
               setPackages
             )

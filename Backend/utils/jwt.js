@@ -1,5 +1,13 @@
 const jwt = require("jsonwebtoken");
 
+const getJwtSecret = () => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET environment variable is required");
+  }
+
+  return process.env.JWT_SECRET;
+};
+
 const generateAccessToken = (user) => {
   return jwt.sign(
     {
@@ -7,7 +15,7 @@ const generateAccessToken = (user) => {
       email: user.email,
       role: user.role
     },
-    "qweuansdasdg200410",
+    getJwtSecret(),
     { expiresIn: "24h" }
   );
 };
@@ -17,12 +25,13 @@ const generateRefreshToken = (user) => {
     {
       id: user._id
     },
-    "qweuansdasdg200410",
+    getJwtSecret(),
     { expiresIn: "7d" }
   );
 };
 
 module.exports = {
   generateAccessToken,
-  generateRefreshToken
+  generateRefreshToken,
+  getJwtSecret
 };

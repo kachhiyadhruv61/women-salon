@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
+import { apiFetch } from "../utils/apiFetch";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -86,7 +87,7 @@ const Register = () => {
 
     try {
       // ✅ FIX 4: Correct API URL (change if needed)
-      const res = await fetch("http://localhost:5000/registers", {
+      const res = await apiFetch("/registers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

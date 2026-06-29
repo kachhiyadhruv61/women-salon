@@ -10,7 +10,6 @@ function UserAppoint() {
   // ✅ GET BOOKINGS FROM BACKEND
   const getBookings = async () => {
     try {
-      // const res = await fetch("http://localhost:5000/bookings");
       const res = await apiFetch("/bookings", {
               method: "GET",
             });

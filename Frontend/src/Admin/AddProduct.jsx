@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../utils/apiFetch";
 
 function AddProduct() {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ function AddProduct() {
       formData.append("status", status);
       formData.append("image", image);
 
-      const response = await fetch("http://localhost:5000/products", {
+      const response = await apiFetch("/products", {
         method: "POST",
         body: formData, // ✅ NO headers
       });
@@ -149,7 +150,6 @@ function AddProduct() {
           >
             <option value="Available">Available</option>
             <option value="Out of Stock">Out of Stock</option>
-            <option value="Discontinued">Discontinued</option>
           </select>
 
           <button type="submit" className="btn btn-primary w-100">

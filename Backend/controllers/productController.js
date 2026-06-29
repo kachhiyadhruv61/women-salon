@@ -57,6 +57,7 @@ const createProduct = async (req, res, next) => {
       description: req.body.description,
       status: req.body.status,
       action: req.body.action,
+      image: req.file ? req.file.filename : req.body.image,
       createdAt: new Date(),
       updatedAt: new Date()
     };
@@ -94,6 +95,7 @@ const updateProduct = async (req, res, next) => {
           description: req.body.description,
           status: req.body.status,
           action: req.body.action,
+          image: req.file ? req.file.filename : req.body.image,
           updatedAt: new Date()
         }
       }
